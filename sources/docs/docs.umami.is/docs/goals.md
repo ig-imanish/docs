@@ -1,0 +1,56 @@
+# Source: https://docs.umami.is/docs/goals
+
+Menu
+
+Analysis
+
+# Goals
+
+Copy page
+
+_Available since v2.12.0_
+
+Umami Goals is a crucial tool in providing valuable insights into how well your website is meeting its objectives. With clear metrics and visualizations, our Goals insight translates user behavior into actionable steps towards improvement.
+
+The insight works by choosing a Viewed page or Triggered event you want to track. The insight will show the conversion rate of users that hit that action out of the total number of users within that date range.
+
+## Parameters[#](https://docs.umami.is/docs/goals#parameters)
+
+| Parameter | Description |
+| --- | --- |
+| Action | (required) Viewed page or Triggered event user must hit to count as a conversion. |
+
+## Create an insight[#](https://docs.umami.is/docs/goals#create-an-insight)
+
+### Step 1: Click on the add Goal button[#](https://docs.umami.is/docs/goals#step-1-click-on-the-add-goal-button)
+
+![image](https://docs.umami.is/images/docs/goal-add.png)
+
+### Step 2: Fill out the form details and click the **Save** button.[#](https://docs.umami.is/docs/goals#step-2-fill-out-the-form-details-and-click-the-save-button)
+
+![image](https://docs.umami.is/images/docs/goal-add-form.png)
+
+### Choose your action[#](https://docs.umami.is/docs/goals#choose-your-action)
+
+Choose the action type (Viewed page or Triggered event) and type in the condition for the goal.
+
+![image](https://docs.umami.is/images/docs/goal-action.png)
+
+Umami supports specific URLs and events.
+
+| Action Type | Description | Example |
+| --- | --- | --- |
+| Viewed page | The user visited this specific URL. | `/pricing` |
+| Triggered event | The user must generate this specific event. | `live-demo-button` |
+
+### Step 3: Run insight[#](https://docs.umami.is/docs/goals#step-3-run-insight)
+
+![image](https://docs.umami.is/images/docs/goal-details.png)
+
+To Edit or Delete a goal click on the ellipsis for that specific goal.
+
+![image](https://docs.umami.is/images/docs/goal-edit.png)
+
+[PreviousBreakdown](https://docs.umami.is/docs/breakdown) [NextFunnel](https://docs.umami.is/docs/funnel)
+
+On this page

@@ -1,0 +1,46 @@
+# Source: https://docs.umami.is/docs/google-tag-manager
+
+Menu
+
+Configuration
+
+# Use Google Tag Manager
+
+Copy page
+
+The Umami tracker can be installed using Google Tag Manager.
+
+Normally, you would install the Umami tracker by using the following code:
+
+```html
+<script
+  defer
+  src="http://mywebsite.com/script.js"
+  data-website-id="94db1cb1-74f4-4a40-ad6c-962362670409"
+></script>
+```
+
+However, Google Tag Manager strips custom `data-*` attributes from script tags. To work around this, create the script element dynamically using a **Custom HTML** tag in GTM:
+
+```html
+<script>
+  (function () {
+  var el = document.createElement('script');
+  el.setAttribute('src', 'http://mywebsite.com/script.js');
+  el.setAttribute('data-website-id', '94db1cb1-74f4-4a40-ad6c-962362670409');
+  document.body.appendChild(el);
+})();
+</script>
+```
+
+### GTM setup steps[#](https://docs.umami.is/docs/google-tag-manager#gtm-setup-steps)
+
+1. In Google Tag Manager, go to **Tags** and click **New**.
+2. Choose **Custom HTML** as the tag type.
+3. Paste the code above, replacing the `src` and `data-website-id` values with your own. You can find these values in your Umami website settings under **Tracking code**.
+4. Set the trigger to **All Pages**.
+5. Save and publish your changes.
+
+[PreviousEnable Cloudflare headers](https://docs.umami.is/docs/enable-cloudflare-headers) [NextEnable Redis](https://docs.umami.is/docs/enable-redis)
+
+On this page

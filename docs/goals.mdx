@@ -1,0 +1,59 @@
+---
+title: "Goals: Track Conversion Rates for Key Actions"
+sidebarTitle: "Goals"
+description: "Define the pages and events that matter most, then measure what percentage of your visitors complete each one during any date range you choose."
+---
+
+Goals translate your site's purpose into a measurable number. You define an action — visiting a specific page or triggering a specific event — and Betterumami tells you what percentage of visitors within your selected date range completed it. Unlike a funnel, a Goal does not care about the path taken to reach the action; it simply measures reach. That makes Goals the right tool for tracking outcomes like "how many visitors landed on `/thank-you` this month?" or "what share of visitors clicked the live-demo button?" You can save multiple Goals and run them all at once to get a side-by-side view of your site's conversion health.
+
+## What it measures
+
+For each Goal, Betterumami divides the number of visitors who completed the target action by the total number of visitors in the selected date range, then expresses that as a conversion rate percentage. Both page-based and event-based actions are supported.
+
+## Parameters
+
+| Parameter | Description |
+| --- | --- |
+| **Action** | (required) The action a visitor must complete to count as a conversion. Either a page view at a specific URL, or a specific named event. |
+
+## Action types
+
+| Action Type | Description | Example |
+| --- | --- | --- |
+| **Viewed page** | The visitor must have viewed a specific URL path. | `/pricing`, `/thank-you`, `/signup` |
+| **Triggered event** | The visitor must have triggered a specific named event. | `live-demo-button`, `signup`, `checkout-complete` |
+
+## How to create a Goal
+
+<Steps>
+  <Step title="Click Add Goal">
+    Open the **Goals** insight from your website navigation, then click the **Add Goal** button.
+  </Step>
+  <Step title="Fill out the form">
+    Give the Goal a descriptive name so you can identify it in the list. A clear name like "Pricing page view" or "Demo button click" is more useful than "Goal 1."
+  </Step>
+  <Step title="Choose your action type">
+    Select either **Viewed page** or **Triggered event** from the Action dropdown.
+
+    - For **Viewed page**, enter the exact URL path you want to track, such as `/pricing` or `/thank-you`.
+    - For **Triggered event**, enter the event name exactly as it appears in your tracking code, such as `live-demo-button` or `purchase-complete`.
+  </Step>
+  <Step title="Save the Goal">
+    Click **Save**. The Goal is added to your Goals list and will be calculated the next time you run the insight.
+  </Step>
+  <Step title="Run the insight">
+    Click **Run** (or the date range picker updates automatically). Each Goal card displays the conversion rate and the raw visitor counts — visitors who completed the action vs. total visitors in the period.
+  </Step>
+</Steps>
+
+## Editing and deleting Goals
+
+To edit or delete a Goal, click the **ellipsis (···)** menu on the Goal's card. Choose **Edit** to update the name or action, or **Delete** to remove the Goal entirely.
+
+<Note>
+Goals use the same date range and filters set on the Overview Dashboard. Apply a UTM filter before opening Goals to measure conversion rates for a specific campaign, or filter by country to compare how different markets convert on the same action.
+</Note>
+
+<Tip>
+Create Goals for each stage of your conversion flow — for example, `/pricing` (interest), `/signup` (intent), and `/welcome` (conversion). Comparing their rates side by side gives you a lightweight funnel view without configuring a full Funnel insight. For drop-off analysis at each step, use the [Funnel](/docs/funnels) report instead.
+</Tip>

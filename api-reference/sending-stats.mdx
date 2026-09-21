@@ -1,0 +1,302 @@
+---
+title: "Sending Tracking Events via the Betterumami API"
+sidebarTitle: "Sending Stats"
+description: "Use POST /api/send or POST /api/batch to record pageviews, custom events, and user traits directly — no tracker script required."
+---
+
+Betterumami's tracking endpoints let you record analytics events from anywhere — a backend service, a mobile app, a CLI tool, or any environment where embedding a JavaScript snippet isn't practical. Both endpoints accept the same event shape, require no authentication token, and return a session reference you can use to stitch events together. The only hard requirement is a valid `User-Agent` header so the server can correctly parse the client environment.
+
+---
+
+## POST /api/send
+
+Use this endpoint to record a single event — a pageview, a named custom event, a user identification call, or a performance measurement.
+
+**Cloud endpoint:** `https://cloud.umami.is/api/send`  
+**Self-hosted endpoint:** `https://<your-instance>/api/send`
+
+<Note>
+  Unlike most Betterumami API endpoints, `/api/send` does **not** require an `Authorization` header. Your Website ID (set in `payload.website`) is the only credential needed to associate the event with your account.
+</Note>
+
+<Warning>
+  You **must** include a valid `User-Agent` header on every request. Requests with a missing or empty `User-Agent` are silently dropped and no event is recorded.
+</Warning>
+
+### Parameters
+
+All fields live inside a `payload` object. The top-level `type` field selects the event category.
+
+<ParamField body="type" type="string" required>
+  The category of event to record. One of:
+  - `event` — a pageview or named custom event
+  - `identify` — a user identification payload that enriches subsequent events
+  - `performance` — a web performance measurement (e.g. Core Web Vitals)
+</ParamField>
+
+<ParamField body="payload.website" type="string" required>
+  The **Website ID** of the site this event belongs to. Find this value under **Settings → Websites** in your Betterumami dashboard.
+</ParamField>
+
+<ParamField body="payload.url" type="string" required>
+  The page URL path where the event occurred (e.g. `/blog/my-post`). For pageviews, this is the canonical URL of the page.
+</ParamField>
+
+<ParamField body="payload.hostname" type="string">
+  The hostname of the site (e.g. `www.example.com`). Used to group events by domain.
+</ParamField>
+
+<ParamField body="payload.title" type="string">
+  The page title at the time the event was recorded (e.g. `"My Blog Post | Acme Corp"`).
+</ParamField>
+
+<ParamField body="payload.referrer" type="string">
+  The referring URL, if any. Pass an empty string if there is no referrer.
+</ParamField>
+
+<ParamField body="payload.screen" type="string">
+  The visitor's screen resolution formatted as `"widthxheight"` (e.g. `"1920x1080"`). Used for device breakdowns.
+</ParamField>
+
+<ParamField body="payload.language" type="string">
+  The visitor's browser language tag (e.g. `"en-US"`). Used for language breakdowns.
+</ParamField>
+
+<ParamField body="payload.name" type="string">
+  The name of the custom event (e.g. `"signup"`, `"add-to-cart"`). Required when recording a named event rather than a plain pageview.
+</ParamField>
+
+<ParamField body="payload.tag" type="string">
+  An optional freeform tag you can attach to the event for segmentation (e.g. `"experiment-a"`).
+</ParamField>
+
+<ParamField body="payload.id" type="string">
+  A client-generated session identifier. If omitted, the server generates one. Pass a stable value to join events across multiple requests into the same session.
+</ParamField>
+
+<ParamField body="payload.data" type="object">
+  An optional key-value map of custom properties to attach to the event (e.g. `{"plan": "pro", "trial": true}`). Values can be strings, numbers, or booleans.
+</ParamField>
+
+### Sample request and response
+
+<CodeGroup>
+
+```bash cURL
+curl -X POST https://cloud.umami.is/api/send \
+  -H "Content-Type: application/json" \
+  -H "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36" \
+  -d '{
+    "payload": {
+      "hostname": "www.example.com",
+      "language": "en-US",
+      "referrer": "https://google.com",
+      "screen": "1920x1080",
+      "title": "Home — Example",
+      "url": "/",
+      "website": "your-website-id",
+      "name": "page-view"
+    },
+    "type": "event"
+  }'
+```
+
+```json Payload
+{
+  "payload": {
+    "hostname": "www.example.com",
+    "language": "en-US",
+    "referrer": "https://google.com",
+    "screen": "1920x1080",
+    "title": "Home — Example",
+    "url": "/",
+    "website": "your-website-id",
+    "name": "page-view",
+    "data": {
+      "plan": "pro",
+      "experiment": "hero-v2"
+    }
+  },
+  "type": "event"
+}
+```
+
+```json Response
+{
+  "cache": "xxxxxxxxxxxxxxx",
+  "sessionId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+  "visitId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+}
+```
+
+</CodeGroup>
+
+The response contains three fields:
+
+| Field | Description |
+|-------|-------------|
+| `cache` | An opaque cache token. Pass this back in the next request to avoid re-resolving session state. |
+| `sessionId` | The server-assigned session ID for this visitor. |
+| `visitId` | The server-assigned visit ID for this session window. |
+
+### Building the payload from browser APIs
+
+When calling `/api/send` from a browser context, you can derive most payload fields directly from native browser APIs:
+
+```javascript
+const payload = {
+  payload: {
+    hostname: window.location.hostname,
+    language: navigator.language,
+    referrer: document.referrer,
+    screen: `${window.screen.width}x${window.screen.height}`,
+    title: document.title,
+    url: window.location.pathname,
+    website: "your-website-id",
+    name: "page-view",
+  },
+  type: "event",
+};
+
+await fetch("https://cloud.umami.is/api/send", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(payload),
+});
+```
+
+<Tip>
+  When sending events from a Node.js server, set the `User-Agent` header to the actual browser User-Agent string you received from the incoming request rather than a generic server identifier. This keeps your analytics data accurate for device and browser breakdowns.
+</Tip>
+
+---
+
+## POST /api/batch
+
+Use `/api/batch` to send multiple events in a single HTTP request. This is more efficient than making one `/api/send` call per event and is the recommended pattern when you're replaying buffered events, ingesting offline data, or flushing a client-side queue on page unload.
+
+**Cloud endpoint:** `https://cloud.umami.is/api/batch`  
+**Self-hosted endpoint:** `https://<your-instance>/api/batch`
+
+The request body is a **JSON array** where each element has the same shape as a single `/api/send` body. All `type` values and payload fields supported by `/api/send` are supported here too.
+
+<Note>
+  Like `/api/send`, the `/api/batch` endpoint does not require an `Authorization` header, but it does require a valid `User-Agent` header.
+</Note>
+
+### Sample request and response
+
+<CodeGroup>
+
+```bash cURL
+curl -X POST https://cloud.umami.is/api/batch \
+  -H "Content-Type: application/json" \
+  -H "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36" \
+  -d '[
+    {
+      "payload": {
+        "hostname": "www.example.com",
+        "url": "/page-1",
+        "title": "Page 1",
+        "website": "your-website-id",
+        "name": "page-view"
+      },
+      "type": "event"
+    },
+    {
+      "payload": {
+        "hostname": "www.example.com",
+        "url": "/page-2",
+        "title": "Page 2",
+        "website": "your-website-id",
+        "name": "page-view"
+      },
+      "type": "event"
+    },
+    {
+      "payload": {
+        "hostname": "www.example.com",
+        "url": "/page-2",
+        "website": "your-website-id",
+        "name": "signup",
+        "data": { "plan": "pro" }
+      },
+      "type": "event"
+    }
+  ]'
+```
+
+```json Payload
+[
+  {
+    "payload": {
+      "hostname": "www.example.com",
+      "url": "/page-1",
+      "title": "Page 1",
+      "website": "your-website-id",
+      "name": "page-view"
+    },
+    "type": "event"
+  },
+  {
+    "payload": {
+      "hostname": "www.example.com",
+      "url": "/page-2",
+      "title": "Page 2",
+      "website": "your-website-id",
+      "name": "page-view"
+    },
+    "type": "event"
+  }
+]
+```
+
+```json Response
+{
+  "size": 2,
+  "processed": 2,
+  "errors": 0,
+  "details": [],
+  "cache": "xxxxxxxxxxxxxxx"
+}
+```
+
+</CodeGroup>
+
+### Response fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `size` | number | Total number of events submitted in the request. |
+| `processed` | number | Number of events successfully ingested. |
+| `errors` | number | Number of events that failed to ingest. |
+| `details` | array | List of failure objects. Each entry includes an `index` (position in the submitted array) and an `error` message explaining why that event was rejected. Empty when `errors` is `0`. |
+| `cache` | string | Opaque cache token (same semantics as `/api/send`). |
+
+<Warning>
+  A partial success is still a `200 OK` response. Always check the `errors` field — even when the HTTP status is successful, individual events in the batch may have been rejected. Use the `details` array to identify and retry failed items.
+</Warning>
+
+### Handling partial failures
+
+```javascript
+const response = await fetch("https://cloud.umami.is/api/batch", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "User-Agent": navigator.userAgent,
+  },
+  body: JSON.stringify(events),
+});
+
+const result = await response.json();
+
+if (result.errors > 0) {
+  const failed = result.details.map((d) => ({
+    event: events[d.index],
+    reason: d.error,
+  }));
+  console.warn("Some events failed to ingest:", failed);
+  // Retry or log failed events as needed
+}
+```

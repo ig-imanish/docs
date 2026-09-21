@@ -1,0 +1,231 @@
+---
+title: "Get Pageviews and Sessions as a Time Series"
+sidebarTitle: "Get Pageviews"
+description: "Fetch pageview and session counts grouped by a time interval for charting trends. Supports comparison periods, timezone-aware bucketing, and all standard filters."
+---
+
+Use this endpoint to retrieve the data that powers the time-series chart on the Betterumami Overview screen. The response provides two parallel arrays — `pageviews` and `sessions` — where each element is a `{x, y}` point with a date string and a count. Choose your bucket size with the `unit` parameter (`minute`, `hour`, `day`, `month`, or `year`) and optionally request a comparison series for trend overlays.
+
+`GET /api/websites/{websiteId}/pageviews`
+
+## Request
+
+### Headers
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token. Pass your API key: `Authorization: Bearer <api-key>`
+</ParamField>
+
+### Path Parameters
+
+<ParamField path="websiteId" type="string" required>
+  The unique UUID of the website to query.
+</ParamField>
+
+### Query Parameters
+
+#### Date Range & Grouping
+
+<ParamField query="startAt" type="number">
+  Start of the date range as a Unix timestamp in **milliseconds**. Use this or `startDate`.
+</ParamField>
+
+<ParamField query="endAt" type="number">
+  End of the date range as a Unix timestamp in **milliseconds**. Use this or `endDate`.
+</ParamField>
+
+<ParamField query="startDate" type="string">
+  Start of the date range as an ISO 8601 date or datetime. Use this or `startAt`.
+</ParamField>
+
+<ParamField query="endDate" type="string">
+  End of the date range as an ISO 8601 date or datetime. Use this or `endAt`.
+</ParamField>
+
+<ParamField query="unit" type="string">
+  Time bucket size for grouping data points. One of `minute`, `hour`, `day`, `month`, or `year`. Defaults to `day`.
+</ParamField>
+
+<ParamField query="timezone" type="string">
+  IANA time zone for date bucketing, e.g. `Europe/London`. Defaults to UTC.
+</ParamField>
+
+<ParamField query="compare" type="string">
+  Attach a comparison series to the response. `prev` uses the immediately preceding period; `yoy` uses the same period one year ago.
+</ParamField>
+
+#### Filters
+
+<ParamField query="path" type="string">
+  Filter to a specific URL path, e.g. `/pricing`.
+</ParamField>
+
+<ParamField query="referrer" type="string">
+  Filter by referring URL.
+</ParamField>
+
+<ParamField query="title" type="string">
+  Filter by page title.
+</ParamField>
+
+<ParamField query="query" type="string">
+  Filter by URL query string.
+</ParamField>
+
+<ParamField query="os" type="string">
+  Filter by operating system.
+</ParamField>
+
+<ParamField query="browser" type="string">
+  Filter by browser name.
+</ParamField>
+
+<ParamField query="device" type="string">
+  Filter by device category: `desktop`, `mobile`, or `tablet`.
+</ParamField>
+
+<ParamField query="country" type="string">
+  Filter by ISO 3166-1 alpha-2 country code.
+</ParamField>
+
+<ParamField query="region" type="string">
+  Filter by visitor region or subdivision.
+</ParamField>
+
+<ParamField query="city" type="string">
+  Filter by visitor city.
+</ParamField>
+
+<ParamField query="language" type="string">
+  Filter by browser language, e.g. `fr-FR`.
+</ParamField>
+
+<ParamField query="event" type="string">
+  Filter by custom event name.
+</ParamField>
+
+<ParamField query="utmSource" type="string">
+  Filter by UTM campaign source.
+</ParamField>
+
+<ParamField query="utmMedium" type="string">
+  Filter by UTM campaign medium.
+</ParamField>
+
+<ParamField query="utmCampaign" type="string">
+  Filter by UTM campaign name.
+</ParamField>
+
+<ParamField query="utmContent" type="string">
+  Filter by UTM campaign content.
+</ParamField>
+
+<ParamField query="utmTerm" type="string">
+  Filter by UTM campaign search term.
+</ParamField>
+
+<ParamField query="tag" type="string">
+  Filter by a tag attached to tracked activity.
+</ParamField>
+
+<ParamField query="hostname" type="string">
+  Filter by hostname.
+</ParamField>
+
+<ParamField query="distinctId" type="string">
+  Filter by a custom visitor identifier.
+</ParamField>
+
+<ParamField query="eventType" type="integer">
+  Filter by event type: `1` for pageviews, `2` for custom events.
+</ParamField>
+
+<ParamField query="excludeBounce" type="string">
+  Set to any non-empty value to exclude single-pageview visits.
+</ParamField>
+
+<ParamField query="segment" type="string">
+  UUID of a saved segment to apply as a filter.
+</ParamField>
+
+<ParamField query="cohort" type="string">
+  UUID of a saved cohort to filter visitors by.
+</ParamField>
+
+<ParamField query="match" type="string">
+  How multiple filters combine: `all` (AND logic, default) or `any` (OR logic).
+</ParamField>
+
+## Response
+
+**200 – Success**
+
+<ResponseField name="pageviews" type="TimeSeriesPoint[]" required>
+  Array of `{x, y}` data points representing pageview counts over time.
+</ResponseField>
+
+<ResponseField name="pageviews[].x" type="string">
+  Date label for the bucket, formatted according to the chosen `unit`, e.g. `"2024-08-01"`.
+</ResponseField>
+
+<ResponseField name="pageviews[].y" type="number">
+  Pageview count for this time bucket.
+</ResponseField>
+
+<ResponseField name="sessions" type="TimeSeriesPoint[]" required>
+  Array of `{x, y}` data points representing session (visit) counts over time. Same structure as `pageviews`.
+</ResponseField>
+
+<ResponseField name="startDate" type="string">
+  ISO 8601 start of the resolved date range.
+</ResponseField>
+
+<ResponseField name="endDate" type="string">
+  ISO 8601 end of the resolved date range.
+</ResponseField>
+
+<ResponseField name="compare" type="object">
+  Present when `compare` is specified. Contains `pageviews`, `sessions`, `startDate`, and `endDate` for the comparison period, in the same format as the primary series.
+</ResponseField>
+
+```json 200 Response
+{
+  "startDate": "2024-08-01T00:00:00Z",
+  "endDate": "2024-08-07T23:59:59Z",
+  "pageviews": [
+    { "x": "2024-08-01", "y": 2143 },
+    { "x": "2024-08-02", "y": 1987 },
+    { "x": "2024-08-03", "y": 2301 },
+    { "x": "2024-08-04", "y": 1756 },
+    { "x": "2024-08-05", "y": 984 },
+    { "x": "2024-08-06", "y": 871 },
+    { "x": "2024-08-07", "y": 2129 }
+  ],
+  "sessions": [
+    { "x": "2024-08-01", "y": 743 },
+    { "x": "2024-08-02", "y": 698 },
+    { "x": "2024-08-03", "y": 812 },
+    { "x": "2024-08-04", "y": 601 },
+    { "x": "2024-08-05", "y": 334 },
+    { "x": "2024-08-06", "y": 290 },
+    { "x": "2024-08-07", "y": 751 }
+  ],
+  "compare": {
+    "startDate": "2024-07-25T00:00:00Z",
+    "endDate": "2024-07-31T23:59:59Z",
+    "pageviews": [
+      { "x": "2024-07-25", "y": 1901 }
+    ],
+    "sessions": [
+      { "x": "2024-07-25", "y": 680 }
+    ]
+  }
+}
+```
+
+## Code Sample
+
+```bash
+curl -X GET 'https://api.umami.is/v1/websites/b8d3a1f0-1c2d-4e5f-8a9b-0c1d2e3f4a5b/pageviews?startAt=1722470400000&endAt=1723075200000&unit=day&timezone=America%2FNew_York' \
+  -H 'Authorization: Bearer <api-key>'
+```

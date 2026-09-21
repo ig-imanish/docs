@@ -1,0 +1,120 @@
+# Source: https://docs.umami.is/docs/metric-definitions
+
+Menu
+
+Reference
+
+# Metric definitions
+
+Copy page
+
+All default metrics Umami collects along with high level definitions.
+
+---
+
+## Event metrics[#](https://docs.umami.is/docs/metric-definitions#event-metrics)
+
+Event metrics help identify a unique event for a user. Each event is stored as a unique UUID called an Event ID.
+
+| Metric | Description |
+| --- | --- |
+| Website ID | A unique UUID value to identify your website included in the payload. |
+| Hostname | Location [hostname](https://developer.mozilla.org/en-US/docs/Web/API/Location/hostname) property included in the payload. |
+| URL | URL [pathname](https://developer.mozilla.org/en-US/docs/Web/API/URL/pathname) and [search](https://developer.mozilla.org/en-US/docs/Web/API/URL/search) property combined included in the payload. |
+| Query parameters | [Search](https://developer.mozilla.org/en-US/docs/Web/API/URL/search) property that is extracted from the URL after the payload is sent. |
+| Referrer | Document [referrer](https://developer.mozilla.org/en-US/docs/Web/API/Document/referrer) property included in the payload. If the referrer includes the hostname, the value is replaced by the previous URL. |
+| Title | Document [title](https://developer.mozilla.org/en-US/docs/Web/API/Document/title) property included in the payload. |
+| Event Name | The name of a custom event triggered on the page (e.g. `signup-button`). |
+| Tag | An optional label attached to the event via the tracker `data-tag` attribute. |
+
+---
+
+## Session metrics[#](https://docs.umami.is/docs/metric-definitions#session-metrics)
+
+Session metrics help identify a unique session for a user. Each session is stored as a unique UUID called a Session ID.
+
+| Metric | Description | Examples |
+| --- | --- | --- |
+| Browser | Browser name extracted from the [User-Agent](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/User-Agent). | Chrome, Firefox, Safari, Edge |
+| OS | Operating system name extracted from the [User-Agent](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/User-Agent). | Windows 10, macOS, Linux, Android, iOS |
+| Device | Device name identified from the combination of **OS** and **screen**. | Laptop, desktop, mobile, tablet |
+| Screen | [Screen](https://developer.mozilla.org/en-US/docs/Web/API/Screen) width and height property included in the payload. | 1920x1080, 1280x960 |
+| Language | Navigator [language](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/language) property included in the payload. | English, Chinese, German, French |
+| Distinct ID | A custom identifier assigned to a visitor via `umami.identify()`. See [Distinct IDs](https://docs.umami.is/docs/distinct-ids). | `user-123`, `abc@example.com` |
+
+---
+
+## Location metrics[#](https://docs.umami.is/docs/metric-definitions#location-metrics)
+
+Location metrics come from different sources depending on the headers. The IP address sending the request is used to gather these metrics, but is never stored.
+
+- `Cloudflare`: [HTTP request headers](https://developers.cloudflare.com/fundamentals/reference/http-request-headers/#docs-content)
+- `Vercel`: [Geolocation headers](https://vercel.com/guides/geo-ip-headers-geolocation-vercel-functions)
+- `MaxMind`: [Geolite Database](https://dev.maxmind.com/geoip/geolocate-an-ip).
+
+| Metric | Description | Examples |
+| --- | --- | --- |
+| Country | Name of country following ISO-3166 standards. | United States, China, Germany, France |
+| Region | Name of region (subdivisions) following ISO-3166-2 standards. | California, Ontario, Bayern, Île-de-France |
+| City | Name of city. | San Francisco, Toronto, Munich, Paris |
+
+---
+
+## UTM parameters[#](https://docs.umami.is/docs/metric-definitions#utm-parameters)
+
+UTM parameters are extracted from the URL query string and stored with each event.
+
+| Metric | Description |
+| --- | --- |
+| UTM Source | Identifies the traffic source (e.g. `google`, `newsletter`). Maps to `utm_source`. |
+| UTM Medium | Identifies the marketing medium (e.g. `cpc`, `email`). Maps to `utm_medium`. |
+| UTM Campaign | Identifies the campaign name. Maps to `utm_campaign`. |
+| UTM Content | Identifies the specific ad or link content. Maps to `utm_content`. |
+| UTM Term | Identifies the paid search keyword. Maps to `utm_term`. |
+
+---
+
+## Ad click IDs[#](https://docs.umami.is/docs/metric-definitions#ad-click-ids)
+
+Ad click IDs are automatically captured from URL query parameters when present. They are used to attribute conversions back to paid ad campaigns.
+
+| Metric | Description |
+| --- | --- |
+| gclid | Google Click ID, appended by Google Ads. |
+| fbclid | Facebook Click ID, appended by Meta Ads. |
+| msclkid | Microsoft Click ID, appended by Microsoft Advertising. |
+| ttclid | TikTok Click ID, appended by TikTok Ads. |
+| li\_fat\_id | LinkedIn First-Party Ad Tracking ID, appended by LinkedIn Ads. |
+| twclid | Twitter/X Click ID, appended by X Ads. |
+
+---
+
+## Core Web Vitals[#](https://docs.umami.is/docs/metric-definitions#core-web-vitals)
+
+Core Web Vitals are performance metrics collected from the browser and stored alongside each event.
+
+| Metric | Description |
+| --- | --- |
+| LCP | [Largest Contentful Paint](https://web.dev/articles/lcp) — time (ms) until the largest visible element is rendered. |
+| INP | [Interaction to Next Paint](https://web.dev/articles/inp) — responsiveness of the page to user interactions (ms). |
+| CLS | [Cumulative Layout Shift](https://web.dev/articles/cls) — measures visual stability; a score of 0 means no unexpected layout shifts. |
+| FCP | [First Contentful Paint](https://web.dev/articles/fcp) — time (ms) until the first content is rendered on screen. |
+| TTFB | [Time to First Byte](https://web.dev/articles/ttfb) — time (ms) from the request to the first byte received from the server. |
+
+---
+
+## Calculated metrics[#](https://docs.umami.is/docs/metric-definitions#calculated-metrics)
+
+Calculated metrics are a combination of total and unique aggregates per website.
+
+| Metric | Definition |
+| --- | --- |
+| Views | The total number of events collected from your visitors. |
+| Visitors | Unique number of sessions. A session is calculated using a hash of data such as Website ID, hostname, User-Agent, etc and a rotating salt that changes at the start of every month. |
+| Visits | Unique number of visits. A visit is a more granular range within a user session. A visit is calculated using a hash of the session ID and a rotating salt that changes at the start of every hour. Visits are able to span across hourly intervals. |
+| Bounce rate | A bounce is defined when a visit has only 1 event. A user will enter the website, initially generating a view, then leaving. The bounce rate is calculated by dividing the total number of bounces by unique number of visits. |
+| Visit duration | Total time spent on the website divided by unique number of visits. Total time is only calculated for visitors that visit more than one page. The difference between the first and last event timestamps per visit is summed into a duration time. |
+
+[PreviousManage a team](https://docs.umami.is/docs/manage-a-team) [NextIntegrations](https://docs.umami.is/docs/integrations)
+
+On this page

@@ -1,0 +1,99 @@
+---
+title: "Betterumami REST API Reference Overview"
+sidebarTitle: "Overview"
+description: "Explore the Betterumami REST API — query website stats, send tracking events, and manage your analytics data programmatically with a single Bearer token."
+---
+
+The Betterumami REST API gives you full programmatic access to your analytics data — the same data that powers your dashboard, exposed through predictable JSON endpoints you can call from any language or tool. Whether you're pulling pageview time series into a custom report, piping ranked metrics into a data warehouse, or sending server-side tracking events from a backend service, every capability available in the UI is reachable through the API. All you need is an API key and an HTTP client.
+
+## Base URL
+
+All Cloud API requests are sent to the following base URL:
+
+```
+https://api.umami.is/v1
+```
+
+<Note>
+  When self-hosting Betterumami, replace the Cloud base URL with your own instance's origin: `https://<your-instance>/api`.
+</Note>
+
+### Region variants
+
+By default, the API routes your request to the region tied to the account that owns the API key. You can pin a specific region by adding it as the first path segment:
+
+| Region | Base URL |
+|--------|----------|
+| United States | `https://api.umami.is/v1/us` |
+| Europe | `https://api.umami.is/v1/eu` |
+
+## Authentication
+
+Every request to the API (except `POST /api/send` and `POST /api/batch`) must include an `Authorization` header using the Bearer scheme:
+
+```http
+Authorization: Bearer <api-key>
+```
+
+You generate an API key from **Settings → API keys** inside the Betterumami dashboard. On Cloud, API keys are the only supported authentication method. See the [Authentication](/api-reference/authentication) page for a full walkthrough, including the username/password flow available on self-hosted instances.
+
+<Tip>
+  API keys don't expire and can be revoked individually — they're ideal for long-running integrations and automated scripts. Store them in environment variables, never in source code.
+</Tip>
+
+## Rate limits
+
+Each API key is limited to **50 requests per 15-second window**. If you exceed this limit, the API returns a `429 Too Many Requests` response. Build in a short back-off and retry loop in your client to handle bursts gracefully.
+
+<Warning>
+  The rate limit is per API key, not per IP address. If you run multiple services against the same key, their request counts are pooled. Consider issuing a separate key per integration to maximize throughput.
+</Warning>
+
+## Common endpoints
+
+The table below lists the endpoints most integrations rely on. Every path is relative to your base URL. Click through to the full reference page for parameter details, filters, and example responses.
+
+| Method | Endpoint | Purpose |
+|--------|----------|---------|
+| `GET` | `/websites` | List all websites you have access to |
+| `GET` | `/websites/{id}/stats` | Get summary stats (pageviews, visitors, bounces, total time) |
+| `GET` | `/websites/{id}/pageviews` | Get pageview and session time series |
+| `GET` | `/websites/{id}/metrics` | Get ranked breakdowns (top pages, referrers, browsers, etc.) |
+| `GET` | `/websites/{id}/events` | List tracked custom events |
+| `POST` | `/send` | Send a tracking event (no auth required) |
+
+<Note>
+  Most stat endpoints require a `websiteId`. Use `GET /websites` to list your sites and find the ID for the one you want to query.
+</Note>
+
+## Quick start
+
+Here's the minimum needed to pull summary statistics for one of your websites using `curl`:
+
+```bash
+# 1. Get your website ID
+curl https://api.umami.is/v1/websites \
+  -H "Authorization: Bearer <api-key>"
+
+# 2. Fetch summary stats for a 24-hour window
+#    startAt and endAt are millisecond epoch timestamps
+curl "https://api.umami.is/v1/websites/<website-id>/stats?startAt=1757376000000&endAt=1757462400000" \
+  -H "Authorization: Bearer <api-key>"
+```
+
+## Explore the API
+
+<CardGroup cols={2}>
+  <Card title="Authentication" icon="key" href="/api-reference/authentication">
+    Learn how to generate API keys, pass Bearer tokens, and use the username/password login flow on self-hosted instances.
+  </Card>
+  <Card title="Sending Stats" icon="paper-plane" href="/api-reference/sending-stats">
+    Send pageview and custom events directly via the API — no tracker script required.
+  </Card>
+  <Card title="Website Endpoints" icon="chart-line" href="/api-reference/websites">
+    Query stats, pageviews, metrics, and active visitors for any website in your account.
+  </Card>
+  <Card title="API Keys" icon="lock" href="/docs/api-keys">
+    Step-by-step guide to creating, rotating, and revoking API keys from the Betterumami dashboard.
+  </Card>
+</CardGroup>

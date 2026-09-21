@@ -1,0 +1,27 @@
+# Source: https://docs.umami.is/docs/add-a-website
+
+Menu
+
+Quickstart
+
+# Add a website
+
+Copy page
+
+Log into Umami and click on **Websites** in the sidebar.
+
+![image](https://docs.umami.is/images/docs/navbar.png)
+
+Click on the **Add website** button in the top-right corner.
+
+![image](https://docs.umami.is/images/docs/website-add.png)
+
+Fill out the form details and click the **Save** button.
+
+![image](https://docs.umami.is/images/docs/website-add-form.png)
+
+The **Name** field can be whatever you want. Usually it's the same as the domain name.
+
+The **Domain** field is the actual domain of your website. It is used to filter out your own website from the list of referrers in your metrics.
+
+[PreviousLogin](https://docs.umami.is/docs/login) [NextCollect data](https://docs.umami.is/docs/collect-data)

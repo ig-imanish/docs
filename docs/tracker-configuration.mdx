@@ -1,0 +1,233 @@
+---
+title: "Configure the Betterumami Tracker Script"
+sidebarTitle: "Tracker Configuration"
+description: "Customise tracking behavior using data attributes on the script tag — restrict domains, disable auto-tracking, collect Core Web Vitals, and more."
+---
+
+The Betterumami tracker is configured entirely through `data-*` attributes on the `<script>` tag itself — no separate configuration file or JavaScript initialisation call is needed. You add the attributes you need alongside `data-website-id`, and the tracker reads them as it loads. This keeps your setup declarative and easy to audit at a glance.
+
+A fully-featured script tag might look like this:
+
+```html
+<script
+  defer
+  src="https://cloud.betterumami.com/script.js"
+  data-website-id="94db1cb1-74f4-4a40-ad6c-962362670409"
+  data-domains="mywebsite.com,www.mywebsite.com"
+  data-performance="true"
+></script>
+```
+
+The sections below document every available attribute.
+
+---
+
+## Required
+
+<ParamField body="data-website-id" type="string" required>
+  Your unique Betterumami website ID. Every request the tracker sends is tagged with this value so Betterumami knows which website the data belongs to. You can find this ID in the **Tracking code** section of your website's edit panel.
+
+  ```html
+  <script
+    defer
+    src="https://cloud.betterumami.com/script.js"
+    data-website-id="94db1cb1-74f4-4a40-ad6c-962362670409"
+  ></script>
+  ```
+</ParamField>
+
+---
+
+## Tracking Behaviour
+
+<ParamField body="data-auto-track" type="boolean" default="true">
+  *Available since v2.0.0*
+
+  Controls whether the tracker initialises at all when the script loads. Set to `false` only when you want to disable every form of automatic data collection — pageviews, click tracking, path change detection, and performance tracking — and send all data yourself using [Tracker functions](/docs/tracker-functions).
+
+  ```html
+  <script
+    defer
+    src="https://cloud.betterumami.com/script.js"
+    data-website-id="94db1cb1-74f4-4a40-ad6c-962362670409"
+    data-auto-track="false"
+  ></script>
+  ```
+
+  <Warning>
+    Setting `data-auto-track="false"` disables **all** tracker initialisation, including performance tracking. If you only want to control pageview collection while keeping other features active, use `data-auto-pageview="false"` instead.
+  </Warning>
+</ParamField>
+
+<ParamField body="data-auto-pageview" type="boolean" default="true">
+  *Available since v3.2.0*
+
+  Disables automatic pageview tracking while leaving the rest of the tracker — including performance monitoring and click tracking — fully initialised. Use this when you want to fire pageviews manually via `umami.track()` (for example, in a single-page application with a custom router) while still benefiting from automatic features.
+
+  ```html
+  <script
+    defer
+    src="https://cloud.betterumami.com/script.js"
+    data-website-id="94db1cb1-74f4-4a40-ad6c-962362670409"
+    data-auto-pageview="false"
+  ></script>
+  ```
+</ParamField>
+
+<ParamField body="data-domains" type="string">
+  *Available since v2.0.0*
+
+  A comma-separated list of hostnames on which the tracker is allowed to run. Each value is matched against `window.location.hostname`. When `data-domains` is set, the tracker silently does nothing on any hostname not in the list — making it safe to deploy the same snippet across production, staging, and local development environments without polluting your production analytics.
+
+  ```html
+  <script
+    defer
+    src="https://cloud.betterumami.com/script.js"
+    data-website-id="94db1cb1-74f4-4a40-ad6c-962362670409"
+    data-domains="mywebsite.com,www.mywebsite.com"
+  ></script>
+  ```
+
+  <Note>
+    Be precise about whether your production site uses the `www` subdomain. `mywebsite.com` and `www.mywebsite.com` are treated as different hostnames. Add both if your site is accessible at both addresses.
+  </Note>
+</ParamField>
+
+---
+
+## Data Destination
+
+<ParamField body="data-host-url" type="string">
+  *Available since v2.0.0*
+
+  Overrides the URL that the tracker sends data to. By default, data is sent to the same origin as the script file. Use this attribute to route tracking requests to a different server — for example, a proxy you control, a self-hosted Betterumami instance, or a vanity domain that bypasses common ad-blocker block lists.
+
+  ```html
+  <script
+    defer
+    src="https://cloud.betterumami.com/script.js"
+    data-website-id="94db1cb1-74f4-4a40-ad6c-962362670409"
+    data-host-url="https://stats.mywebsite.com"
+  ></script>
+  ```
+</ParamField>
+
+---
+
+## URL Collection
+
+<ParamField body="data-exclude-search" type="boolean" default="false">
+  *Available since v2.11.0*
+
+  Set to `true` to strip query string parameters from every URL before it is recorded. Betterumami will store the path (e.g. `/products`) but not the query string (e.g. `?ref=newsletter&utm_source=email`). Useful when query strings contain sensitive or high-cardinality values you don't want appearing in your dashboard.
+
+  ```html
+  <script
+    defer
+    src="https://cloud.betterumami.com/script.js"
+    data-website-id="94db1cb1-74f4-4a40-ad6c-962362670409"
+    data-exclude-search="true"
+  ></script>
+  ```
+</ParamField>
+
+<ParamField body="data-exclude-hash" type="boolean" default="false">
+  *Available since v2.16.0*
+
+  Set to `true` to strip the hash fragment from every URL before it is recorded. Pages at `/docs/intro#getting-started` and `/docs/intro#installation` will both be recorded as `/docs/intro`. Helpful when your hash fragments reflect in-page anchor links that you don't want counted as separate pages.
+
+  ```html
+  <script
+    defer
+    src="https://cloud.betterumami.com/script.js"
+    data-website-id="94db1cb1-74f4-4a40-ad6c-962362670409"
+    data-exclude-hash="true"
+  ></script>
+  ```
+</ParamField>
+
+---
+
+## Privacy
+
+<ParamField body="data-do-not-track" type="boolean" default="false">
+  *Available since v2.17.0*
+
+  Set to `true` to honour the browser's [Do Not Track](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/doNotTrack) setting. When a visitor has DNT enabled and this attribute is set, the tracker will not send any data for that visitor.
+
+  ```html
+  <script
+    defer
+    src="https://cloud.betterumami.com/script.js"
+    data-website-id="94db1cb1-74f4-4a40-ad6c-962362670409"
+    data-do-not-track="true"
+  ></script>
+  ```
+</ParamField>
+
+<ParamField body="data-before-send" type="string">
+  *Available since v2.18.0*
+
+  The name of a JavaScript function (defined in the global scope) that is called before every tracking request is sent. The function receives two arguments — `type` and `payload` — and must return either a (possibly modified) payload object to allow the send, or a falsy value to cancel it entirely. Use this for last-mile filtering, payload enrichment, or conditional suppression of specific events.
+
+  ```js title="Define the handler before the script tag"
+  function beforeSendHandler(type, payload) {
+    // Cancel sends for admin users
+    if (document.cookie.includes('is_admin=true')) {
+      return false;
+    }
+    return payload;
+  }
+  ```
+
+  ```html
+  <script
+    defer
+    src="https://cloud.betterumami.com/script.js"
+    data-website-id="94db1cb1-74f4-4a40-ad6c-962362670409"
+    data-before-send="beforeSendHandler"
+  ></script>
+  ```
+
+  <Note>
+    The handler function must be defined in the global scope (`window.beforeSendHandler`) **before** the Betterumami script executes. Define it in a `<script>` block that appears earlier in the `<head>` than the Betterumami `<script>` tag.
+  </Note>
+</ParamField>
+
+---
+
+## Performance & Experiments
+
+<ParamField body="data-performance" type="boolean" default="false">
+  *Available since v3.1.0*
+
+  Set to `true` to automatically collect [Core Web Vitals](https://web.dev/articles/vitals) — LCP, INP, CLS, FCP, and TTFB — from your visitors' browsers. Results appear in the **Performance** section of your dashboard. See [Performance](/docs/performance) for details.
+
+  ```html
+  <script
+    defer
+    src="https://cloud.betterumami.com/script.js"
+    data-website-id="94db1cb1-74f4-4a40-ad6c-962362670409"
+    data-performance="true"
+  ></script>
+  ```
+
+  <Tip>
+    If you're sending pageviews manually and have set `data-auto-pageview="false"`, performance tracking still initialises correctly. Avoid using `data-auto-track="false"` in this scenario, as that disables performance tracking too.
+  </Tip>
+</ParamField>
+
+<ParamField body="data-tag" type="string">
+  *Available since v2.11.0*
+
+  Tags every event sent by this script instance with a named label. Use tags to separate traffic from different experiments, page variants, or deployment cohorts and then filter your dashboard by tag. See [Tags](/docs/tags) for details.
+
+  ```html
+  <script
+    defer
+    src="https://cloud.betterumami.com/script.js"
+    data-website-id="94db1cb1-74f4-4a40-ad6c-962362670409"
+    data-tag="homepage-layout-a"
+  ></script>
+  ```
+</ParamField>

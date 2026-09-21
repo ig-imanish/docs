@@ -1,0 +1,106 @@
+---
+title: "API Keys: Programmatic Access to Your Data"
+sidebarTitle: "API Keys"
+description: "Generate API keys to query your Betterumami analytics data programmatically via the Cloud REST API, with region-specific endpoints and rate limits."
+---
+
+API keys give you secure, programmatic access to your Betterumami analytics data. With a key in hand you can build custom dashboards, automate reporting pipelines, or integrate your analytics into any application that can make HTTP requests. You can create and revoke keys at any time from your account settings.
+
+## Create an API key
+
+<Steps>
+  <Step title="Open Settings">
+    Click the profile icon in the side navigation bar and select **Settings**.
+  </Step>
+  <Step title="Navigate to API keys">
+    Click **API keys** in the Settings menu.
+  </Step>
+  <Step title="Click Create key">
+    Click the **Create key** button. Give your key a descriptive name — for example, `Dashboard integration` or `Reporting script` — so you can identify it later.
+  </Step>
+  <Step title="Copy and save your key">
+    Your new API key is displayed once. Click the visibility icon to reveal it, then copy it to a secure location such as a password manager or secrets vault.
+  </Step>
+</Steps>
+
+<Warning>
+  Your API key is shown **only once** at creation time. If you navigate away without copying it, you will need to delete the key and generate a new one.
+</Warning>
+
+---
+
+## Use your API key
+
+### Base URL
+
+All Betterumami Cloud API calls go to:
+
+```text
+https://api.umami.is/v1
+```
+
+### Authentication
+
+Pass your API key in the `Authorization` header using the **Bearer** scheme:
+
+```bash
+curl https://api.umami.is/v1/websites \
+  -H "Accept: application/json" \
+  -H "Authorization: Bearer <api-key>"
+```
+
+Replace `<api-key>` with the key you copied during creation.
+
+---
+
+## Region-specific endpoints
+
+By default, requests are routed to the region associated with the account that owns the API key. If you need to target a specific region explicitly, add the region slug as the first path segment:
+
+| Region | Endpoint |
+|---|---|
+| **United States** | `https://api.umami.is/v1/us` |
+| **Europe** | `https://api.umami.is/v1/eu` |
+
+<Tip>
+  Use region-specific endpoints when building integrations that must comply with data residency requirements, or when you want to reduce latency by targeting the region closest to your servers.
+</Tip>
+
+---
+
+## Rate limits
+
+Each API key is limited to **50 calls per 15-second window**. If your integration exceeds this limit, the API returns a `429 Too Many Requests` response. Build exponential back-off into any automated scripts to handle rate limiting gracefully.
+
+---
+
+## Restricted routes
+
+The following API routes are not accessible with an API key, regardless of the key owner's account permissions:
+
+```text
+/me/password
+/users
+/users/*
+```
+
+All other routes documented in the API reference are available.
+
+---
+
+## Delete an API key
+
+When you no longer need a key — for example, after rotating credentials or decommissioning an integration — delete it immediately to prevent unauthorized use.
+
+<Steps>
+  <Step title="Open Settings → API keys">
+    Navigate to **Settings → API keys** to see all your active keys.
+  </Step>
+  <Step title="Click Delete">
+    Find the key you want to remove and click the **Delete** button next to it. Confirm the deletion when prompted.
+  </Step>
+</Steps>
+
+<Warning>
+  Deleted API keys **cannot be recovered**. Any application or script still using the deleted key will immediately lose access. Update your integrations with a new key before deleting the old one.
+</Warning>

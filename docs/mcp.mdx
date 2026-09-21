@@ -1,0 +1,137 @@
+---
+title: "MCP: Connect AI Tools to Your Analytics"
+sidebarTitle: "MCP Integration"
+description: "Use the Model Context Protocol to let Claude, ChatGPT, Cursor, and other AI tools query your Betterumami analytics in natural language."
+---
+
+The Betterumami Model Context Protocol (MCP) integration bridges your analytics data and the AI tools you already use. Once connected, you can ask questions like "What were my top pages last week?" or "How did traffic change after the product launch?" and receive accurate answers drawn directly from your real analytics — no SQL, no API calls, no exporting CSVs. The MCP server is read-only and respects the same website and team permissions as the dashboard, so your data stays safe regardless of which AI tool is querying it.
+
+## How it works
+
+Betterumami exposes a remote MCP server that AI clients can connect to over HTTPS. When you ask your AI assistant an analytics question, the MCP server translates that request into the appropriate Cloud API calls, fetches your data, and returns the result to the AI in a format it can reason about. Because all tools are read-only and permission-scoped, an AI tool can only access websites and teams your API key is authorized to see.
+
+---
+
+## Connect to the MCP server
+
+### Endpoint
+
+```text
+https://cloud.umami.is/mcp
+```
+
+### Authentication
+
+Authenticate using an [API key](/docs/api-keys). Pass it in the `Authorization` header:
+
+```text
+Authorization: Bearer api_<your-cloud-api-key>
+```
+
+Clients that support custom request headers can alternatively use the `x-umami-api-key` header. If you provide both headers, they must contain the same key.
+
+<Note>
+  The same subscription requirements and rate limits that apply to the Cloud API (50 calls per 15 seconds per key) also apply to the MCP server.
+</Note>
+
+---
+
+## Client setup
+
+### Claude Desktop and Cursor (remote server)
+
+Most modern MCP clients — including Claude Desktop and Cursor — support remote server URLs with custom headers. Add the following to your MCP client configuration file:
+
+```json
+{
+  "mcpServers": {
+    "umami": {
+      "url": "https://cloud.umami.is/mcp",
+      "headers": {
+        "Authorization": "Bearer api_<your-cloud-api-key>"
+      }
+    }
+  }
+}
+```
+
+Replace `api_<your-cloud-api-key>` with the API key you created in **Settings → API keys**.
+
+### stdio-only clients
+
+If your MCP client only supports local `stdio` servers (not remote HTTPS connections), run the `@umami/mcp` package via `npx` and configure it with your API key as an environment variable:
+
+```json
+{
+  "mcpServers": {
+    "umami": {
+      "command": "npx",
+      "args": ["-y", "@umami/mcp"],
+      "env": {
+        "UMAMI_API_KEY": "api_<your-cloud-api-key>"
+      }
+    }
+  }
+}
+```
+
+<Tip>
+  If you are unsure which approach your client supports, try the remote server configuration first — it is simpler and does not require Node.js to be installed locally.
+</Tip>
+
+---
+
+## Available tools
+
+The MCP server exposes the following read-only tools. Call `list_websites` first to retrieve the `websiteId` values you will need for subsequent queries.
+
+| Tool | What it does |
+|---|---|
+| `list_websites` | Lists all websites you can access. Start here to get `websiteId` values. |
+| `get_website_daterange` | Returns the earliest and latest dates with recorded data. |
+| `get_website_stats` | Pageviews, visitors, visits, bounce rate, session duration, and comparison to the previous period. |
+| `get_website_traffic` | Pageview and visit time series, grouped by minute, hour, day, month, or year. |
+| `get_website_metrics` | Top pages, referrers, channels, countries, browsers, devices, UTM parameters, and custom events. |
+| `get_realtime` | Number of visitors currently active on your site. |
+| `get_events` | Paginated list of individual tracked events. |
+| `get_event_stats` | Custom event totals and comparison to the previous period. |
+| `get_event_series` | Custom event counts over time, grouped by event name. |
+| `get_event_properties` | Custom event property names, or all values for a specific property. |
+| `get_sessions` | Paginated list of visitor sessions. |
+| `get_session` | A single session with its full activity timeline and properties. |
+| `get_session_stats` | Session-level totals: visitors, visits, pageviews, events, and countries. |
+| `get_annotations` | Dated notes on the timeline — useful for marking launches and campaigns. |
+| `list_segments` | Saved segments and cohorts you can pass into other tools via `filters`. |
+| `list_funnels` | Saved funnels with their defined steps. |
+| `run_funnel` | Conversion funnel analysis from a saved funnel ID or ad-hoc page/event steps. |
+| `get_goals` | Saved goals with conversion counts, visitors, and conversion rate for a date range. |
+| `run_journey` | Most common paths visitors take through your site. |
+| `run_retention` | Cohort retention table showing how visitors return over time. |
+| `run_attribution` | First-click or last-click attribution for a specific conversion event. |
+| `get_revenue` | Revenue totals, time series, and breakdowns. |
+| `get_performance` | Core Web Vitals (LCP, INP, CLS, FCP, TTFB) percentiles, trends, and breakdowns. |
+
+All dates use ISO 8601 format. Paginated results have a hard cap on page size per request.
+
+---
+
+## Example prompts
+
+Once your AI client is connected, try prompts like these:
+
+- *Show my websites.*
+- *How many visitors did my site get last week?*
+- *What were the top 10 pages this month?*
+- *Compare traffic this month with the previous month.*
+- *Where is my traffic coming from?*
+- *What signup events happened yesterday?*
+- *Run my checkout funnel for last month.*
+- *How are we doing against our goals this quarter?*
+- *Which pages have the worst LCP on mobile?*
+- *What happened on the day traffic spiked?*
+
+---
+
+## Revoke access
+
+MCP access is tied directly to the API key you configured. To disconnect an AI tool from your analytics, delete the key under **Settings → API keys**. The AI tool loses access immediately.

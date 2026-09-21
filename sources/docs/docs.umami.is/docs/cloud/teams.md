@@ -1,0 +1,112 @@
+# Source: https://docs.umami.is/docs/cloud/teams
+
+Menu
+
+Cloud
+
+# Teams
+
+Copy page
+
+Create teams in Umami to organize users and share websites. Teams is available starting at the **Pro** plan.
+
+## Roles[#](https://docs.umami.is/docs/cloud/teams#roles)
+
+Team roles and related permissions.
+
+| Role | Permissions |
+| --- | --- |
+| Team Owner | All permissions. |
+| Team Manager | All permissions except deleting the team. |
+| Team Member | All permissions except deleting or updating the team. |
+| View Only | View only. |
+
+## Add a team[#](https://docs.umami.is/docs/cloud/teams#add-a-team)
+
+Log into Umami and click on the side nav profile button then click **Settings**.
+
+![image](https://docs.umami.is/images/cloud/navbar-settings.png)
+
+Navigate to **Teams** and click on the **Create team** button.
+
+![image](https://docs.umami.is/images/docs/team-add.png)
+
+Fill out the form details and click the **Save** button.
+
+![image](https://docs.umami.is/images/docs/team-add-form.png)
+
+You will automatically be added to the team with the role of **Team owner**.
+
+## Team access[#](https://docs.umami.is/docs/cloud/teams#team-access)
+
+Click on the side nav profile button then click **Teams**.
+
+![image](https://docs.umami.is/images/cloud/navbar-settings.png)
+
+## Share team access code[#](https://docs.umami.is/docs/cloud/teams#share-team-access-code)
+
+Navigate to **Teams** and click on the team name.
+
+![image](https://docs.umami.is/images/docs/team-view.png)
+
+The first panel will show the teams access code. Share this code with users you want to join your team.
+
+![image](https://docs.umami.is/images/docs/team-details.png)
+
+You can generate a new access code by clicking the **Regenerate** button and saving.
+
+## Join a team[#](https://docs.umami.is/docs/cloud/teams#join-a-team)
+
+Navigate to **Teams** and click on the **Join team** button.
+
+![image](https://docs.umami.is/images/docs/team-add.png)
+
+Enter the **Access code** you received from the team owner and click the **Join** button.
+
+![image](https://docs.umami.is/images/docs/team-join-form.png)
+
+## Invite a member[#](https://docs.umami.is/docs/cloud/teams#invite-a-member)
+
+From the team, navigate to **Members** and click on the **Invite user** button.
+
+![image](https://docs.umami.is/images/cloud/team-member.png)
+
+Fill out the form details and click the **Send** button. The user will receive an email with a link and instructions to join the team.
+
+![image](https://docs.umami.is/images/cloud/team-invite-form.png)
+
+## Add a website[#](https://docs.umami.is/docs/cloud/teams#add-a-website)
+
+From the team, navigate to **Websites** and click on the **Add Website** button.
+
+![image](https://docs.umami.is/images/docs/team-website.png)
+
+Fill out the form details and click the **Save** button.
+
+![image](https://docs.umami.is/images/docs/website-add-form.png)
+
+## Edit/remove team member (Team owner only)[#](https://docs.umami.is/docs/cloud/teams#editremove-team-member-team-owner-only)
+
+From the teams screen navigate to the members table and click on the **Edit** button to update the member role or click on the **Delete** button to remove the member from the team.
+
+![image](https://docs.umami.is/images/docs/team-member-edit.png)
+
+## Transfer a website[#](https://docs.umami.is/docs/cloud/teams#transfer-a-website)
+
+Umami allows you to transfer a website between your account and a team that you own.
+
+Navigate to **Websites** and click on the **Edit** button for the website you want to edit.
+
+![image](https://docs.umami.is/images/docs/website-edit.png)
+
+Navigate to the **Transfer website** section and click the **Transfer** button.
+
+![image](https://docs.umami.is/images/docs/website-transfer.png)
+
+Fill out the form details and click the **Transfer** button.
+
+![image](https://docs.umami.is/images/docs/website-transfer-form.png)
+
+[PreviousLogin](https://docs.umami.is/docs/cloud/login) [NextEmail reports](https://docs.umami.is/docs/cloud/email-reports)
+
+On this page

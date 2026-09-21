@@ -1,0 +1,99 @@
+# Source: https://docs.umami.is/docs/heatmaps
+
+Menu
+
+Analysis
+
+# Heatmaps
+
+Copy page
+
+_Available since v3.2.0_
+
+**Heatmaps** visualize where visitors click and scroll on your pages — giving you an at-a-glance view of engagement patterns without watching individual replays. Use heatmaps to identify which elements attract the most attention, discover dead clicks, and understand how far down the page visitors actually scroll.
+
+## Enabling Heatmaps[#](https://docs.umami.is/docs/heatmaps#enabling-heatmaps)
+
+Log into Umami and click on **Websites** in the sidebar.
+
+![image](https://docs.umami.is/images/docs/navbar.png)
+
+Click on the **Edit** button for the website you want to edit.
+
+![image](https://docs.umami.is/images/docs/website-edit.png)
+
+Navigate to the **Replays & Heatmaps** section and enable the **Heatmaps** toggle.
+
+![image](https://docs.umami.is/images/docs/heatmap-edit.png)
+
+| Option | Description | Default |
+| --- | --- | --- |
+| Heatmap Sample Rate | Fraction of sessions to include in heatmap data, from `0` to `1`. | `0.15` |
+
+Add the recorder script to your site. This enables heatmap event collection.
+
+```html
+<script
+  defer src="http://localhost:3000/recorder.js"
+  data-website-id="my-website-id"
+></script>
+```
+
+Notes
+
+- Heatmap data is only collected from sessions recorded after enabling the feature.
+- Heatmaps are generated from aggregated session data — no individual session is identifiable.
+
+## Page Overlay[#](https://docs.umami.is/docs/heatmaps#page-overlay)
+
+The heatmap overlays click dots or scroll bands on top of a live preview of your page. Umami loads the actual page in an embedded frame using its captured URL — no screenshots, replays, or extra services are required.
+
+If the preview can't load, the heatmap still shows click and scroll data on a blank canvas.
+
+### Allowing the page preview[#](https://docs.umami.is/docs/heatmaps#allowing-the-page-preview)
+
+The preview only loads if your page allows the Umami dashboard to embed it in an iframe. Most sites block framing by default, so you need to opt in by adding the dashboard's origin to a `Content-Security-Policy` `frame-ancestors` directive on the pages you want to inspect:
+
+```
+Content-Security-Policy: frame-ancestors 'self' https://your-umami-instance.com;
+```
+
+Notes
+
+- Use the origin where you access Umami in place of `https://your-umami-instance.com` (for Umami Cloud, use `https://cloud.umami.is`).
+- If your site also sends `X-Frame-Options: DENY` or `SAMEORIGIN`, remove it — it overrides `frame-ancestors` in some browsers.
+
+## Accessing Heatmaps[#](https://docs.umami.is/docs/heatmaps#accessing-heatmaps)
+
+Navigate to a website and click the **Heatmap** tab.
+
+![image](https://docs.umami.is/images/docs/heatmap-pages.png)
+
+Use the **Pages** dropdown to select the page you want to inspect.
+
+![image](https://docs.umami.is/images/docs/heatmap-clicks.png)
+
+The heatmap overlay is rendered on top of a live preview of the page when one is available.
+
+## Heatmap Types[#](https://docs.umami.is/docs/heatmaps#heatmap-types)
+
+Use the type selector to switch between views.
+
+![image](https://docs.umami.is/images/docs/heatmap-scroll.png)
+
+| Type | Description |
+| --- | --- |
+| Click | Shows where visitors click. Highlights high-engagement elements and dead clicks. |
+| Scroll | Shows how far down the page visitors scroll. Useful for identifying content below the fold that goes unseen. |
+
+## Screen Width[#](https://docs.umami.is/docs/heatmaps#screen-width)
+
+Because responsive pages render differently across devices, heatmap data is grouped by the visitor's screen width. Use the **Screen width** selector to switch between the available widths and view the overlay for each layout.
+
+![image](https://docs.umami.is/images/docs/heatmap-screen-width.png)
+
+Each option shows a device icon and the number of recorded sessions at that width. Widths with no data are disabled, and the view defaults to the width with the most sessions.
+
+[PreviousReplays](https://docs.umami.is/docs/replays) [NextPerformance](https://docs.umami.is/docs/performance)
+
+On this page

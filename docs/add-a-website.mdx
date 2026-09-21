@@ -1,0 +1,48 @@
+---
+title: "Add a Website to Your Betterumami Dashboard"
+sidebarTitle: "Add a Website"
+description: "Learn how to register a new website in Betterumami so you can install the tracking script and start collecting analytics data."
+---
+
+Before Betterumami can collect data for a site, you need to register that site in the dashboard. Each website gets its own unique tracking ID, which the script tag uses to route data to the correct property. You can add as many websites as your plan supports, and each one gets its own isolated analytics view.
+
+## How to add a website
+
+<Steps>
+  <Step title="Open the Websites section">
+    Log in to your Betterumami account and click **Websites** in the left sidebar. This page lists all the websites currently connected to your account.
+  </Step>
+
+  <Step title="Click Add website">
+    Click the **Add website** button in the top-right corner of the Websites page. A form will appear asking for details about the site you want to track.
+  </Step>
+
+  <Step title="Fill in the Name and Domain fields">
+    Complete both fields in the form:
+
+    | Field | What to enter | Example |
+    |-------|--------------|---------|
+    | **Name** | A human-readable label for the site. It can be anything you like — it is only visible inside your dashboard. | `My Company Blog` |
+    | **Domain** | The actual domain of your website, without a protocol or trailing slash. Betterumami uses this to filter your own domain out of the referrer reports in your metrics. | `example.com` |
+
+    <Note>
+      The **Domain** field does not need to include `https://` or `www.` — just the bare domain, such as `example.com`. If your site uses `www`, enter the version your visitors actually see in the browser address bar.
+    </Note>
+  </Step>
+
+  <Step title="Save the website">
+    Click the **Save** button. Betterumami creates the website entry and assigns it a unique website ID. You will now see it listed on the Websites page.
+  </Step>
+</Steps>
+
+## What happens next
+
+After adding a website, you need to install the tracking script on it to start collecting data. Click the **Edit** button next to your newly created website to find the **Tracking code** section, then follow the instructions in [Install Tracking Script](/docs/install-tracking-script) to add the snippet to your site.
+
+<Tip>
+  Give each environment (production, staging, development) its own website entry in Betterumami. This keeps test traffic separate from real data and makes it easy to filter out internal visits.
+</Tip>
+
+## Managing existing websites
+
+You can update a website's name or domain at any time by clicking **Edit** next to the entry on the Websites page. Changes to the domain field take effect immediately. If you need to remove a website entirely, use the **Delete** option in the Edit view — note that deleting a website permanently removes all of its historical data.

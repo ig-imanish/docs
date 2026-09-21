@@ -1,0 +1,157 @@
+{
+  "projectType": "saas",
+  "projectName": "Betterumami",
+  "projectDescription": "A privacy-first web analytics platform that tracks traffic, events, conversions, and revenue — no cookies, no personal data — with real-time dashboards, session replay, and a full REST API.",
+  "theme": "luma",
+  "primaryColor": "#5e6ad2",
+  "lightColor": "#ffffff",
+  "darkColor": "#e4a636",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "docs/introduction",
+              "docs/quickstart",
+              "docs/add-a-website",
+              "docs/install-tracking-script"
+            ]
+          },
+          {
+            "group": "Tracking",
+            "pages": [
+              "docs/track-events",
+              "docs/tracker-functions",
+              "docs/tracker-configuration",
+              "docs/distinct-ids"
+            ]
+          },
+          {
+            "group": "Analytics & Reports",
+            "pages": [
+              "docs/overview-dashboard",
+              "docs/filters",
+              "docs/compare",
+              "docs/breakdown",
+              "docs/goals",
+              "docs/funnels",
+              "docs/attribution",
+              "docs/retention"
+            ]
+          },
+          {
+            "group": "Account & Team",
+            "pages": [
+              "docs/account-setup",
+              "docs/teams",
+              "docs/email-reports",
+              "docs/api-keys"
+            ]
+          },
+          {
+            "group": "Integrations",
+            "pages": [
+              "docs/google-tag-manager",
+              "docs/mcp",
+              "docs/bypass-ad-blockers"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": [
+              "api-reference/introduction",
+              "api-reference/authentication",
+              "api-reference/sending-stats"
+            ]
+          },
+          {
+            "group": "Websites",
+            "pages": [
+              "api-reference/list-websites",
+              "api-reference/get-website",
+              "api-reference/create-website",
+              "api-reference/update-website",
+              "api-reference/delete-website"
+            ]
+          },
+          {
+            "group": "Stats & Events",
+            "pages": [
+              "api-reference/get-website-stats",
+              "api-reference/get-website-pageviews",
+              "api-reference/get-website-metrics",
+              "api-reference/get-website-events",
+              "api-reference/get-website-active"
+            ]
+          },
+          {
+            "group": "Node Client",
+            "pages": [
+              "api-reference/api-client"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Privacy-first analytics — no cookies, no personal data collected",
+    "Real-time traffic dashboard with pageviews, visitors, bounce rate, and session duration",
+    "Custom event tracking via data attributes or JavaScript API",
+    "Funnel analysis to identify where users drop off before converting",
+    "Goals tracking to measure conversion rates for pages and events",
+    "Attribution reporting with first-click and last-click models",
+    "Cohort analysis and segments for behavioral comparison over time",
+    "Filters across URL, location, UTM, browser, and custom event properties",
+    "Period comparison (previous period or year-over-year)",
+    "Breakdown reports to segment data by any dimension",
+    "Distinct ID user identification across sessions and devices",
+    "Session replay to watch how individual users navigate",
+    "Email reports with scheduled website summaries",
+    "Teams with role-based access control",
+    "White-label share pages for agencies and clients",
+    "MCP server integration with AI tools (Claude, ChatGPT, Cursor)",
+    "REST API with API key authentication",
+    "Official @umami/api-client TypeScript library"
+  ],
+  "publicApiSurface": [
+    "POST /api/auth/login",
+    "POST /api/auth/verify",
+    "POST /api/send",
+    "POST /api/batch",
+    "GET /api/websites",
+    "POST /api/websites",
+    "GET /api/websites/{websiteId}",
+    "POST /api/websites/{websiteId}",
+    "DELETE /api/websites/{websiteId}",
+    "GET /api/websites/{websiteId}/stats",
+    "GET /api/websites/{websiteId}/pageviews",
+    "GET /api/websites/{websiteId}/metrics",
+    "GET /api/websites/{websiteId}/metrics/expanded",
+    "GET /api/websites/{websiteId}/events",
+    "GET /api/websites/{websiteId}/events/series",
+    "GET /api/websites/{websiteId}/active",
+    "GET /api/realtime/{websiteId}",
+    "GET /api/me",
+    "POST /api/me/password",
+    "GET /api/me/websites",
+    "GET /api/me/api-keys",
+    "POST /api/me/api-keys",
+    "DELETE /api/me/api-keys/{keyId}",
+    "umami.track()",
+    "umami.track(event_name: string)",
+    "umami.track(event_name: string, data: object)",
+    "umami.identify(unique_id: string)",
+    "umami.identify(unique_id: string, data: object)",
+    "@umami/api-client getClient()",
+    "@umami/mcp npx @umami/mcp"
+  ]
+}

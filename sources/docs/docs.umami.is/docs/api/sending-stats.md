@@ -1,0 +1,136 @@
+# Source: https://docs.umami.is/docs/api/sending-stats
+
+Menu
+
+API
+
+# Sending stats
+
+Copy page
+
+## POST /api/send[#](https://docs.umami.is/docs/api/sending-stats#post-apisend)
+
+To register an `event`, you need to send a `POST` to `/api/send` with the following data:
+
+For **Umami Cloud** send a POST to `https://cloud.umami.is/api/send`.
+
+**Parameters**
+
+| Parameter | Type | Description |
+| --- | --- | --- |
+| `payload.hostname` | string | Name of host. |
+| `payload.screen` | string | Screen resolution (ex. "1920x1080"). |
+| `payload.language` | string | Language of visitor (ex. "en-US"). |
+| `payload.url` | string | Page URL. |
+| `payload.referrer` | string | Referrer URL. |
+| `payload.title` | string | Page title. |
+| `payload.tag` | string | Additional tag description. |
+| `payload.id` | string | Session identifier. |
+| `payload.website` | string | Website ID. |
+| `payload.name` | string | Name of the event. |
+| `payload.data` | object | (optional) Additional data for the event. |
+| `type` | string | One of `event`, `identify`, or `performance`. |
+
+**Sample payload**
+
+```json
+{
+  "payload": {
+    "hostname": "your-hostname",
+    "language": "en-US",
+    "referrer": "",
+    "screen": "1920x1080",
+    "title": "dashboard",
+    "url": "/",
+    "website": "your-website-id",
+    "name": "event-name",
+    "data": {
+      "foo": "bar"
+    }
+  },
+  "type": "event"
+}
+```
+
+Note, for `/api/send` requests you do not need to send an authentication token.
+
+Also, you need to send a proper `User-Agent` HTTP header or your request won't be registered.
+
+**Sample response**
+
+```json
+{
+  "cache": "xxxxxxxxxxxxxxx",
+  "sessionId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+  "visitId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+}
+```
+
+**Programmatically**
+
+You can generate most of these values programmatically with JavaScript using the browser APIs. For example:
+
+```js
+const data = {
+  payload: {
+    hostname: window.location.hostname,
+    language: navigator.language,
+    referrer: document.referrer,
+    screen: `${window.screen.width}x${window.screen.height}`,
+    title: document.title,
+    url: window.location.pathname,
+    website: 'your-website-id',
+    name: 'event-name',
+  },
+  type: 'event',
+};
+```
+
+## POST /api/batch[#](https://docs.umami.is/docs/api/sending-stats#post-apibatch)
+
+To send multiple events in a single request, POST a JSON **array** to `/api/batch`. Each element of the array has the same shape as an `/api/send` request body. Like `/api/send`, this endpoint does not require an authentication token but does require a valid `User-Agent` header.
+
+**Sample payload**
+
+```json
+[
+  {
+    "payload": {
+      "hostname": "your-hostname",
+      "url": "/page-1",
+      "website": "your-website-id",
+      "name": "event-name"
+    },
+    "type": "event"
+  },
+  {
+    "payload": {
+      "hostname": "your-hostname",
+      "url": "/page-2",
+      "website": "your-website-id",
+      "name": "event-name"
+    },
+    "type": "event"
+  }
+]
+```
+
+Each item is forwarded to `/api/send`, so all `type` values and payload fields supported there are also supported here.
+
+**Sample response**
+
+```json
+{
+  "size": 2,
+  "processed": 2,
+  "errors": 0,
+  "details": [],
+  "cache": "xxxxxxxxxxxxxxx"
+}
+```
+
+If any items fail, `errors` is the failure count and `details` lists each failure along with its `index` in the submitted array.
+
+[PreviousAuthentication](https://docs.umami.is/docs/api/authentication) [NextCommon endpoints](https://docs.umami.is/docs/api/common-endpoints)
+
+On this page

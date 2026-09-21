@@ -1,0 +1,56 @@
+# Source: https://docs.umami.is/docs/tags
+
+Menu
+
+Tracking
+
+# Tags
+
+Copy page
+
+_Available since v2.11.0_
+
+Use Umami tags to group events under a single website, gather data, and enable various functionalities.
+
+## Use Cases[#](https://docs.umami.is/docs/tags#use-cases)
+
+- A/B Testing: Test different versions of a webpage or campaign to see which performs better.
+- Group events to allow filtering and insights under a single website overview.
+
+## Usage[#](https://docs.umami.is/docs/tags#usage)
+
+Add the **data-tag** attribute to the tracking script. This will include the **tag** column in the payload.
+
+```html
+<script
+  defer
+  src="http://mywebsite.com/umami.js"
+  data-website-id="94db1cb1-74f4-4a40-ad6c-962362670409"
+  data-tag="homepage-layout-a"
+></script>
+```
+
+You can reuse the tracking script for different parts of your website, introducing additional tags.
+
+```html
+<script
+  defer
+  src="http://mywebsite.com/umami.js"
+  data-website-id="94db1cb1-74f4-4a40-ad6c-962362670409"
+  data-tag="homepage-layout-b"
+></script>
+```
+
+## Filtering[#](https://docs.umami.is/docs/tags#filtering)
+
+From the website **Overview** you can filter on specific tags.
+
+![image](https://docs.umami.is/images/docs/tag-filters.png)
+
+A pageview breakdown can also be seen by clicking **More** from any of the metric cards.
+
+![image](https://docs.umami.is/images/docs/tag-details.png)
+
+[PreviousDistinct IDs](https://docs.umami.is/docs/distinct-ids) [NextLinks](https://docs.umami.is/docs/links)
+
+On this page

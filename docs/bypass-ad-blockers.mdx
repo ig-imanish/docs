@@ -1,0 +1,139 @@
+---
+title: "Prevent Ad Blockers from Blocking Analytics"
+sidebarTitle: "Bypass Ad Blockers"
+description: "Keep your Betterumami tracking accurate by proxying the script through your own domain or hosting it yourself — even when ad blockers are active."
+---
+
+Even though Betterumami is a privacy-first analytics platform that collects no personal data and sets no cookies, some ad blockers may still block it. Many blocklists are maintained by volunteers who take a broad approach — flagging anything that contains words like "analytics" or blocking all tracking scripts indiscriminately, regardless of how privacy-respecting the tool is. The result is a gap in your data that has nothing to do with your visitors' actual behavior.
+
+The good news is that there are several techniques you can use to serve the tracking script from your own domain, making it invisible to blocklists that target known analytics hostnames. Choose the approach that best fits your hosting setup.
+
+---
+
+## Option 1: Proxy the script at the server level
+
+Proxying is the most reliable method. You configure your web server to forward requests for a path on your own domain to the Betterumami Cloud script URL. Ad blockers that block `cloud.betterumami.com` will have no knowledge of your own domain and will pass the request through.
+
+For example, a request to:
+
+```text
+https://your-website.com/script.js
+```
+
+...is silently proxied to:
+
+```text
+https://cloud.umami.is/script.js
+```
+
+Then update your tracking code `src` attribute to point to your proxied path instead of the Betterumami Cloud URL.
+
+### Nginx
+
+Add a `location` block to your Nginx configuration:
+
+```nginx
+location /script.js {
+    proxy_pass https://cloud.umami.is/script.js;
+}
+```
+
+See the [Nginx reverse proxy documentation](https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/) for full configuration details.
+
+### Apache
+
+Use `ProxyPass` in your Apache configuration:
+
+```apache
+ProxyPass /script.js https://cloud.umami.is/script.js
+```
+
+See the [Apache reverse proxy guide](https://httpd.apache.org/docs/2.4/howto/reverse_proxy.html) for full configuration details.
+
+### Express.js (Node.js)
+
+Create a dedicated endpoint in your Express app that fetches and returns the script:
+
+```js
+app.get("/stats.js", async (req, res) => {
+  const scriptText = await fetch("https://cloud.umami.is/script.js");
+  res.send(await scriptText.text());
+});
+```
+
+Then reference your custom path in your HTML:
+
+```html
+<script defer src="/stats.js" data-website-id="your-website-id"></script>
+```
+
+### Next.js
+
+If you are using Next.js, use the built-in [rewrites](https://nextjs.org/docs/pages/api-reference/next-config-js/rewrites) feature in `next.config.js`:
+
+```js
+module.exports = {
+  async rewrites() {
+    return [
+      {
+        source: "/stats.js",
+        destination: "https://cloud.umami.is/script.js",
+      },
+    ];
+  },
+};
+```
+
+Then load the script from `/stats.js` in your HTML or `<Script>` component.
+
+<Tip>
+  Proxying also lets the browser cache the script as a same-origin resource, which can slightly improve page load performance compared to loading from a third-party domain.
+</Tip>
+
+---
+
+## Option 2: Self-host the tracker script
+
+If you do not have access to your web server configuration and cannot set up a proxy, you can download the tracker script and host it directly on your domain.
+
+<Steps>
+  <Step title="Download the script">
+    Open `https://cloud.umami.is/script.js` in your browser and save the file to your computer.
+  </Step>
+  <Step title="Upload to your domain">
+    Upload the saved file to your website's static assets directory, for example at `/assets/tracker.js`.
+  </Step>
+  <Step title="Update your tracking tag">
+    Change the `src` attribute in your tracking script tag to point to your hosted copy:
+
+    ```html
+    <script
+      defer
+      src="/assets/tracker.js"
+      data-website-id="your-website-id"
+      data-host-url="https://cloud.umami.is"
+    ></script>
+    ```
+
+    The `data-host-url` attribute tells the locally-hosted script to send collected data back to Betterumami Cloud instead of trying to post to your own domain.
+  </Step>
+</Steps>
+
+<Warning>
+  Self-hosting the script is less reliable than proxying. If Betterumami updates the tracker script, your locally hosted copy will become outdated. You will need to download and re-upload the file to pick up any changes.
+</Warning>
+
+---
+
+## Option 3: Rename the script and endpoint (self-hosted Betterumami only)
+
+If you are running a self-hosted instance of Betterumami, you can use environment variables to rename both the tracker script file and the data collection endpoint, making them harder to fingerprint with generic blocklists.
+
+- **`TRACKER_SCRIPT_NAME`** — renames the script file. For example, setting this to `x` makes the tracker available at `https://your-umami.com/x.js` instead of `/script.js`.
+- **`COLLECT_API_ENDPOINT`** — renames the data collection endpoint. For example, setting this to `/api/x` routes data through `/api/x` instead of `/api/send`. The tracker script automatically uses whatever name you configure here.
+
+Update your tracking tag's `src` attribute to match the new script name after making these changes.
+
+<Note>
+  This option applies only to **self-hosted** Betterumami instances where you control the server environment. It is not available on Betterumami Cloud.
+</Note>

@@ -1,0 +1,86 @@
+---
+title: "Filters: Slice Your Analytics Data Any Way"
+sidebarTitle: "Filters"
+description: "Apply conditions across all Betterumami reports — by URL, location, device, UTM, and more — using flexible operators and universal filter propagation."
+---
+
+Filters are one of the most powerful tools in Betterumami. Rather than navigating to a separate report for every question, you apply a filter on the Overview dashboard and every screen — Pages, Referrers, Goals, Funnels, Attribution, Retention, and everything else — immediately updates to reflect that condition. You can stack multiple filters together, choose whether visitors must match all of them or just one, and use operators ranging from exact match to regular expressions. Filters persist as you navigate between reports, so you can explore a focused slice of your audience without resetting your context each time.
+
+## Accessing filters
+
+There are two ways to apply a filter:
+
+**Method 1 — Filter button:** Click the **Filter** button at the top of any screen to open the filter panel. Choose a category, select a field, pick an operator, and enter a value. Click **Apply** to activate the filter.
+
+**Method 2 — Click a card row:** On any breakdown card in the Overview (Pages, Referrers, Countries, Devices, and so on), click a row to apply that value as a filter instantly. For example, clicking "United States" in the Countries card immediately filters all data to US visitors only.
+
+Active filters appear as chips at the top of the page so you can see at a glance what is currently in scope. Click the **×** on any chip to remove that filter.
+
+## Available filters
+
+Filters are grouped by category in the filter panel.
+
+| Category | Filter | Description |
+| --- | --- | --- |
+| **URL** | Path | URL path of the visited page (e.g., `/pricing`). |
+| **URL** | Query | The query string portion of the URL (e.g., `?ref=homepage`). |
+| **URL** | Page Title | The HTML `<title>` of the page as seen in the browser tab. |
+| **Sources** | Referrer | The source that directed the visitor to your site. |
+| **Location** | Country | The visitor's country based on geolocation. |
+| **Location** | Region | The visitor's state, province, or region. |
+| **Location** | City | The visitor's city location. |
+| **Environment** | Browser | The web browser used (e.g., Chrome, Safari, Firefox). |
+| **Environment** | OS | The visitor's operating system (e.g., Windows, macOS, iOS, Android). |
+| **Environment** | Device | The type of device — desktop, tablet, or mobile. |
+| **UTM** | UTM Source | The traffic source (e.g., `google`, `newsletter`). |
+| **UTM** | UTM Medium | The marketing medium (e.g., `cpc`, `email`). |
+| **UTM** | UTM Campaign | The campaign name. |
+| **UTM** | UTM Content | The specific ad or link content used in the campaign. |
+| **UTM** | UTM Term | The paid search keyword. |
+| **Other** | Hostname | The domain where the page was accessed. |
+| **Other** | Distinct ID | A custom identifier you assign to a visitor. |
+| **Other** | Tag | A label or keyword you assign to your data. |
+| **Other** | Event | Custom events triggered by users (e.g., button clicks, form submissions). |
+
+## Property filters
+
+In addition to the standard categories above, the filter panel includes dedicated tabs for custom data you send through the tracker:
+
+- **Session data** — filter by any session property you have saved, such as `plan`, `company`, or `role`. Available on every report page.
+- **Event properties** — filter by any custom property attached to an event. This tab is only available on the **Events** screen because event properties are scoped to a specific event type.
+
+Each property filter is type-aware: the operators available (equals, contains, before/after, and so on) adjust automatically based on whether the property was stored as a string, number, boolean, date, or array.
+
+<Tip>
+Use session data filters to segment your analytics by plan tier or customer segment. For example, filter to `plan = pro` to see how paying users behave differently from free-tier visitors.
+</Tip>
+
+## Match mode
+
+When you add more than one filter, the **Match** toggle controls how the conditions are combined.
+
+| Mode | Logic | When to use |
+| --- | --- | --- |
+| **All** | Logical AND — visitor must satisfy every condition. | Narrow your audience: Chrome users in Germany on mobile. |
+| **Any** | Logical OR — visitor must satisfy at least one condition. | Broaden your view: visitors from Twitter or LinkedIn. |
+
+## Filter operators
+
+Each filter condition supports the following operators regardless of category.
+
+| Operator | Description |
+| --- | --- |
+| **Is** | Exact match — the value must equal the specified string precisely. |
+| **Is not** | Excludes an exact match — the value must not equal the specified string. |
+| **Contains** | The value includes the specified substring anywhere within it. |
+| **Does not contain** | The value does not include the specified substring. |
+| **Matches regex** | The value matches the provided regular expression. |
+| **Does not match regex** | The value does not match the provided regular expression. |
+
+<Note>
+Regular expression operators give you fine-grained control for complex patterns. For example, use `Matches regex` with `^/blog/` to filter to all blog post paths, or `^/docs/(filters|compare)$` to scope data to exactly two pages.
+</Note>
+
+## Universal filtering
+
+The date range and filters you set on the Overview Dashboard apply automatically to every other screen and report in Betterumami — Pages, Events, Referrers, Countries, Goals, Funnels, Attribution, Retention, Breakdown, and more. You do not need to re-apply the same filter on each screen. This universal propagation makes it easy to answer layered questions: set a filter for `UTM Campaign = spring-launch`, then open Goals to see conversion rates, Retention to see whether those visitors came back, and Attribution to see which channels drove them — all scoped to that campaign without touching the filter panel again.

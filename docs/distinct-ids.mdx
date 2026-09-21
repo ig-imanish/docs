@@ -1,0 +1,107 @@
+---
+title: "Identify Users Across Sessions with Distinct IDs"
+sidebarTitle: "Distinct IDs"
+description: "Assign a stable unique identifier to each visitor to connect their events and pageviews across multiple sessions, devices, and browsers in Betterumami."
+---
+
+A Distinct ID is a stable, unique identifier you assign to a visitor — anonymously or after they log in — so that Betterumami can associate all of that person's activity with a single identity. Without a Distinct ID, each browser session is tracked independently: the same user on their phone and their laptop appears as two separate visitors. Once you set a Distinct ID, Betterumami links those sessions together and presents their combined activity as a single profile, giving you a much more complete picture of how individual users engage with your product.
+
+<Note>
+  Distinct IDs have been available since **v2.18.0**. For enriching a session with descriptive properties (plan, company, role) without necessarily linking sessions, see [Session Data](/docs/tracker-functions#session-data).
+</Note>
+
+## Use Cases
+
+Distinct IDs are most valuable when you need to reason about individual users over time rather than aggregate traffic:
+
+- **Attribute behaviour accurately** — see every page, event, and conversion tied to a specific person rather than an anonymous session.
+- **Connect events across sessions and devices** — a user who signs up on mobile and converts on desktop can be traced as a single journey.
+- **Distinguish repeat visitors from new ones** — identify which users keep coming back and which have only visited once.
+- **Build user journeys and profiles** — reconstruct the full sequence of interactions that led a user from first visit to activation or churn.
+
+## Set a Distinct ID
+
+### Using the tracker
+
+Call `umami.identify()` at any point after your page loads — typically right after you know who the visitor is, such as immediately following a successful login:
+
+```js
+umami.identify('user@example.com');
+```
+
+You can use any stable string as a Distinct ID: an email address, a UUID, or your internal user ID. The only constraint is a **50 character limit**. If your identifiers are longer, hash them first:
+
+```js
+// Shorten a long ID with a simple hash
+const shortId = btoa(longUserId).substring(0, 50);
+umami.identify(shortId);
+```
+
+You can also attach session-level properties at the same time:
+
+```js
+umami.identify('user@example.com', {
+  plan: 'pro',
+  company: 'Acme Corp',
+  role: 'admin',
+});
+```
+
+### Using the API directly
+
+If you're sending events server-side via the [Sending stats API](/docs/api/sending-stats), include the `id` property in the event payload:
+
+```json
+{
+  "payload": {
+    "hostname": "www.acme.com",
+    "language": "en-US",
+    "referrer": "",
+    "screen": "1920x1080",
+    "title": "Dashboard",
+    "url": "/dashboard",
+    "website": "your-website-id",
+    "id": "user@example.com"
+  },
+  "type": "event"
+}
+```
+
+The `id` field is the key that sets the Distinct ID. All subsequent events in the same session will be associated with that identifier.
+
+## How Session Linking Works
+
+Setting a Distinct ID does **not** merge sessions into one. Each device and browser still gets its own session, uniquely identified by IP address, user agent, and website ID. What Betterumami does instead is *link* each of those sessions to the shared Distinct ID.
+
+When you open any session profile that has a Distinct ID set, Betterumami automatically:
+
+1. Looks up every other session linked to the same Distinct ID.
+2. Combines all of their activity into a single unified timeline.
+3. Expands the visible date range to span all linked sessions.
+4. Displays a **Linked IDs** count on the profile so you know you're viewing cross-session, cross-device activity rather than a single visit.
+
+This means you can track a user's complete journey — from anonymous first visit through account creation and first purchase — even if they switched devices or cleared their cookies between sessions.
+
+<Tip>
+  Call `umami.identify()` as early as possible in the session lifecycle. Betterumami applies the Distinct ID to all events sent after the call, but events recorded before it — during the same session — are also retroactively linked through the session record.
+</Tip>
+
+## Search by Distinct ID
+
+<Steps>
+  <Step title="Go to Sessions">
+    Click **Sessions** in the left-hand navigation. This view shows all recent visitor sessions for your selected date range.
+  </Step>
+
+  <Step title="Search for your identifier">
+    Enter the Distinct ID you want to look up in the search field. Betterumami filters the session list to show every session linked to that identifier within the current date range.
+  </Step>
+
+  <Step title="Open a session profile">
+    Click any session in the results to open the full profile. If the visitor has activity across multiple sessions, you'll see the **Linked IDs** indicator and a combined timeline covering all of them.
+  </Step>
+</Steps>
+
+<Warning>
+  Distinct IDs are stored as plaintext. Avoid using values that are sensitive on their own — such as passwords or payment tokens. Email addresses and internal user IDs are generally fine, but if your compliance requirements prohibit storing emails, use a hashed or anonymised identifier instead.
+</Warning>

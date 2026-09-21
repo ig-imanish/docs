@@ -1,0 +1,49 @@
+# Source: https://docs.umami.is/docs/sessions
+
+Menu
+
+Analysis
+
+# Sessions
+
+Copy page
+
+_Available since v2.13.0_
+
+The **Sessions** screen displays detailed information about your visitors. A session represents a single visit to your website, identified by a unique hash generated from the visitor's IP address, user agent, and website ID. This means visitors are tracked anonymously without cookies.
+
+## Visitor activity[#](https://docs.umami.is/docs/sessions#visitor-activity)
+
+Explore your most recent visitors and discover where they come from in a high-level summarized view. Each row shows the visitor's country, browser, operating system, and the pages they viewed during their session.
+
+![image](https://docs.umami.is/images/docs/sessions-activity.png)
+
+## Visitor profile[#](https://docs.umami.is/docs/sessions#visitor-profile)
+
+Clicking on any of the avatars in the activity table brings you to a new page showing details about a particular visitor. It also shows their activity history over time.
+
+![image](https://docs.umami.is/images/docs/sessions-profile.png)
+
+If the visitor has a [Distinct ID](https://docs.umami.is/docs/distinct-ids), Umami automatically combines activity from all of their linked sessions (e.g. across devices) into this one profile, shown as a **Linked IDs** count.
+
+## View session properties[#](https://docs.umami.is/docs/sessions#view-session-properties)
+
+Your custom data can be accessed under the **Properties** tab on the **Sessions** page. This section will show you all the custom data properties you saved as well as a breakdown of all the values. To save session properties see [Tracker functions](https://docs.umami.is/docs/tracker-functions#session-data).
+
+![image](https://docs.umami.is/images/docs/sessions-properties.png)
+
+### Filtering[#](https://docs.umami.is/docs/sessions#filtering)
+
+Use the **Property Filter** button to narrow down session properties by specific property names and values. This lets you focus your analysis on a particular group of sessions.
+
+![image](https://docs.umami.is/images/docs/sessions-properties-filter.png)
+
+Session data filters can also be added from the **Session data** tab of the main [filter panel](https://docs.umami.is/docs/filters#property-filters), letting you filter any report page by a session property, not just the Sessions page.
+
+Individual session property data can be viewed at the profile level.
+
+![image](https://docs.umami.is/images/docs/sessions-activity-properties.png)
+
+[PreviousCohorts](https://docs.umami.is/docs/cohorts) [NextReplays](https://docs.umami.is/docs/replays)
+
+On this page

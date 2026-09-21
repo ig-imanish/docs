@@ -1,0 +1,119 @@
+# Source: https://docs.umami.is/docs/api/common-endpoints
+
+Menu
+
+API
+
+# Common endpoints
+
+Copy page
+
+The API exposes an operation for everything you can do in the app, but most integrations only touch a handful of read endpoints — the ones that power the website **Overview** screen. This page is a shortcut to those. Each row links to its full reference page for parameters and responses.
+
+All paths below are relative to your API base URL: `http://<your-umami-instance>/api` when self-hosting, or the Umami Cloud base URL from your [API key](https://docs.umami.is/docs/cloud/api-key).
+
+---
+
+## Find your website[#](https://docs.umami.is/docs/api/common-endpoints#find-your-website)
+
+Most stats endpoints need a `websiteId`.
+
+| Task | Endpoint | Details |
+| --- | --- | --- |
+| List every website you can access | `GET /api/websites` | [List websites](https://docs.umami.is/docs/api-reference/list-websites) |
+| Get a single website | `GET /api/websites/{websiteId}` | [Get a website](https://docs.umami.is/docs/api-reference/get-website) |
+
+## Overview numbers[#](https://docs.umami.is/docs/api/common-endpoints#overview-numbers)
+
+The stat cards and active-visitor count at the top of the dashboard.
+
+| Task | Endpoint | Details |
+| --- | --- | --- |
+| Pageviews, visitors, visits, bounces, total time (with comparison) | `GET /api/websites/{websiteId}/stats` | [Get website summary statistics](https://docs.umami.is/docs/api-reference/get-website-stats) |
+| Visitors active in the last 5 minutes | `GET /api/websites/{websiteId}/active` | [Get active website visitors](https://docs.umami.is/docs/api-reference/get-website-active) |
+
+## Charts over time[#](https://docs.umami.is/docs/api/common-endpoints#charts-over-time)
+
+| Task | Endpoint | Details |
+| --- | --- | --- |
+| Pageviews and sessions time series | `GET /api/websites/{websiteId}/pageviews` | [Get pageviews and sessions over time](https://docs.umami.is/docs/api-reference/get-website-pageviews) |
+| Events time series | `GET /api/websites/{websiteId}/events/series` | [Get custom event counts over time](https://docs.umami.is/docs/api-reference/get-website-event-series) |
+
+## Breakdowns[#](https://docs.umami.is/docs/api/common-endpoints#breakdowns)
+
+Ranked lists for a single dimension — top pages, referrers, browsers, countries, events, and so on. Pass the dimension with `type` (`path`, `referrer`, `browser`, `os`, `device`, `country`, `event`, …).
+
+| Task | Endpoint | Details |
+| --- | --- | --- |
+| Ranked list of one dimension | `GET /api/websites/{websiteId}/metrics?type=path` | [Get ranked website metrics](https://docs.umami.is/docs/api-reference/get-website-metrics) |
+| Same list with pageviews, visitors, visits, bounces, and time per row | `GET /api/websites/{websiteId}/metrics/expanded?type=path` | [Get detailed website metrics](https://docs.umami.is/docs/api-reference/get-website-expanded-metrics) |
+
+## Realtime[#](https://docs.umami.is/docs/api/common-endpoints#realtime)
+
+| Task | Endpoint | Details |
+| --- | --- | --- |
+| Live countries, URLs, referrers, events, and totals (last 30 minutes) | `GET /api/realtime/{websiteId}` | [Get real-time website activity](https://docs.umami.is/docs/api-reference/get-realtime) |
+
+---
+
+## Working example[#](https://docs.umami.is/docs/api/common-endpoints#working-example)
+
+Pull website summary statistics for one website over a 24-hour window.
+
+**1\. Authenticate.** On self-hosted Umami, exchange your credentials for a token:
+
+```shell
+curl -X POST http://localhost:3000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username": "your-username", "password": "your-password"}'
+```
+
+```json
+{ "token": "eyTMjU2IiwiY...4Q0JDLUhWxnIjoiUE_A", "user": { "...": "..." } }
+```
+
+Send that token as `Authorization: Bearer <token>` on every request below. On Umami Cloud, skip this step and pass your [API key](https://docs.umami.is/docs/cloud/api-key) the same way: `Authorization: Bearer <api-key>`. See [Authentication](https://docs.umami.is/docs/api/authentication).
+
+**2\. Find the website ID.**
+
+```shell
+curl http://localhost:3000/api/websites \
+  -H "Authorization: Bearer <token>"
+```
+
+```json
+{
+  "data": [
+    { "id": "b8d3a1f0-1c2d-4e5f-8a9b-0c1d2e3f4a5b", "name": "Example", "domain": "example.com" }
+  ],
+  "count": 1
+}
+```
+
+**3\. Get the overview stats.** `startAt` and `endAt` are millisecond epoch timestamps bounding the range — the example values below span a 24-hour window:
+
+```shell
+curl "http://localhost:3000/api/websites/b8d3a1f0-1c2d-4e5f-8a9b-0c1d2e3f4a5b/stats?startAt=1757376000000&endAt=1757462400000" \
+  -H "Authorization: Bearer <token>"
+```
+
+```json
+{
+  "pageviews": 15171,
+  "visitors": 4415,
+  "visits": 5680,
+  "bounces": 3567,
+  "totaltime": 809968,
+  "comparison": {
+    "pageviews": 38675,
+    "visitors": 10568,
+    "visits": 14595,
+    "bounces": 9364,
+    "totaltime": 2182387
+  }
+}
+```
+
+[PreviousSending stats](https://docs.umami.is/docs/api/sending-stats) [NextChange my password](https://docs.umami.is/docs/api-reference/update-my-password)
+
+On this page

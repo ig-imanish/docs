@@ -1,0 +1,96 @@
+# Source: https://docs.umami.is/docs/guides/setup-ab-testing
+
+Menu
+
+Tracking
+
+# Set up A/B testing with tags
+
+Copy page
+
+Use Umami's `data-tag` attribute to run simple A/B tests by tagging different page variants and comparing their metrics.
+
+This page covers the Umami implementation. For experiment design — choosing a success metric, sample sizes, and interpreting results — see the [A/B testing analytics guide](https://umami.is/guides/ab-testing-analytics) on the main site.
+
+## How it works[#](https://docs.umami.is/docs/guides/setup-ab-testing#how-it-works)
+
+Tags let you label the tracker script with a variant name. All page views and events collected under that tag are grouped together, making it easy to compare performance between variants using Umami's filtering and breakdown tools.
+
+## Step 1: Create your variants[#](https://docs.umami.is/docs/guides/setup-ab-testing#step-1-create-your-variants)
+
+Serve different versions of your page and include the Umami script with a different `data-tag` for each variant:
+
+**Variant A:**
+
+```html
+<script
+  defer
+  src="https://your-umami.example.com/script.js"
+  data-website-id="your-website-id"
+  data-tag="homepage-v1"
+></script>
+```
+
+**Variant B:**
+
+```html
+<script
+  defer
+  src="https://your-umami.example.com/script.js"
+  data-website-id="your-website-id"
+  data-tag="homepage-v2"
+></script>
+```
+
+## Step 2: Assign users to variants[#](https://docs.umami.is/docs/guides/setup-ab-testing#step-2-assign-users-to-variants)
+
+How you split traffic between variants is up to your application. Common approaches:
+
+- **Server-side routing**: Use your backend or edge middleware to serve different HTML templates.
+- **Feature flags**: Use a feature flag service to control which variant a user sees, and set the `data-tag` accordingly.
+- **JavaScript**: Dynamically set the tag based on a cookie or random assignment.
+
+### Dynamic tag example[#](https://docs.umami.is/docs/guides/setup-ab-testing#dynamic-tag-example)
+
+```html
+<script>
+  var variant = document.cookie.includes('ab=v2') ? 'homepage-v2' : 'homepage-v1';
+  var el = document.createElement('script');
+  el.setAttribute('src', 'https://your-umami.example.com/script.js');
+  el.setAttribute('data-website-id', 'your-website-id');
+  el.setAttribute('data-tag', variant);
+  document.head.appendChild(el);
+</script>
+```
+
+## Step 3: Compare results[#](https://docs.umami.is/docs/guides/setup-ab-testing#step-3-compare-results)
+
+Once both variants have collected data, use Umami's filtering to compare them.
+
+### Filter by tag[#](https://docs.umami.is/docs/guides/setup-ab-testing#filter-by-tag)
+
+1. Open your website in Umami.
+2. Click the **Filter** button.
+3. Select **Tag** and enter the variant name (e.g., `homepage-v1`).
+4. Note the key metrics: visitors, bounce rate, visit duration, and any conversion events.
+5. Clear the filter and repeat for `homepage-v2`.
+
+### Use Breakdown[#](https://docs.umami.is/docs/guides/setup-ab-testing#use-breakdown)
+
+1. Open the **Breakdown** insight.
+2. Select **Tag** as the field.
+3. Run the insight to see visitors, views, bounce rate, and visit duration side by side for each variant.
+
+### Measure conversion differences[#](https://docs.umami.is/docs/guides/setup-ab-testing#measure-conversion-differences)
+
+1. Create a [Goal](https://docs.umami.is/docs/goals) for your conversion event (e.g., `signup`).
+2. Filter by each tag to compare the conversion rate between variants.
+
+Tips
+
+- Keep variant names descriptive: `pricing-short-form` vs. `pricing-long-form` is more useful than `v1` vs. `v2`.
+- For guidance on test duration, sample sizes, and reading results without false positives, see the [A/B testing analytics guide](https://umami.is/guides/ab-testing-analytics).
+
+[PreviousIdentify logged-in users](https://docs.umami.is/docs/guides/identify-logged-in-users) [NextEmbed analytics in your app](https://docs.umami.is/docs/guides/embed-analytics-in-your-app)
+
+On this page

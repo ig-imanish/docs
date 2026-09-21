@@ -1,0 +1,113 @@
+# Source: https://docs.umami.is/docs/install
+
+Menu
+
+Umami
+
+# Installation
+
+Copy page
+
+There are several different ways to install Umami.
+
+- **Installing from source**: Get the code from [GitHub](https://github.com/umami-software/umami) and build the application yourself.
+- **Using Docker compose**: Build your own Docker container using `docker compose`.
+- **Using a Docker image**: Download a pre-built Docker image.
+- **Using Kubernetes with HelmForge**: Deploy Umami with a third-party Helm chart maintained by the HelmForge project. See the [Running on Kubernetes with HelmForge](https://docs.umami.is/docs/guides/running-on-helmforge) guide.
+
+## Installing from source[#](https://docs.umami.is/docs/install#installing-from-source)
+
+### Requirements[#](https://docs.umami.is/docs/install#requirements)
+
+- A server with [Node.js](https://nodejs.org/) version 18.18 or newer.
+- A database. Umami supports [PostgreSQL](https://www.postgresql.org/) (minimum v12.14) databases.
+
+Use UTC
+
+We recommend configuring the PostgreSQL database to use the **UTC** timezone. UTC avoids issues caused by regional offsets, ensuring consistent, predictable timestamps across environments, services, and deployments.
+
+### Install pnpm[#](https://docs.umami.is/docs/install#install-pnpm)
+
+```shell
+npm install -g pnpm
+```
+
+### Get the source code and install packages[#](https://docs.umami.is/docs/install#get-the-source-code-and-install-packages)
+
+```shell
+git clone https://github.com/umami-software/umami.git
+cd umami
+pnpm install
+```
+
+### Configure Umami[#](https://docs.umami.is/docs/install#configure-umami)
+
+Create an `.env` file with the following
+
+```dotenv
+DATABASE_URL={connection url}
+```
+
+The connection url is in the following format:
+
+```dotenv
+DATABASE_URL=postgresql://username:mypassword@localhost:5432/mydb
+```
+
+### Build the application[#](https://docs.umami.is/docs/install#build-the-application)
+
+```shell
+pnpm build
+```
+
+The first time the build is run, it will create all the required database tables in your database. It will also create a login account with username **admin** and password **umami**.
+
+### Start the application[#](https://docs.umami.is/docs/install#start-the-application)
+
+```shell
+pnpm start
+```
+
+By default this will launch the application on `http://localhost:3000`. You will need to either [proxy](https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/) requests from your web server or change the [port](https://nextjs.org/docs/api-reference/cli#production) to serve the application directly.
+
+### Running Umami[#](https://docs.umami.is/docs/install#running-umami)
+
+You can simply run `pnpm start` to start Umami, but it's highly recommended you use a process manager like [PM2](https://pm2.keymetrics.io/) which will handle restarts for you.
+
+To run with PM2:
+
+```shell
+pnpm add -g pm2
+cd umami
+pm2 start "pnpm start" --name umami
+pm2 startup
+pm2 save
+```
+
+## Installing with Docker[#](https://docs.umami.is/docs/install#installing-with-docker)
+
+Umami ships with a docker compose file that contains the application and a PostgreSQL database.
+
+To build the Docker container and start up with a Postgres database, run:
+
+```shell
+docker compose up -d
+```
+
+This will create a PostgreSQL database and start the Umami application on `http://localhost:3000`. The default login credentials are username **admin** and password **umami**.
+
+Change the default password
+
+Change the default password immediately after your first login.
+
+Alternatively, if you want to use prebuilt images, you can pull the Umami Docker image with PostgreSQL support:
+
+```shell
+docker pull docker.umami.is/umami-software/umami:postgresql-latest
+```
+
+When using a prebuilt image, you need to provide your own database and set the `DATABASE_URL` environment variable. See [Environment variables](https://docs.umami.is/docs/environment-variables) for configuration options.
+
+[PreviousIntroduction](https://docs.umami.is/docs) [NextGetting updates](https://docs.umami.is/docs/updates)
+
+On this page

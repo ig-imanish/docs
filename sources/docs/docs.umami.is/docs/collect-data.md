@@ -1,0 +1,32 @@
+# Source: https://docs.umami.is/docs/collect-data
+
+Menu
+
+Quickstart
+
+# Collect data
+
+Copy page
+
+To start collecting data, you need to install the tracker script to your website.
+
+To get your tracking code, click on the **Edit** button for the website you want to track.
+
+![image](https://docs.umami.is/images/docs/website-edit.png)
+
+The tracking code can be found under the **Tracking code** section.
+
+Copy the code and insert it into the `<head>` section of your website.
+
+![image](https://docs.umami.is/images/docs/website-tracking-code.png)
+
+Then visit your website and data should immediately appear in your Umami dashboard.
+
+Troubleshooting
+
+- **Data not appearing?** Open your browser developer tools (F12) and check the Network tab for requests to your Umami instance. Make sure the script is loading without errors.
+- **Ad blockers** may prevent the tracking script from loading. See [Bypass ad blockers](https://docs.umami.is/docs/bypass-ad-blockers) for solutions.
+- **Next.js** - Insert the tracking code using the [next/script](https://nextjs.org/docs/app/api-reference/components/script) component instead of a plain `<script>` tag.
+- **Single page applications** - Umami automatically tracks page navigations in SPAs. No additional configuration is needed.
+
+[PreviousAdd a website](https://docs.umami.is/docs/add-a-website) [NextEnable Share URL](https://docs.umami.is/docs/enable-share-url)

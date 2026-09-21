@@ -1,0 +1,48 @@
+---
+title: "Permanently Delete a Website and Its Data"
+sidebarTitle: "Delete Website"
+description: "Permanently remove a website and all associated analytics data from Betterumami. This action is irreversible and cannot be undone. Use with care."
+---
+
+Use this endpoint to permanently remove a website from Betterumami. The API checks that your API key has permission to delete the website before proceeding. On success, the website and every analytics record associated with it — pageviews, events, sessions, and recordings — are purged from the system.
+
+`DELETE /api/websites/{websiteId}`
+
+<Warning>
+  **This action is irreversible.** Deleting a website permanently destroys all analytics data collected for it, including pageviews, custom events, sessions, and session recordings. There is no trash or recovery option. Make sure you have exported or backed up any data you need before calling this endpoint.
+</Warning>
+
+## Request
+
+### Headers
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token. Pass your API key: `Authorization: Bearer <api-key>`
+</ParamField>
+
+### Path Parameters
+
+<ParamField path="websiteId" type="string" required>
+  The unique UUID of the website to delete.
+</ParamField>
+
+## Response
+
+**200 – Success**
+
+<ResponseField name="ok" type="boolean" required>
+  `true` when the website was successfully deleted.
+</ResponseField>
+
+```json 200 Response
+{
+  "ok": true
+}
+```
+
+## Code Sample
+
+```bash
+curl -X DELETE 'https://api.umami.is/v1/websites/b8d3a1f0-1c2d-4e5f-8a9b-0c1d2e3f4a5b' \
+  -H 'Authorization: Bearer <api-key>'
+```

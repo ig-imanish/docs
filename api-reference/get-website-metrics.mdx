@@ -1,0 +1,210 @@
+---
+title: "Get Ranked Metrics for One Dimension"
+sidebarTitle: "Get Metrics"
+description: "Retrieve a ranked list of values for a single dimension — top pages, referrers, countries, browsers, events, UTM sources, and more — sorted by count descending."
+---
+
+Use this endpoint to get a ranked breakdown of any single dimension tracked by Betterumami. Pass the `type` parameter to select the dimension you want — for example `path` for top pages, `country` for visitor geography, or `utmSource` for campaign sources. The response is an array of `{x, y}` objects sorted from highest to lowest count, making it straightforward to render leaderboard tables or bar charts.
+
+`GET /api/websites/{websiteId}/metrics`
+
+## Request
+
+### Headers
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token. Pass your API key: `Authorization: Bearer <api-key>`
+</ParamField>
+
+### Path Parameters
+
+<ParamField path="websiteId" type="string" required>
+  The unique UUID of the website to query.
+</ParamField>
+
+### Query Parameters
+
+#### Required
+
+<ParamField query="type" type="string" required>
+  The dimension to rank. Accepted values: `path`, `entry`, `exit`, `title`, `query`, `hostname`, `referrer`, `domain`, `channel`, `event`, `tag`, `browser`, `os`, `device`, `screen`, `language`, `country`, `region`, `city`, `distinctId`, `utmSource`, `utmMedium`, `utmCampaign`, `utmContent`, `utmTerm`.
+</ParamField>
+
+#### Date Range
+
+<ParamField query="startAt" type="number">
+  Start of the date range as a Unix timestamp in **milliseconds**.
+</ParamField>
+
+<ParamField query="endAt" type="number">
+  End of the date range as a Unix timestamp in **milliseconds**.
+</ParamField>
+
+<ParamField query="startDate" type="string">
+  Start of the date range as an ISO 8601 date or datetime.
+</ParamField>
+
+<ParamField query="endDate" type="string">
+  End of the date range as an ISO 8601 date or datetime.
+</ParamField>
+
+<ParamField query="timezone" type="string">
+  IANA time zone for date interpretation, e.g. `Asia/Tokyo`.
+</ParamField>
+
+<ParamField query="compare" type="string">
+  Comparison period: `prev` or `yoy`.
+</ParamField>
+
+#### Pagination & Search
+
+<ParamField query="limit" type="number">
+  Maximum number of rows to return. Defaults to server-defined limit.
+</ParamField>
+
+<ParamField query="offset" type="number">
+  Number of rows to skip before returning results.
+</ParamField>
+
+<ParamField query="search" type="string">
+  Filter dimension values by a search string.
+</ParamField>
+
+#### Filters
+
+<ParamField query="path" type="string">
+  Filter by URL path.
+</ParamField>
+
+<ParamField query="referrer" type="string">
+  Filter by referring URL.
+</ParamField>
+
+<ParamField query="title" type="string">
+  Filter by page title.
+</ParamField>
+
+<ParamField query="query" type="string">
+  Filter by URL query string.
+</ParamField>
+
+<ParamField query="os" type="string">
+  Filter by operating system.
+</ParamField>
+
+<ParamField query="browser" type="string">
+  Filter by browser name.
+</ParamField>
+
+<ParamField query="device" type="string">
+  Filter by device category.
+</ParamField>
+
+<ParamField query="country" type="string">
+  Filter by ISO 3166-1 alpha-2 country code.
+</ParamField>
+
+<ParamField query="region" type="string">
+  Filter by visitor region.
+</ParamField>
+
+<ParamField query="city" type="string">
+  Filter by visitor city.
+</ParamField>
+
+<ParamField query="language" type="string">
+  Filter by browser language.
+</ParamField>
+
+<ParamField query="event" type="string">
+  Filter by custom event name.
+</ParamField>
+
+<ParamField query="utmSource" type="string">
+  Filter by UTM source.
+</ParamField>
+
+<ParamField query="utmMedium" type="string">
+  Filter by UTM medium.
+</ParamField>
+
+<ParamField query="utmCampaign" type="string">
+  Filter by UTM campaign name.
+</ParamField>
+
+<ParamField query="utmContent" type="string">
+  Filter by UTM content.
+</ParamField>
+
+<ParamField query="utmTerm" type="string">
+  Filter by UTM term.
+</ParamField>
+
+<ParamField query="tag" type="string">
+  Filter by a tag.
+</ParamField>
+
+<ParamField query="hostname" type="string">
+  Filter by hostname.
+</ParamField>
+
+<ParamField query="distinctId" type="string">
+  Filter by custom visitor identifier.
+</ParamField>
+
+<ParamField query="eventType" type="integer">
+  Filter by event type: `1` for pageviews, `2` for custom events.
+</ParamField>
+
+<ParamField query="excludeBounce" type="string">
+  Set to any non-empty value to exclude single-pageview visits.
+</ParamField>
+
+<ParamField query="segment" type="string">
+  UUID of a saved segment to apply.
+</ParamField>
+
+<ParamField query="cohort" type="string">
+  UUID of a saved cohort to filter by.
+</ParamField>
+
+<ParamField query="match" type="string">
+  Filter combination logic: `all` (AND, default) or `any` (OR).
+</ParamField>
+
+## Response
+
+**200 – Success**
+
+Returns an array of ranked rows, sorted by `y` (count) in descending order.
+
+<ResponseField name="[].x" type="string | null" required>
+  The dimension value, e.g. `"/blog/my-post"` for `type=path`, or `"US"` for `type=country`. `null` when the dimension value is unknown.
+</ResponseField>
+
+<ResponseField name="[].y" type="number" required>
+  The count for this dimension value. For activity dimensions (`path`, `event`, etc.) this is pageviews or event fires. For visitor dimensions (`country`, `browser`, `os`, etc.) this is unique visitors.
+</ResponseField>
+
+<ResponseField name="[].t" type="string">
+  An optional secondary label returned for certain dimension types.
+</ResponseField>
+
+```json 200 Response
+[
+  { "x": "/pricing", "y": 4821 },
+  { "x": "/docs/getting-started", "y": 3204 },
+  { "x": "/blog/privacy-analytics", "y": 2987 },
+  { "x": "/", "y": 2541 },
+  { "x": "/features", "y": 1876 },
+  { "x": null, "y": 43 }
+]
+```
+
+## Code Sample
+
+```bash
+# Top 10 pages by pageviews for the last 30 days
+curl -X GET 'https://api.umami.is/v1/websites/b8d3a1f0-1c2d-4e5f-8a9b-0c1d2e3f4a5b/metrics?type=path&startAt=1754784000000&endAt=1757376000000&limit=10' \
+  -H 'Authorization: Bearer <api-key>'
+```

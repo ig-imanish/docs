@@ -1,0 +1,88 @@
+# Source: https://docs.umami.is/docs/guides/running-on-caprover
+
+Menu
+
+Hosting
+
+# Running on CapRover
+
+Copy page
+
+[CapRover](https://caprover.com) is an extremely easy to use app/database deployment & web server manager for your NodeJS, Python, PHP, ASP.NET, Ruby, MySQL, MongoDB, PostgreSQL, WordPress (and etc...) applications! It's blazingly fast and very robust as it uses Docker, nginx, LetsEncrypt and NetData under the hood behind its simple-to-use interface.
+
+- CLI for automation and scripting
+- Web GUI for ease of access and convenience
+- No lock-in! Remove CapRover and your apps keep working!
+- Docker Swarm under the hood for containerization and clustering
+- Nginx (fully customizable template) under the hood for load-balancing
+- Let's Encrypt under the hood for free SSL (HTTPS)
+
+## Setup[#](https://docs.umami.is/docs/guides/running-on-caprover#setup)
+
+Setup of CapRover Umami is fairly easy. Follow the steps below to set up a Umami on CapRover:
+
+### 1\. Visit your CapRover Dashboard[#](https://docs.umami.is/docs/guides/running-on-caprover#1-visit-your-caprover-dashboard)
+
+Login to your existing CapRover instance account at `captain.your-sub-domain.your-domain.xx`.
+
+If you don't have an existing CapRover instance check out their docs at [CapRover - Get Started](https://caprover.com/docs/get-started.html).
+
+### 2\. Create app from template[#](https://docs.umami.is/docs/guides/running-on-caprover#2-create-app-from-template)
+
+Click on the "Apps" section of your CapRover instance. Now select "One-Click Apps/Databases" and search for Umami. You will find 3 options:
+
+- `umami_postgresql` will create Umami with a PostgreSQL database.
+- `umami_mysql` will create Umami with a MySQL database.
+- `umami_only` will create Umami alone and you need run your database infrastructure on your own and provide the database credentials in the setup.
+
+### 3\. Setup Umami with database[#](https://docs.umami.is/docs/guides/running-on-caprover#3-setup-umami-with-database)
+
+After selecting `umami_postgresql` or `umami_mysql` from the CapRover One-Click Apps, you'll be prompted with a setup page where you can specify some env variables. Notice how most of them are already configured.
+
+- `App Name` is the display name for your Umami instance in CapRover.
+- `PostgreSQL or MySQL Version` can be any PostgreSQL OR MySQL version available on [PostgreSQL - Docker Hub](https://hub.docker.com/_/postgres) or [MYSQL - Docker Hub](https://hub.docker.com/_/mysql). The default value has successfully been tested to work with Umami.
+- `CapRover Umami Version` refers to the CapRover Umami latest release found on the [Umami release page](https://github.com/umami-software/umami/releases). CapRover Umami will use the official Docker image that has been released for specific database that you chose. Instead of using the version number like `v.1.33.x` you can use `latest` to build using the latest version of Umami.
+- `Database password` provides the used password for your database. There will always be a default value ready for you.
+- Optional: `Arguments for 'PostgreSQL initdb'` you can also provide arguments for PostgreSQL initdb like for example `--data-checksums` this option only available in `umami_postgresql`.
+
+Now just click on "Deploy" to start the setup of your CapRover Umami instance with Database service. Please do not leave the page until it's done.
+
+### 4\. Setup Umami without database services[#](https://docs.umami.is/docs/guides/running-on-caprover#4-setup-umami-without-database-services)
+
+In some scenarios you may need to manage your database service on your own or use a remote database service for your umami application for doing that you can use `umami_only` CapRover app.
+
+Before setting up this application, you need to create a database service using MySQL or PostgreSQL.
+
+After you setup your database, click on `umami_only` in CapRover and fill the variables in the setup:
+
+- `App Name` is the display name for your Umami instance in CapRover.
+- `CapRover Umami Version` refers to the CapRover Umami latest release found on the [Umami release page](https://github.com/umami-software/umami/releases). CapRover Umami will use the official Docker image that has been released for specific database that you chose. instead of using the version number like `v.1.33.x` you can use `latest` to build using the latest version of Umami.
+- `Database Type` set to `postgresql` or `mysql` according to your database service.
+- `Database Remote URL` is the database service remote url that Umami can use to connect to the database. If your database is in your CapRover network use `srv-captain--appName`.
+- `Database User` is your database user.
+- `Database Table` is the table that you created for your Umami application.
+- `Database Password` is your database password.
+
+Now just click on "Deploy" to start the setup of your CapRover Umami instance.
+
+Please do not leave the page until it's done.
+
+### 5\. Final checkouts[#](https://docs.umami.is/docs/guides/running-on-caprover#5-final-checkouts)
+
+You're now able to login to your Umami deployment at `app-name.your-sub-domain.your-domain.xx` as described in the [Login](https://docs.umami.is/docs/login) section. Please immediately change your password on the profile page.
+
+### 6\. Updating existing umami instance[#](https://docs.umami.is/docs/guides/running-on-caprover#6-updating-existing-umami-instance)
+
+First make a backup from your database before doing the update. After you make a backup, just go to the CapRover panel and select your Umami app. Go to the `Deployment` tab and scroll down to `Deploy via ImageName` and deploy the desired version from the [Umami Docker Registry](https://github.com/umami-software/umami/pkgs/container/umami).
+
+Select the matching database image
+
+Do not forget to select the right Docker image according to your database. Usually the MySQL images are prefixed with `mysql_` and the PostgreSQL images are prefixed with `postgresql_`.
+
+## Support[#](https://docs.umami.is/docs/guides/running-on-caprover#support)
+
+Create an issue on [GitHub](https://github.com/caprover/one-click-apps/issues).
+
+[PreviousRunning on bunny.net](https://docs.umami.is/docs/guides/running-on-bunny) [NextRunning on Cloudzy](https://docs.umami.is/docs/guides/running-on-cloudzy)
+
+On this page

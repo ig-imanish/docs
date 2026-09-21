@@ -1,0 +1,286 @@
+---
+title: "List Tracked Pageviews and Custom Events"
+sidebarTitle: "Get Events"
+description: "Retrieve a paginated log of individual pageviews and custom events recorded for a website, with full session context, newest first. Supports filtering and search."
+---
+
+Use this endpoint to page through the raw event log for a website. Each record represents either a pageview (`eventType: 1`) or a custom event (`eventType: 2`) and includes the full session context: URL path, query string, referrer domain, page title, event name, and the optional `distinctId` you set for logged-in visitors. Results are returned newest first and are paginated.
+
+`GET /api/websites/{websiteId}/events`
+
+## Request
+
+### Headers
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token. Pass your API key: `Authorization: Bearer <api-key>`
+</ParamField>
+
+### Path Parameters
+
+<ParamField path="websiteId" type="string" required>
+  The unique UUID of the website to query.
+</ParamField>
+
+### Query Parameters
+
+#### Pagination
+
+<ParamField query="page" type="integer">
+  Page number to return, starting at `1`. Defaults to `1`.
+</ParamField>
+
+<ParamField query="pageSize" type="integer">
+  Number of event records per page. Defaults to server-defined limit.
+</ParamField>
+
+<ParamField query="maxResults" type="integer">
+  Hard cap on the total number of results returned.
+</ParamField>
+
+<ParamField query="search" type="string">
+  Search string applied across event details such as URL path, event name, and page title.
+</ParamField>
+
+#### Date Range
+
+<ParamField query="startAt" type="number">
+  Start of the date range as a Unix timestamp in **milliseconds**.
+</ParamField>
+
+<ParamField query="endAt" type="number">
+  End of the date range as a Unix timestamp in **milliseconds**.
+</ParamField>
+
+<ParamField query="startDate" type="string">
+  Start of the date range as an ISO 8601 date or datetime.
+</ParamField>
+
+<ParamField query="endDate" type="string">
+  End of the date range as an ISO 8601 date or datetime.
+</ParamField>
+
+<ParamField query="timezone" type="string">
+  IANA time zone for date interpretation, e.g. `America/Los_Angeles`.
+</ParamField>
+
+#### Filters
+
+<ParamField query="eventType" type="integer">
+  Filter by event type: `1` for pageviews, `2` for custom events.
+</ParamField>
+
+<ParamField query="event" type="string">
+  Filter by custom event name, e.g. `"signup"`.
+</ParamField>
+
+<ParamField query="path" type="string">
+  Filter by URL path.
+</ParamField>
+
+<ParamField query="referrer" type="string">
+  Filter by referring URL.
+</ParamField>
+
+<ParamField query="title" type="string">
+  Filter by page title.
+</ParamField>
+
+<ParamField query="query" type="string">
+  Filter by URL query string.
+</ParamField>
+
+<ParamField query="os" type="string">
+  Filter by visitor operating system.
+</ParamField>
+
+<ParamField query="browser" type="string">
+  Filter by visitor browser.
+</ParamField>
+
+<ParamField query="device" type="string">
+  Filter by device category.
+</ParamField>
+
+<ParamField query="country" type="string">
+  Filter by ISO 3166-1 alpha-2 country code.
+</ParamField>
+
+<ParamField query="region" type="string">
+  Filter by visitor region.
+</ParamField>
+
+<ParamField query="city" type="string">
+  Filter by visitor city.
+</ParamField>
+
+<ParamField query="language" type="string">
+  Filter by browser language.
+</ParamField>
+
+<ParamField query="utmSource" type="string">
+  Filter by UTM source.
+</ParamField>
+
+<ParamField query="utmMedium" type="string">
+  Filter by UTM medium.
+</ParamField>
+
+<ParamField query="utmCampaign" type="string">
+  Filter by UTM campaign name.
+</ParamField>
+
+<ParamField query="utmContent" type="string">
+  Filter by UTM content.
+</ParamField>
+
+<ParamField query="utmTerm" type="string">
+  Filter by UTM term.
+</ParamField>
+
+<ParamField query="tag" type="string">
+  Filter by a tag attached to tracked activity.
+</ParamField>
+
+<ParamField query="hostname" type="string">
+  Filter by hostname.
+</ParamField>
+
+<ParamField query="distinctId" type="string">
+  Filter by a custom visitor identifier.
+</ParamField>
+
+<ParamField query="excludeBounce" type="string">
+  Set to any non-empty value to exclude events from single-pageview visits.
+</ParamField>
+
+<ParamField query="segment" type="string">
+  UUID of a saved segment to apply.
+</ParamField>
+
+<ParamField query="cohort" type="string">
+  UUID of a saved cohort to filter by.
+</ParamField>
+
+<ParamField query="match" type="string">
+  Filter combination logic: `all` (AND, default) or `any` (OR).
+</ParamField>
+
+## Response
+
+**200 – Success**
+
+<ResponseField name="count" type="integer" required>
+  Total number of event records matching the query.
+</ResponseField>
+
+<ResponseField name="data" type="WebsiteEvent[]" required>
+  Array of event records, newest first.
+</ResponseField>
+
+<ResponseField name="data[].id" type="string">
+  Unique UUID of this event record.
+</ResponseField>
+
+<ResponseField name="data[].websiteId" type="string">
+  UUID of the website this event belongs to.
+</ResponseField>
+
+<ResponseField name="data[].sessionId" type="string">
+  UUID of the session in which this event occurred.
+</ResponseField>
+
+<ResponseField name="data[].createdAt" type="string">
+  ISO 8601 timestamp when this event was recorded.
+</ResponseField>
+
+<ResponseField name="data[].urlPath" type="string">
+  URL path where the event occurred, e.g. `/checkout`.
+</ResponseField>
+
+<ResponseField name="data[].urlQuery" type="string">
+  URL query string at the time of the event.
+</ResponseField>
+
+<ResponseField name="data[].referrerDomain" type="string">
+  Domain of the referring page.
+</ResponseField>
+
+<ResponseField name="data[].pageTitle" type="string">
+  Title of the page at the time of the event.
+</ResponseField>
+
+<ResponseField name="data[].hostname" type="string">
+  Hostname on which the event was recorded.
+</ResponseField>
+
+<ResponseField name="data[].eventType" type="integer">
+  Event type: `1` for a pageview, `2` for a custom event.
+</ResponseField>
+
+<ResponseField name="data[].eventName" type="string">
+  Name of the custom event, e.g. `"add_to_cart"`. Empty for pageviews.
+</ResponseField>
+
+<ResponseField name="data[].distinctId" type="string">
+  Custom identifier assigned to the visitor by your application, if set.
+</ResponseField>
+
+<ResponseField name="page" type="integer" required>
+  Current page number.
+</ResponseField>
+
+<ResponseField name="pageSize" type="integer" required>
+  Number of records per page.
+</ResponseField>
+
+<ResponseField name="isCapped" type="boolean">
+  `true` if the result set was truncated by the `maxResults` limit.
+</ResponseField>
+
+```json 200 Response
+{
+  "count": 2348,
+  "data": [
+    {
+      "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "websiteId": "b8d3a1f0-1c2d-4e5f-8a9b-0c1d2e3f4a5b",
+      "sessionId": "d4e5f6a7-b8c9-0123-def0-123456789abc",
+      "createdAt": "2024-08-07T14:23:11Z",
+      "urlPath": "/checkout",
+      "urlQuery": "?plan=pro",
+      "referrerDomain": "google.com",
+      "pageTitle": "Upgrade to Pro – Betterumami",
+      "hostname": "betterumami.com",
+      "eventType": 2,
+      "eventName": "upgrade_click",
+      "distinctId": "user_98765"
+    },
+    {
+      "id": "b2c3d4e5-f6a7-8901-bcde-f01234567890",
+      "websiteId": "b8d3a1f0-1c2d-4e5f-8a9b-0c1d2e3f4a5b",
+      "sessionId": "e5f6a7b8-c9d0-1234-ef01-23456789abcd",
+      "createdAt": "2024-08-07T14:21:55Z",
+      "urlPath": "/pricing",
+      "urlQuery": "",
+      "referrerDomain": "twitter.com",
+      "pageTitle": "Pricing – Betterumami",
+      "hostname": "betterumami.com",
+      "eventType": 1,
+      "eventName": "",
+      "distinctId": ""
+    }
+  ],
+  "page": 1,
+  "pageSize": 50,
+  "isCapped": false
+}
+```
+
+## Code Sample
+
+```bash
+# List the last 50 custom events for a website
+curl -X GET 'https://api.umami.is/v1/websites/b8d3a1f0-1c2d-4e5f-8a9b-0c1d2e3f4a5b/events?eventType=2&page=1&pageSize=50&startAt=1722470400000&endAt=1723075200000' \
+  -H 'Authorization: Bearer <api-key>'
+```

@@ -1,0 +1,166 @@
+---
+title: "Update an Existing Website's Settings"
+sidebarTitle: "Update Website"
+description: "Modify a website's name, domain, public share token, or session replay and heatmap recording configuration. Only fields you include are updated."
+---
+
+Use this endpoint to change a website's name, domain, sharing settings, or session recording configuration. You only need to include the fields you want to change — any field you omit remains unchanged. The response returns the full updated website object so you can confirm every value.
+
+`POST /api/websites/{websiteId}`
+
+## Request
+
+### Headers
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token. Pass your API key: `Authorization: Bearer <api-key>`
+</ParamField>
+
+<ParamField header="Content-Type" type="string" required>
+  Must be `application/json`.
+</ParamField>
+
+### Path Parameters
+
+<ParamField path="websiteId" type="string" required>
+  The unique UUID of the website to update.
+</ParamField>
+
+### Body Parameters
+
+<ParamField body="name" type="string">
+  New display name for the website.
+</ParamField>
+
+<ParamField body="domain" type="string">
+  New domain to associate with this website, e.g. `"newdomain.com"`.
+</ParamField>
+
+<ParamField body="shareId" type="string | null">
+  New public share token. Set to `null` to disable public sharing, or provide a unique string to enable or change the share link.
+</ParamField>
+
+<ParamField body="replayConfig" type="object">
+  Session replay and heatmap recording settings to update. All sub-fields are optional.
+</ParamField>
+
+<ParamField body="replayConfig.replayEnabled" type="boolean">
+  Enable or disable session replay recording.
+</ParamField>
+
+<ParamField body="replayConfig.heatmapEnabled" type="boolean">
+  Enable or disable heatmap data capture.
+</ParamField>
+
+<ParamField body="replayConfig.sampleRate" type="number">
+  Fraction of sessions to record, from `0.0` (none) to `1.0` (all).
+</ParamField>
+
+<ParamField body="replayConfig.heatmapSampleRate" type="number">
+  Fraction of sessions from which heatmap data is captured.
+</ParamField>
+
+<ParamField body="replayConfig.maskLevel" type="string">
+  Privacy masking level: `"strict"`, `"moderate"`, or `"none"`.
+</ParamField>
+
+<ParamField body="replayConfig.blockSelector" type="string">
+  CSS selector targeting DOM elements to exclude from recordings.
+</ParamField>
+
+<ParamField body="replayConfig.maxDuration" type="number">
+  Maximum session recording length in seconds. Use `0` for no limit.
+</ParamField>
+
+## Response
+
+**200 – Success**
+
+Returns the full updated website object.
+
+<ResponseField name="id" type="string" required>
+  UUID of the website.
+</ResponseField>
+
+<ResponseField name="name" type="string" required>
+  Updated display name.
+</ResponseField>
+
+<ResponseField name="domain" type="string | null" required>
+  Updated domain.
+</ResponseField>
+
+<ResponseField name="shareId" type="string | null" required>
+  Updated public share token, or `null`.
+</ResponseField>
+
+<ResponseField name="teamId" type="string | null" required>
+  UUID of the assigned team, unchanged by this operation.
+</ResponseField>
+
+<ResponseField name="userId" type="string | null" required>
+  UUID of the owning user.
+</ResponseField>
+
+<ResponseField name="recorderEnabled" type="boolean" required>
+  Whether recording is currently active.
+</ResponseField>
+
+<ResponseField name="replayConfig" type="object" required>
+  The updated session replay and heatmap recording configuration.
+</ResponseField>
+
+<ResponseField name="resetAt" type="string | null" required>
+  Timestamp of the last analytics data reset.
+</ResponseField>
+
+<ResponseField name="createdAt" type="string | null" required>
+  ISO 8601 timestamp when the website was originally created.
+</ResponseField>
+
+<ResponseField name="updatedAt" type="string | null" required>
+  ISO 8601 timestamp of this update.
+</ResponseField>
+
+```json 200 Response
+{
+  "id": "b8d3a1f0-1c2d-4e5f-8a9b-0c1d2e3f4a5b",
+  "name": "My Rebranded Site",
+  "domain": "newdomain.com",
+  "shareId": "public-dashboard-2024",
+  "teamId": null,
+  "userId": "123e4567-e89b-12d3-a456-426614174000",
+  "createdBy": "123e4567-e89b-12d3-a456-426614174000",
+  "recorderEnabled": true,
+  "replayConfig": {
+    "replayEnabled": true,
+    "heatmapEnabled": true,
+    "sampleRate": 0.05,
+    "heatmapSampleRate": 0.1,
+    "maskLevel": "strict",
+    "blockSelector": ".payment-form",
+    "maxDuration": 1800
+  },
+  "resetAt": null,
+  "createdAt": "2024-03-01T10:00:00Z",
+  "updatedAt": "2024-09-01T08:45:00Z",
+  "deletedAt": null,
+  "user": {
+    "id": "123e4567-e89b-12d3-a456-426614174000",
+    "username": "alice"
+  }
+}
+```
+
+## Code Sample
+
+```bash
+curl -X POST 'https://api.umami.is/v1/websites/b8d3a1f0-1c2d-4e5f-8a9b-0c1d2e3f4a5b' \
+  -H 'Authorization: Bearer <api-key>' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "name": "My Rebranded Site",
+    "domain": "newdomain.com",
+    "shareId": "public-dashboard-2024"
+  }'
+```

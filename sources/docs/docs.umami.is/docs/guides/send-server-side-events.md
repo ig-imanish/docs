@@ -1,0 +1,153 @@
+# Source: https://docs.umami.is/docs/guides/send-server-side-events
+
+Menu
+
+Developer
+
+# Send server-side events
+
+Copy page
+
+Track events from your backend services using the Umami API. This is useful for recording actions that happen outside the browser, such as webhook events, payment completions, or background job results.
+
+## When to use server-side tracking[#](https://docs.umami.is/docs/guides/send-server-side-events#when-to-use-server-side-tracking)
+
+- **Payment webhooks**: Record purchases confirmed by Stripe, PayPal, or other payment processors.
+- **API actions**: Track when users perform actions through your API (e.g., mobile app events).
+- **Background jobs**: Record events from cron jobs, email sends, or data processing pipelines.
+- **Importing historical data**: Backfill events from another analytics platform.
+
+## Using the Node client[#](https://docs.umami.is/docs/guides/send-server-side-events#using-the-node-client)
+
+The simplest approach for Node.js backends is the [Umami Node client](https://docs.umami.is/docs/api/node-client):
+
+```bash
+npm install @umami/node
+```
+
+```js
+import umami from '@umami/node';
+
+umami.init({
+  websiteId: 'your-website-id',
+  hostUrl: 'https://your-umami.example.com',
+});
+
+// Track a page view
+await umami.track({ url: '/api/checkout', title: 'Checkout API' });
+
+// Track a custom event
+await umami.track({
+  name: 'payment-received',
+  data: {
+    revenue: 49.99,
+    currency: 'USD',
+    plan: 'pro',
+  },
+});
+```
+
+## Using the API directly[#](https://docs.umami.is/docs/guides/send-server-side-events#using-the-api-directly)
+
+Send a POST request to `/api/send` with the event payload:
+
+```bash
+curl -X POST https://your-umami.example.com/api/send \
+  -H "Content-Type: application/json" \
+  -H "User-Agent: Mozilla/5.0 (Server)" \
+  -d '{
+    "payload": {
+      "hostname": "example.com",
+      "language": "en-US",
+      "url": "/checkout",
+      "website": "your-website-id",
+      "name": "payment-received",
+      "data": {
+        "revenue": 49.99,
+        "currency": "USD"
+      }
+    },
+    "type": "event"
+  }'
+```
+
+User-Agent required
+
+A valid `User-Agent` header is required. Requests without one will be rejected.
+
+### Python example[#](https://docs.umami.is/docs/guides/send-server-side-events#python-example)
+
+```python
+import requests
+
+requests.post('https://your-umami.example.com/api/send', json={
+    'payload': {
+        'hostname': 'example.com',
+        'language': 'en-US',
+        'url': '/checkout',
+        'website': 'your-website-id',
+        'name': 'payment-received',
+        'data': {
+            'revenue': 49.99,
+            'currency': 'USD',
+        },
+    },
+    'type': 'event',
+}, headers={
+    'User-Agent': 'MyApp/1.0',
+})
+```
+
+## Batch sending[#](https://docs.umami.is/docs/guides/send-server-side-events#batch-sending)
+
+To send multiple events in a single request, POST a JSON **array** to the `/api/batch` endpoint. Each element of the array has the same shape as an `/api/send` request body:
+
+```bash
+curl -X POST https://your-umami.example.com/api/batch \
+  -H "Content-Type: application/json" \
+  -H "User-Agent: Mozilla/5.0 (Server)" \
+  -d '[
+    {
+      "type": "event",
+      "payload": {
+        "website": "your-website-id",
+        "hostname": "example.com",
+        "url": "/page-1",
+        "name": "page-view"
+      }
+    },
+    {
+      "type": "event",
+      "payload": {
+        "website": "your-website-id",
+        "hostname": "example.com",
+        "url": "/page-2",
+        "name": "page-view"
+      }
+    }
+  ]'
+```
+
+Each item is forwarded to `/api/send`, so the same `type` values (`event`, `identify`, `performance`) and payload fields are supported. The response summarizes the batch:
+
+```json
+{
+  "size": 2,
+  "processed": 2,
+  "errors": 0,
+  "details": [],
+  "cache": "..."
+}
+```
+
+If any items fail, `errors` is the failure count and `details` lists each failure by its `index` in the array.
+
+Tips
+
+- Server-side events appear in the same dashboard as client-side events. Use event names or properties to distinguish them if needed.
+- When tracking revenue from payment webhooks, use the `revenue` and `currency` properties so data appears in the [Revenue](https://docs.umami.is/docs/revenue) insight.
+- For high-volume backends, consider queuing events and sending them with concurrency limits to avoid overwhelming your instance.
+
+[PreviousEmbed analytics in your app](https://docs.umami.is/docs/guides/embed-analytics-in-your-app) [NextAutomate reporting with the API](https://docs.umami.is/docs/guides/automate-reporting-with-api)
+
+On this page

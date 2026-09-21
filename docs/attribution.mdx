@@ -1,0 +1,66 @@
+---
+title: "Attribution: Credit the Right Marketing Sources"
+sidebarTitle: "Attribution"
+description: "Connect referrers, UTM campaigns, and paid ads to conversions via first-click or last-click attribution models to see which channels drive real results."
+---
+
+Attribution answers the question every marketing team asks: which channel, campaign, or referrer actually drove this conversion? Betterumami's Attribution insight works by connecting all the traffic-source data it collects — referrers, UTM parameters, and paid ad signals — to a conversion action you define, then distributing credit among those sources according to an attribution model you choose. The result is a ranked table showing which sources sent converting visitors, expressed through either the first touch that introduced them or the last touch that brought them back to convert. Running both models and comparing them is the most informative way to use this report.
+
+## Attribution models
+
+| Model | How credit is assigned | Best for understanding |
+| --- | --- | --- |
+| **First-Click** | Full credit goes to the very first recorded traffic source before the visitor converted. | Which channels introduce new visitors to your site (discovery and awareness). |
+| **Last-Click** | Full credit goes to the final traffic source recorded immediately before the conversion. | Which channels close — the final push that brings a visitor back to convert. |
+
+Neither model is "correct" in isolation. First-click flatters discovery channels like content and social; last-click flatters closing channels like branded search and email to existing subscribers. Running both and comparing the gap tells you which channels are doing awareness work versus conversion work.
+
+## Parameters
+
+| Parameter | Description |
+| --- | --- |
+| **Model** | (required) The attribution model to apply: First-Click or Last-Click. |
+| **Type** | (required) Whether the conversion is defined as a page view or a triggered event. |
+| **Conversion Step** | (required) The specific page URL or event name that counts as a conversion. |
+
+## Conversion step types
+
+| Type | Description | Example |
+| --- | --- | --- |
+| **Viewed page** | The visitor must have viewed this specific URL path to count as a conversion. | `/thank-you`, `/pricing`, `/welcome` |
+| **Triggered event** | The visitor must have triggered this specific named event to count as a conversion. | `checkout-cart`, `signup`, `purchase-complete` |
+
+## How to create an Attribution insight
+
+<Steps>
+  <Step title="Open the Attribution insight">
+    Navigate to your website and select **Attribution** from the insights navigation.
+  </Step>
+  <Step title="Choose an attribution model">
+    Select either **First-Click** or **Last-Click** from the **Model** dropdown. If you want to compare both, start with one and re-run after switching.
+  </Step>
+  <Step title="Choose the conversion type">
+    Select **Viewed page** or **Triggered event** from the **Type** dropdown, depending on how your conversion is defined.
+  </Step>
+  <Step title="Enter the Conversion Step">
+    Type the URL path or event name that defines a conversion. For a page view, enter the path exactly as it appears in your analytics (e.g., `/thank-you`). For an event, enter the event name exactly as it is sent by your tracker (e.g., `checkout-cart`).
+  </Step>
+  <Step title="Run the insight">
+    Click **Run**. The results display as a table ranking each traffic source — referrer, UTM source, UTM medium, UTM campaign, and so on — by the number of conversions attributed to it under the selected model.
+  </Step>
+</Steps>
+
+## Reading the results
+
+The Attribution report ranks sources by attributed conversions. Each row shows the source name and the conversion count under the chosen model. Switching between First-Click and Last-Click and comparing the rankings reveals each channel's role:
+
+- A source that ranks high in **First-Click** but low in **Last-Click** is a strong discovery channel — it introduces visitors who eventually convert through other means.
+- A source that ranks high in **Last-Click** but low in **First-Click** is a strong closing channel — it re-engages visitors who were introduced elsewhere.
+
+<Tip>
+After identifying your top converting sources in Attribution, use the [Breakdown](/docs/breakdown) report filtered to a specific UTM campaign or referrer to see which individual pages on your site those visitors landed on and how they engaged. This connects traffic-source performance to on-site behavior.
+</Tip>
+
+<Note>
+Attribution quality depends directly on how consistently you tag your campaign links with UTM parameters. Untagged links do not disappear — they fall into your "direct" or generic referrer buckets, quietly under-crediting the channel that sent them. For best results, establish and follow a consistent UTM naming convention for all outbound campaign links.
+</Note>

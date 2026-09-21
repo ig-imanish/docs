@@ -1,0 +1,53 @@
+---
+title: "Breakdown: Segment Your Data by Any Dimension"
+sidebarTitle: "Breakdown"
+description: "Aggregate your Betterumami data by any combination of fields — path, browser, country, device, and more — to uncover patterns in your audience."
+---
+
+The Breakdown report gives you a flexible, query-style view of your analytics data. Instead of being limited to the fixed cards on the Overview Dashboard, you choose exactly which dimensions you want to group by, add any filters you need, and run the report to see your traffic and engagement metrics broken down to that level of detail. It is the right tool when you have a specific question that the standard cards cannot answer — for example: "how do my blog posts perform for mobile visitors in Canada?" or "which browser and OS combination has the highest bounce rate?"
+
+## Metrics
+
+Every Breakdown report returns the following five metrics for each combination of field values.
+
+| Metric | Description |
+| --- | --- |
+| **Visitors** | Unique visitors matching that combination of field values. |
+| **Visits** | Total sessions for that combination. |
+| **Views** | Total page views for that combination. |
+| **Bounce Rate** | Percentage of visits where the visitor left after a single page view. |
+| **Visit Duration** | Average time spent per visit for that combination. |
+
+## Parameters
+
+| Parameter | Description |
+| --- | --- |
+| **Fields** | (required) One or more dimensions to group by. Defaults to **Path**. Includes all pageview and session metrics collected by the tracker script. |
+| **Filters** | (optional) Conditions to limit the data before grouping. Uses the same filter categories and operators available throughout Betterumami. |
+
+## How to create a Breakdown report
+
+<Steps>
+  <Step title="Open the Breakdown insight">
+    Navigate to your website and select **Breakdown** from the insights navigation.
+  </Step>
+  <Step title="Choose your field(s)">
+    Click the **Fields** selector. The default field is **Path**, which segments data by page URL. You can change it or add additional fields — such as Browser, OS, Country, Device, Referrer, or any UTM parameter — to create a multi-dimensional breakdown.
+
+    For example, selecting **Path** and **Device** together shows each page's metrics split by device type.
+  </Step>
+  <Step title="Add filters (optional)">
+    Click **Add filter** to narrow the dataset before the breakdown runs. Filters here use the same categories and operators as the universal filter panel — you can filter by URL, location, environment, UTM data, or custom session properties.
+  </Step>
+  <Step title="Run the insight">
+    Click **Run** to execute the breakdown. Results display as a sortable table. Click any column header to sort by that metric ascending or descending.
+  </Step>
+</Steps>
+
+<Tip>
+Start with a broad breakdown (Path only) to find the pages worth investigating, then add a second field like Device or Country to understand whether performance differences are driven by audience segment. You can also layer a filter on top — for example, filter to a specific UTM campaign, then break down by Path to see which landing pages that campaign drove traffic to.
+</Tip>
+
+<Note>
+The fields available in the Breakdown picker include all data collected by the Betterumami tracker script — both standard pageview data (path, title, query string) and session-level data (browser, OS, device, country, region, city, referrer, UTM parameters). Custom session properties you send via the tracker also appear as available fields.
+</Note>

@@ -1,0 +1,64 @@
+---
+title: "Install Betterumami via Google Tag Manager"
+sidebarTitle: "Google Tag Manager"
+description: "Add the Betterumami tracking script to any website through Google Tag Manager using a Custom HTML tag — no direct HTML editing required."
+---
+
+Google Tag Manager (GTM) lets you deploy and update tracking scripts across your website from a single interface, without touching your site's source code. You can install the Betterumami tracking script through GTM in just a few minutes using a **Custom HTML** tag. This approach is especially useful when you do not have direct access to your site's HTML, or when you manage tracking across multiple properties from one GTM container.
+
+## Why a Custom HTML tag is required
+
+Normally, the Betterumami tracker is added to a page with a standard script tag:
+
+```html
+<script
+  defer
+  src="https://cloud.betterumami.com/script.js"
+  data-website-id="your-website-id"
+></script>
+```
+
+Unfortunately, Google Tag Manager **strips custom `data-*` attributes** from script tags it manages. Because the tracker requires `data-website-id` to identify which website is sending data, the standard script tag does not work inside GTM. The solution is to create the script element dynamically using JavaScript inside a Custom HTML tag — this bypasses GTM's attribute stripping entirely.
+
+---
+
+## Add the tracking script in GTM
+
+<Steps>
+  <Step title="Create a new tag">
+    In your Google Tag Manager container, click **Tags** in the left navigation, then click **New**.
+  </Step>
+  <Step title="Choose Custom HTML as the tag type">
+    Click **Tag Configuration**, then select **Custom HTML** from the list of tag types.
+  </Step>
+  <Step title="Paste the tracking code">
+    Copy the code below into the HTML field. Replace the `src` value with the script URL from your Betterumami website settings, and replace the `data-website-id` value with your actual website ID.
+
+    ```html
+    <script>
+      (function () {
+        var el = document.createElement('script');
+        el.setAttribute('src', 'https://cloud.betterumami.com/script.js');
+        el.setAttribute('data-website-id', 'your-website-id');
+        document.body.appendChild(el);
+      })();
+    </script>
+    ```
+
+    You can find both values in **Settings → Websites → [your website] → Tracking code**.
+  </Step>
+  <Step title="Set the trigger to All Pages">
+    Click **Triggering**, then select the **All Pages** trigger (or a custom page trigger if you only want to track specific pages).
+  </Step>
+  <Step title="Save and publish">
+    Click **Save** to save the tag, then click **Submit** in the GTM toolbar and publish your container. The Betterumami tracker will begin loading on your website immediately after the container is published.
+  </Step>
+</Steps>
+
+<Tip>
+  Use GTM's **Preview** mode to verify the tag fires correctly on your pages before publishing. Open your website in preview mode and confirm the Betterumami tag appears in the list of fired tags.
+</Tip>
+
+<Note>
+  If you have multiple websites in Betterumami, create a separate Custom HTML tag for each one, each with its own `data-website-id`. You can use GTM triggers to control which tag fires on which pages or domains.
+</Note>

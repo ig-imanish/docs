@@ -1,0 +1,158 @@
+# Source: https://docs.umami.is/docs/tracker-functions
+
+Menu
+
+Tracking
+
+# Tracker functions
+
+Copy page
+
+The Umami tracker exposes a function that you can call on your website if you want more control over your tracking. By default everything is automatically collected, but you can disable automatic pageviews using `data-auto-pageview="false"` and send them yourself with `umami.track()`. Use `data-auto-track="false"` only if you want to disable tracker initialization entirely. See [Tracker configuration](https://docs.umami.is/docs/tracker-configuration).
+
+## Functions[#](https://docs.umami.is/docs/tracker-functions#functions)
+
+v2.0.0
+
+```js
+// Tracks the current page
+umami.track();
+
+// Custom payload
+umami.track(payload: object);
+
+// Custom event
+umami.track(event_name: string);
+
+// Custom event with data
+umami.track(event_name: string, data: object);
+
+// Assign ID to current session
+umami.identify(unique_id: string);
+
+// Session data
+umami.identify(unique_id: string, data: object);
+
+// Session data without ID
+umami.identify(data: object);
+```
+
+## Pageviews[#](https://docs.umami.is/docs/tracker-functions#pageviews)
+
+v2.0.0
+
+Track a page view.
+
+```js
+umami.track();
+```
+
+By default the tracker automatically collects the following properties:
+
+| Property | Description |
+| --- | --- |
+| `hostname` | Hostname of server |
+| `language` | Browser language |
+| `referrer` | Page referrer |
+| `screen` | Screen dimensions (e.g. 1920x1080) |
+| `title` | Page title |
+| `url` | Page URL |
+| `website` | Website ID (required) |
+
+If you wish to send your own custom payload, pass in an object to the function:
+
+```js
+umami.track({ website: 'e676c9b4-11e4-4ef1-a4d7-87001773e9f2', url: '/home', title: 'Home page' });
+```
+
+The above will only send the properties `website`, `url` and `title`. If you want to include existing properties, pass in a function:
+
+```js
+umami.track(props => ({ ...props, url: '/home', title: 'Home page' }));
+```
+
+## Events[#](https://docs.umami.is/docs/tracker-functions#events)
+
+v2.0.0
+
+Track an event with a given name.
+
+```js
+umami.track('signup-button');
+```
+
+## Event Data[#](https://docs.umami.is/docs/tracker-functions#event-data)
+
+v2.0.0
+
+Track an event with dynamic data.
+
+```js
+umami.track('signup-button', { plan: 'newsletter', id: 123 });
+```
+
+When tracking events, the default properties are included in the payload. This is equivalent to running:
+
+```js
+umami.track(props => ({
+  ...props,
+  name: 'signup-button',
+  data: {
+    plan: 'newsletter',
+    id: 123,
+  },
+}));
+```
+
+## Event Data Limits[#](https://docs.umami.is/docs/tracker-functions#event-data-limits)
+
+Event Data can work with any JSON data. There are a few rules in place to maintain performance.
+
+| Data Type | Limit |
+| --- | --- |
+| Numbers | Max precision of 4. |
+| Strings | Max length of 500. |
+| Arrays | Converted to a string, max length of 500. |
+| Objects | Max of 50 properties. Arrays are considered 1 property. |
+
+## Overriding Event Timestamps[#](https://docs.umami.is/docs/tracker-functions#overriding-event-timestamps)
+
+You can override the event timestamp by adding a UNIX timestamp in seconds to the payload:
+
+```js
+umami.track(props => ({
+  ...props,
+  name: 'signup-button',
+  timestamp: 1771523787, // new Date().getTime() / 1000
+}));
+```
+
+## Sessions[#](https://docs.umami.is/docs/tracker-functions#sessions)
+
+v2.13.0
+
+Pass in your own ID to identify a user.
+
+```js
+umami.identify('unique_id');
+```
+
+## Session Data[#](https://docs.umami.is/docs/tracker-functions#session-data)
+
+v2.13.0
+
+Save data about the current session.
+
+```js
+umami.identify('unique_id', { name: 'Bob', email: 'bob@aol.com' });
+```
+
+To save data without a unique ID, pass in only a JSON object.
+
+```js
+umami.identify({ name: 'Bob', email: 'bob@aol.com' });
+```
+
+[PreviousExclude my own visits](https://docs.umami.is/docs/exclude-my-own-visits) [NextTracker configuration](https://docs.umami.is/docs/tracker-configuration)
+
+On this page

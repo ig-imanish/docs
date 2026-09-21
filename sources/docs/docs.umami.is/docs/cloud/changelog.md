@@ -1,0 +1,325 @@
+# Source: https://docs.umami.is/docs/cloud/changelog
+
+Menu
+
+Changelog
+
+# Changelog
+
+Copy page
+
+This page documents notable changes made to **Umami Cloud (cloud.umami.is)** and **API (api.umami.is)**.
+
+## September 10, 2026[#](https://docs.umami.is/docs/cloud/changelog#september-10-2026)
+
+**MCP**
+
+- Added a remote [Model Context Protocol](https://modelcontextprotocol.io) server at `https://cloud.umami.is/mcp`. Connect Claude, ChatGPT, Cursor, and other MCP clients to ask questions about your website traffic in natural language. See [MCP](https://docs.umami.is/docs/cloud/mcp) for setup instructions.
+- Authenticate with your existing Cloud API key using an `Authorization: Bearer api_<key>` header (or `x-umami-api-key`). The same subscription requirements and website/team permissions as the Cloud API apply.
+- All tools are read-only and cover stats, traffic, metrics, realtime, events, sessions, annotations, segments, funnels, goals, journeys, retention, attribution, revenue, and performance.
+
+## September 3, 2026[#](https://docs.umami.is/docs/cloud/changelog#september-3-2026)
+
+**Annotations**
+
+- Added [annotations](https://docs.umami.is/docs/annotations), which let you pin dated notes (deploys, campaign launches, outages) to a website's traffic chart. Available from the **Notes** button below the Overview chart.
+- Annotations appear as markers on the chart and are visible on shared and public dashboards.
+
+**API: Annotations**
+
+- `GET /api/websites/:websiteId/annotations`: **Added** — lists annotations for a website.
+- `POST /api/websites/:websiteId/annotations`: **Added** — creates an annotation.
+- `GET /api/websites/:websiteId/annotations/:annotationId`: **Added** — returns a single annotation.
+- `POST /api/websites/:websiteId/annotations/:annotationId`: **Added** — updates an annotation.
+- `DELETE /api/websites/:websiteId/annotations/:annotationId`: **Added** — deletes an annotation.
+
+## June 6, 2026[#](https://docs.umami.is/docs/cloud/changelog#june-6-2026)
+
+**Cloud**
+
+- Collect endpoint changed to gateway.umami.is.
+
+## June 1, 2026[#](https://docs.umami.is/docs/cloud/changelog#june-1-2026)
+
+**Heatmaps**
+
+- Added path filtering to heatmap pages.
+
+## May 28, 2026[#](https://docs.umami.is/docs/cloud/changelog#may-28-2026)
+
+**API: Revenue**
+
+- `GET /api/websites/:websiteId/revenue/chart`: **Added** — returns revenue chart data for a given date range and currency.
+- `GET /api/websites/:websiteId/revenue/stats`: **Added** — returns revenue statistics with optional period-over-period comparison.
+- `GET /api/websites/:websiteId/revenue/metrics`: **Added** — returns revenue breakdown by `type` (`country` | `region` | `referrer` | `channel`).
+- `GET /api/websites/:websiteId/revenue/sessions`: **Added** — returns paginated sessions with revenue data.
+
+**API: Websites**
+
+- `GET /api/websites/:websiteId/recorder`: **Added** — returns the recorder configuration for a website. Used by the tracker to initialize session replay and heatmap collection. Requires no authentication.
+- `POST /api/websites/:websiteId`: `replayConfig` is now a nested object. `replayEnabled` has moved inside `replayConfig`.
+
+## May 12, 2026[#](https://docs.umami.is/docs/cloud/changelog#may-12-2026)
+
+**Revenue**
+
+- Added cumulative mode to revenue charts.
+- Improved revenue query performance.
+
+## May 8, 2026[#](https://docs.umami.is/docs/cloud/changelog#may-8-2026)
+
+**Events**
+
+- Added a table/card view toggle to data grids.
+- Event chart labels now stay hidden when changing date ranges.
+
+## May 7, 2026[#](https://docs.umami.is/docs/cloud/changelog#may-7-2026)
+
+**Heatmaps**
+
+- Added heatmaps reports, including snapshot-based rendering.
+- Added share-page options for filtering and theme enforcement.
+
+**Cloud**
+
+- Added sorting to website, board, link, pixel, team, and admin tables.
+
+## May 5, 2026[#](https://docs.umami.is/docs/cloud/changelog#may-5-2026)
+
+**Heatmaps**
+
+- Added scroll heatmaps.
+
+## May 4, 2026[#](https://docs.umami.is/docs/cloud/changelog#may-4-2026)
+
+**API: Events**
+
+- `GET /api/websites/:websiteId/event-data-pivot`: **Added** — returns event data in a pivoted format with properties as parallel arrays.
+
+**API: Sessions**
+
+- `GET /api/websites/:websiteId/session-data-pivot`: **Added** — returns session data in a pivoted format with properties as parallel arrays.
+- `GET /api/websites/:websiteId/session-data/stats`: **Added** — returns aggregated activity statistics for sessions grouped by a property value.
+- `GET /api/websites/:websiteId/session-data/properties`: Added `propertyName` parameter to filter results to a specific property.
+- `GET /api/websites/:websiteId/session-data/values`: Added `dataType` parameter to filter results by data type.
+
+## April 29, 2026[#](https://docs.umami.is/docs/cloud/changelog#april-29-2026)
+
+**Session Data**
+
+- Added session-data screens and filtering.
+
+## April 27, 2026[#](https://docs.umami.is/docs/cloud/changelog#april-27-2026)
+
+**Heatmaps**
+
+- Added click heatmaps.
+
+## April 24, 2026[#](https://docs.umami.is/docs/cloud/changelog#april-24-2026)
+
+**Event Data**
+
+- Added event-data property filtering.
+- Added support for array, boolean, and date event-data properties.
+
+## March 25, 2026[#](https://docs.umami.is/docs/cloud/changelog#march-25-2026)
+
+**Funnels**
+
+- Added per-step filters to funnels.
+- Added wildcard support for goals reports.
+
+## March 23, 2026[#](https://docs.umami.is/docs/cloud/changelog#march-23-2026)
+
+**Sharing**
+
+- Added new share-screen options.
+
+## March 15, 2026[#](https://docs.umami.is/docs/cloud/changelog#march-15-2026)
+
+**Performance**
+
+- Added rating badges to performance report metrics.
+
+## March 11, 2026[#](https://docs.umami.is/docs/cloud/changelog#march-11-2026)
+
+**API: Websites**
+
+- `GET /api/websites/:websiteId/daterange`: **Added** — returns the earliest and latest date range of collected data for a website.
+
+**API: Events**
+
+- `GET /api/websites/:websiteId/events/stats`: **Added** — returns event statistics with optional period-over-period comparison.
+
+**API: Links**
+
+- `POST /api/links`: **Added** — creates a link.
+
+**API: Pixels**
+
+- `POST /api/pixels`: **Added** — creates a pixel.
+
+**API: Reports**
+
+- `POST /api/reports/goal`: Renamed from `POST /api/reports/goals` (singular path).
+- `POST /api/reports/performance`: **Added** — performance report type supporting LCP, INP, CLS, FCP, and TTFB metrics.
+- `POST /api/reports/revenue`: Added `compare` parameter. Response now includes `arpu` and `comparison` in the `total` object, and new `region`, `referrer`, and `channel` breakdown arrays.
+
+## March 10, 2026[#](https://docs.umami.is/docs/cloud/changelog#march-10-2026)
+
+**Boards**
+
+- Added separate board details and design flows.
+- Improved the board editor layout and component picker.
+
+## March 9, 2026[#](https://docs.umami.is/docs/cloud/changelog#march-9-2026)
+
+**Sharing**
+
+- Added sharing to pixel and link detail pages.
+
+## March 4, 2026[#](https://docs.umami.is/docs/cloud/changelog#march-4-2026)
+
+**Boards**
+
+- Added text blocks for free-form content on boards.
+
+## March 3, 2026[#](https://docs.umami.is/docs/cloud/changelog#march-3-2026)
+
+**Session Replay**
+
+- Added session replay tables, filters, and replay modal.
+
+**Revenue**
+
+- Added AOV and ARPU metrics to the revenue page.
+
+## March 2, 2026[#](https://docs.umami.is/docs/cloud/changelog#march-2-2026)
+
+**API: Events**
+
+- `GET /api/websites/:websiteId/event-data`: **Added**
+
+## February 13, 2026[#](https://docs.umami.is/docs/cloud/changelog#february-13-2026)
+
+**Boards**
+
+- Added personal dashboard flow and per-component website selection.
+
+## February 12, 2026[#](https://docs.umami.is/docs/cloud/changelog#february-12-2026)
+
+**Boards**
+
+- Added board selector to the top navigation.
+- Added link and pixel selectors to the top navigation.
+
+## February 8, 2026[#](https://docs.umami.is/docs/cloud/changelog#february-8-2026)
+
+**Performance**
+
+- Added Web Vitals performance tracking for LCP, INP, CLS, FCP, and TTFB.
+
+## February 4, 2026[#](https://docs.umami.is/docs/cloud/changelog#february-4-2026)
+
+**API: Share**
+
+- Added `share` API docs [here](https://docs.umami.is/docs/api-reference/create-share).
+
+## November 13, 2025[#](https://docs.umami.is/docs/cloud/changelog#november-13-2025)
+
+**API: Realtime**
+
+- `GET /api/realtime/:websiteId`: Removed `timezone` parameter. Response will always return in `UTC` across all datasets.
+
+## October 7, 2025[#](https://docs.umami.is/docs/cloud/changelog#october-7-2025)
+
+**API: Filters**
+
+- Changed filter `url` to `path`.
+- Changed filter `host` to `hostname`.
+
+**API: Websites**
+
+- `GET /websites/[id]/metrics`: The `type` parameter `url` has been changed to `path`.
+- `GET /websites/[id]/stats`: The response data structure has changed.
+
+```json
+{
+  "pageviews": 34210,
+  "visitors": 9401,
+  "visits": 12726,
+  "bounces": 7918,
+  "totaltime": 5214477,
+  "comparison": {
+    "pageviews": 30818,
+    "visitors": 8776,
+    "visits": 11756,
+    "bounces": 7396,
+    "totaltime": 1704355
+  }
+}
+```
+
+**API: Events**
+
+- `GET /event-data/values`: The `eventName` query parameter has been changed to `event`.
+
+**API: Reports**
+
+- `POST /reports`: The `insights` report has been changed to `breakdown`.
+
+## September 9, 2024[#](https://docs.umami.is/docs/cloud/changelog#september-9-2024)
+
+**API: Websites**
+
+- `GET /websites/[id]/pageviews`: Fixed `region` parameter to optional.
+- `GET /websites/[id]/events`: Changed result set to website event details within a given time range.
+- `GET /websites/[id]/events/series`: **Added** event metrics endpoint (previously `GET /websites/[id]/events`).
+
+**API: Event Data**
+
+- `GET /event-data/events` : **Moved** to `/websites/[id]/event-data/events`.
+- `GET /event-data/fields` : **Moved** to `/websites/[id]/event-data/fields`.
+- `GET /event-data/stats` : **Moved** to `/websites/[id]/event-data/stats`.
+- `GET /websites/[id]/event-data/values` : **Added**.
+
+**API: Sessions**
+
+- `GET /websites/:websiteId/sessions` : **Added**.
+- `GET /websites/:websiteId/sessions/stats` : **Added**.
+- `GET /websites/:websiteId/sessions/:sessionId` : **Added**.
+- `GET /websites/:websiteId/sessions/:sessionId/activity` : **Added**.
+- `GET /websites/:websiteId/sessions/:sessionId/properties` : **Added**.
+- `GET /websites/:websiteId/session-data/properties` : **Added**.
+- `GET /websites/:websiteId/session-data/values` : **Added**.
+
+## May 23, 2024[#](https://docs.umami.is/docs/cloud/changelog#may-23-2024)
+
+**API: Websites**
+
+- `GET /websites/[id]/stats`: Renamed `change` to `prev`.
+
+## March 27, 2024[#](https://docs.umami.is/docs/cloud/changelog#march-27-2024)
+
+**API: Websites**
+
+- `GET /websites/[id]/stats`: Renamed `uniques` to `visitors`. Added `visits`.
+
+## February 16, 2024[#](https://docs.umami.is/docs/cloud/changelog#february-16-2024)
+
+**API: Websites**
+
+- `POST /websites`: Added teamId as an optional parameter.
+
+**API: Teams**
+
+- `/teams/[id]/websites/[websiteId]`: **Deprecated**.
+- `GET /teams/[id]/users/[userId]/index`: **Added**.
+
+**API: Reports**
+
+- `GET /reports/index`: Added `websiteId` and `teamId` as query parameters.
+
+[PreviousImport Data](https://docs.umami.is/docs/cloud/import-data)
+
+On this page

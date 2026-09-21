@@ -1,0 +1,80 @@
+---
+title: "Funnels: Visualize Conversion and Drop-Off Rates"
+sidebarTitle: "Funnels"
+description: "Build step-by-step conversion funnels from any sequence of pages and events, then see exactly where visitors drop off and how many make it through."
+---
+
+The Funnel insight shows you the step-by-step journey your visitors take toward a goal — and, more importantly, where they leave before completing it. You define an ordered sequence of pages or events, set a time window that controls how long a visitor has to progress between steps, and Betterumami calculates how many visitors reached each step and what percentage dropped off from the previous one. This gives you precise, actionable data: instead of knowing that your overall conversion rate is low, you know exactly which step is losing people. A checkout that loses 50% of visitors at the payment page is a different problem from a homepage that loses 85% before visitors ever reach your product listing.
+
+Betterumami funnels are **closed and ordered** — a visitor is counted only if they complete every step in the sequence within the time window. Visitors can navigate to other pages or trigger other events between steps, but they must hit each listed step in order.
+
+## Parameters
+
+| Parameter | Description |
+| --- | --- |
+| **Window** | (required) The maximum number of minutes allowed between any two consecutive steps. A visitor who takes longer is not counted as having progressed. Use a short window (15–30 min) for single-session flows like checkout; use a longer window (up to 1440 min) for multi-session consideration journeys. |
+| **Steps** | (required) The ordered sequence of pages and/or events that define the funnel. A minimum of two steps is required. |
+
+## Step types
+
+| Step Type | Description | Example |
+| --- | --- | --- |
+| **Specific URL** | The visitor must reach this exact URL path. | `/checkout` |
+| **Event** | The visitor must trigger this specific named event. | `add-to-cart` |
+| **URL wildcard** | The visitor must reach any URL matching the wildcard. Only **Ends with** matching is supported. | `/docs*` |
+
+## How to create a Funnel
+
+<Steps>
+  <Step title="Click Add Funnel">
+    Open the **Funnel** insight from your website navigation, then click the **Add Funnel** button.
+  </Step>
+  <Step title="Name the funnel and set the window">
+    Give your funnel a descriptive name (e.g., "Checkout flow" or "SaaS signup"). Then set the **Window** in minutes. If you are unsure, start with 60 minutes and adjust after reviewing your initial results.
+  </Step>
+  <Step title="Add your steps">
+    Click **Add** to insert the first step. For each step:
+
+    1. Choose the step type: **Viewed page**, **Triggered event**, or **URL wildcard**.
+    2. Enter the URL path or event name for that step.
+    3. Repeat until all steps in your conversion sequence are added.
+
+    A minimum of **two steps** is required. Steps must be in the order visitors are expected to complete them.
+
+    ```
+    Example ecommerce funnel:
+    Step 1 — Viewed page: /products
+    Step 2 — Triggered event: add-to-cart
+    Step 3 — Viewed page: /checkout
+    Step 4 — Triggered event: purchase-complete
+    ```
+  </Step>
+  <Step title="Save the funnel">
+    Click **Save**. The funnel is added to your Funnel list.
+  </Step>
+  <Step title="Run the insight">
+    Click **Run**. The results display as a bar chart or step diagram showing the visitor count at each step and the drop-off percentage between consecutive steps.
+  </Step>
+</Steps>
+
+## Reading the results
+
+The funnel report shows three values for each step:
+
+- **User count** — how many visitors reached this step.
+- **Drop-off rate** — the percentage of visitors from the previous step who did not continue.
+- **Overall conversion rate** — visitors who completed the final step divided by visitors who entered at step 1.
+
+Focus your attention on the step with the largest drop-off — that is where you will get the most return from optimization work.
+
+## Editing and deleting Funnels
+
+To edit or delete a saved funnel, click the **ellipsis (···)** menu on the funnel card and choose **Edit** or **Delete**.
+
+<Tip>
+Run your funnel with and without filters to segment the results. For example, compare mobile vs. desktop visitors, or filter to a specific UTM campaign to see whether paid traffic converts through your funnel better than organic traffic.
+</Tip>
+
+<Note>
+A visitor must complete every step in order within the window to count as a conversion. This means your funnel count will usually be lower than your [Goals](/docs/goals) count for the same final action — a Goal counts any visitor who hit the action regardless of path, while a Funnel counts only those who followed the exact sequence you defined. The gap between the two numbers tells you how many conversions happen outside your assumed path.
+</Note>

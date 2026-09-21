@@ -1,0 +1,112 @@
+# Source: https://docs.umami.is/docs/filters
+
+Menu
+
+Filtering
+
+# Filters
+
+Copy page
+
+_Available since v2.6.0 · Enhanced in v3.0.0, v3.3.0_
+
+Umami has built-in reporting to help you gain deeper insights into parts of your data. With universal filtering, you can apply conditions across all screens/reports for consistent analysis. Segments let you group users based on shared attributes or behaviors. Cohorts take this further by analyzing groups of users over time, helping you track retention, performance, and long-term trends.
+
+## Available filters[#](https://docs.umami.is/docs/filters#available-filters)
+
+Filters are grouped by category in the filter panel.
+
+| Category | Filter | Description |
+| --- | --- | --- |
+| URL | Path | URL path of the visited page. |
+| URL | Query | The query string portion of the URL (e.g., `?ref=homepage`). |
+| URL | Page Title | The HTML title of the page as seen in the browser tab. |
+| Sources | Referrer | The source that directed the visitor to your site. |
+| Location | Country | The visitor’s country based on geolocation. |
+| Location | Region | The visitor’s state, province, or region. |
+| Location | City | The visitor’s city location. |
+| Environment | Browser | The web browser used by the visitor (e.g., Chrome, Safari, Firefox). |
+| Environment | OS | The operating system of the visitor’s device (e.g., Windows, macOS, iOS, Android). |
+| Environment | Device | The type of device used, such as desktop, tablet, or mobile. |
+| UTM | UTM Source | The traffic source (e.g., `google`, `newsletter`). |
+| UTM | UTM Medium | The marketing medium (e.g., `cpc`, `email`). |
+| UTM | UTM Campaign | The campaign name. |
+| UTM | UTM Content | The specific ad or link content. |
+| UTM | UTM Term | The paid search keyword. |
+| Other | Hostname | The domain where the page was accessed. |
+| Other | Distinct ID | A custom identifier you assign to a visitor. See [Distinct IDs](https://docs.umami.is/docs/distinct-ids). |
+| Other | Tag | A label or keyword you assign to your data. See [Tags](https://docs.umami.is/docs/tags). |
+| Other | Event | Custom events triggered by users (e.g., button clicks, form submissions, video plays). |
+
+## Property filters[#](https://docs.umami.is/docs/filters#property-filters)
+
+In addition to the standard fields above, the filter panel has dedicated tabs for filtering on custom data:
+
+- **Session data** — filter by any [session data](https://docs.umami.is/docs/tracker-functions#session-data) property you've saved (e.g. `plan`, `company`). Available on every report page.
+- **Event properties** — filter by any custom event property. Only available on the **Events** page, since these filters are scoped to a specific event.
+
+![image](https://docs.umami.is/images/docs/filter-property.png)
+
+Each property filter is type-aware: the available operators (equals, contains, before/after, etc.) depend on whether the property was saved as a string, number, boolean, date, or array.
+
+## Match mode[#](https://docs.umami.is/docs/filters#match-mode)
+
+When applying multiple filters, use the **Match** toggle to control how conditions are combined:
+
+| Mode | Description |
+| --- | --- |
+| All | The visitor must match every condition (logical AND). |
+| Any | The visitor must match at least one condition (logical OR). |
+
+## Filter operators[#](https://docs.umami.is/docs/filters#filter-operators)
+
+Each filter condition supports the following operators:
+
+| Operator | Description |
+| --- | --- |
+| Is | Exact match. |
+| Is not | Excludes an exact match. |
+| Contains | Value includes the specified string. |
+| Does not contain | Value does not include the specified string. |
+| Matches regex | Value matches the provided regular expression. |
+| Does not match regex | Value does not match the provided regular expression. |
+
+## Universal filtering[#](https://docs.umami.is/docs/filters#universal-filtering)
+
+The date range and filters from the website page can now be applied to all screens and reports.
+
+![image](https://docs.umami.is/images/docs/filter-date-range.png)
+
+![image](https://docs.umami.is/images/docs/filter-view.png)
+
+## Accessing filters[#](https://docs.umami.is/docs/filters#accessing-filters)
+
+Log into Umami and click on **Websites** in the sidebar.
+
+![image](https://docs.umami.is/images/docs/navbar.png)
+
+Click on **View** for the website you want to view.
+
+![image](https://docs.umami.is/images/docs/website-edit.png)
+
+The top of the screen will have date and field filters that can be applied across all screens.
+
+![image](https://docs.umami.is/images/docs/filter-access.png)
+
+## Add a filter[#](https://docs.umami.is/docs/filters#add-a-filter)
+
+**Method 1:** Click the **Filter** button to apply filters
+
+![image](https://docs.umami.is/images/docs/filter-add.png)
+
+**Method 2:** Click on any row on the metrics cards in the overview screen.
+
+![image](https://docs.umami.is/images/docs/filter-card.png)
+
+The current filters applied to each page can be seen at the top of the page.
+
+![image](https://docs.umami.is/images/docs/filter-details.png)
+
+[PreviousAnnotations](https://docs.umami.is/docs/annotations) [NextSegments](https://docs.umami.is/docs/segments)
+
+On this page

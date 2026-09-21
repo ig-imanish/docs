@@ -1,0 +1,44 @@
+---
+title: "Get Count of Currently Active Visitors"
+sidebarTitle: "Get Active Visitors"
+description: "Return the number of unique visitors who have been active on your website in the last 5 minutes. Ideal for real-time dashboards and live visitor counters."
+---
+
+Use this endpoint to display a live visitor count on your dashboard or public-facing website. Betterumami counts each unique visitor who triggered at least one event within the last five minutes and returns the total as a single integer. Because no date range is required, this is one of the simplest endpoints to call.
+
+`GET /api/websites/{websiteId}/active`
+
+## Request
+
+### Headers
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token. Pass your API key: `Authorization: Bearer <api-key>`
+</ParamField>
+
+### Path Parameters
+
+<ParamField path="websiteId" type="string" required>
+  The unique UUID of the website to query.
+</ParamField>
+
+## Response
+
+**200 – Success**
+
+<ResponseField name="visitors" type="integer" required>
+  Number of unique visitors active on the website in the last 5 minutes.
+</ResponseField>
+
+```json 200 Response
+{
+  "visitors": 42
+}
+```
+
+## Code Sample
+
+```bash
+curl -X GET 'https://api.umami.is/v1/websites/b8d3a1f0-1c2d-4e5f-8a9b-0c1d2e3f4a5b/active' \
+  -H 'Authorization: Bearer <api-key>'
+```

@@ -1,0 +1,95 @@
+# Source: https://docs.umami.is/docs/track-events
+
+Menu
+
+Tracking
+
+# Track events
+
+Copy page
+
+_Available since v2.0.0_
+
+Besides pageviews, Umami is also able to track events that occur on your website. There are two ways to record events in Umami, using the **data attributes** property or using **JavaScript**.
+
+## Limits[#](https://docs.umami.is/docs/track-events#limits)
+
+- Event names are limited to 50 characters.
+- Event data cannot be sent without an event name.
+
+## Using data attributes[#](https://docs.umami.is/docs/track-events#using-data-attributes)
+
+To enable events, simply add a special data property to the element you want to track.
+
+For example, you might have a button with the following code:
+
+```html
+<button id="signup-button">Sign up</button>
+```
+
+Add a data property with the following format:
+
+```html
+data-umami-event="{event-name}"
+```
+
+So your button element would now look like this:
+
+```html
+<button id="signup-button" data-umami-event="Signup button">Sign up</button>
+```
+
+When the user clicks on this button, Umami will record an event named `Signup button`.
+
+You can optionally pass along **event\_data** with the **data-umami-event-\*** annotation.
+
+```text
+data-umami-event="Signup button"
+data-umami-event-email="bob@aol.com"
+data-umami-event-id="123"
+```
+
+The additional properties will result in `{ email: 'bob@aol.com', id: '123' }` being recorded with the `Signup button` name.
+
+Notes
+
+- All event data will be saved as a string using this method. If you want to save event data as numeric, dates, booleans, etc. use the JavaScript method below.
+- Other event listeners inside the element will not be triggered.
+
+## Using JavaScript[#](https://docs.umami.is/docs/track-events#using-javascript)
+
+You can also record events manually using the `window.umami` object. To accomplish the same thing as the above data-\* method, you can do:
+
+```js
+const button = document.getElementById('signup-button');
+
+button.onclick = () => umami.track('Signup button');
+```
+
+In this case, Umami will record an event named `Signup button`.
+
+If you want to record dynamic data, see [Tracker functions](https://docs.umami.is/docs/tracker-functions).
+
+## View events[#](https://docs.umami.is/docs/track-events#view-events)
+
+Once your events are recorded, they will be available on your website **Events** page.
+
+![image](https://docs.umami.is/images/docs/events-chart.png)
+
+## View event properties[#](https://docs.umami.is/docs/track-events#view-event-properties)
+
+Your custom data can be accessed under the **Properties** tab on the **Events** page. This section will show you all the custom data properties you saved as well as a breakdown of all the values.
+
+![image](https://docs.umami.is/images/docs/events-properties.png)
+
+### Filtering[#](https://docs.umami.is/docs/track-events#filtering)
+
+Use the filter panel to narrow down event properties by specific property names and values. This lets you focus your analysis on a particular subset of events.
+
+![image](https://docs.umami.is/images/docs/events-properties-filter.png)
+
+This also appears as an **Event properties** tab in the main [filter panel](https://docs.umami.is/docs/filters#property-filters) when viewing the Events page.
+
+[PreviousTracker configuration](https://docs.umami.is/docs/tracker-configuration) [NextDistinct IDs](https://docs.umami.is/docs/distinct-ids)
+
+On this page

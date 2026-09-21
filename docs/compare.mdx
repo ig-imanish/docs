@@ -1,0 +1,60 @@
+---
+title: "Compare: Measure Progress Against Past Periods"
+sidebarTitle: "Compare"
+description: "Overlay two time periods on your Betterumami dashboard to spot trends, confirm improvements, and catch regressions before they become problems."
+---
+
+Compare mode lets you measure how your website's performance has changed over time by overlaying a second date range on your Overview Dashboard. Rather than mentally reconstructing last month's numbers from memory, you activate a comparison and immediately see both periods side by side — on the chart and in every metric card. It takes one click to turn on and works with any date range you have selected, making it the fastest way to answer questions like "is this week better than last week?" or "how does this month compare to the same month last year?"
+
+## Comparison options
+
+Betterumami supports two comparison modes, both accessible from the date range picker.
+
+| Option | What it compares |
+| --- | --- |
+| **Previous period** | The same-length date range immediately before the current one. If your current range is the last 7 days, the comparison covers the 7 days before that. |
+| **Previous year** | The same calendar range from exactly one year ago. Useful for seasonal businesses or any site where year-over-year comparison is more meaningful than period-over-period. |
+
+## How to enable Compare mode
+
+<Steps>
+  <Step title="Open the date range picker">
+    Click the date range selector at the top of the Overview Dashboard. Choose any preset or custom range that covers the period you want to analyze.
+  </Step>
+  <Step title="Select a comparison type">
+    Inside the date range picker, find the comparison section and choose either **Previous period** or **Previous year**.
+  </Step>
+  <Step title="Read the results">
+    The dashboard updates immediately. The traffic chart overlays a second pair of lines for the comparison period, and each metric card gains a percentage-change indicator.
+  </Step>
+</Steps>
+
+## Reading the chart
+
+In Compare mode the traffic chart displays four lines in total:
+
+- **Views — current period** (solid purple)
+- **Visitors — current period** (solid pink)
+- **Views — comparison period** (dashed purple)
+- **Visitors — comparison period** (dashed pink)
+
+Hover over any point on the chart to see the exact values for both periods at that date or interval.
+
+## Reading the metric cards
+
+Each of the five summary cards — Views, Visitors, Visits, Bounce Rate, and Visit Duration — gains a percentage-change badge when Compare mode is active.
+
+| Indicator | Meaning |
+| --- | --- |
+| 🟢 Green with ↑ | The metric has improved compared to the previous period. |
+| 🔴 Red with ↓ | The metric has declined compared to the previous period. |
+
+For Views, Visitors, and Visits, an increase is shown in green. For Bounce Rate, a decrease is shown in green (fewer bounces is better). For Visit Duration, an increase is shown in green (visitors spending more time is better).
+
+<Note>
+"Improvement" is defined relative to the metric's desired direction, not just whether the number went up. A rising bounce rate is flagged red even though the number itself increased.
+</Note>
+
+<Tip>
+Combine Compare mode with [Filters](/docs/filters) to answer specific questions — for example, filter to `UTM Campaign = spring-promo` and activate Previous period to see whether that campaign outperformed the previous one.
+</Tip>

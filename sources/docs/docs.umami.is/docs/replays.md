@@ -1,0 +1,83 @@
+# Source: https://docs.umami.is/docs/replays
+
+Menu
+
+Analysis
+
+# Replays
+
+Copy page
+
+_Available since v3.1.0_
+
+**Replays** let you watch recordings of real visitor sessions on your website — every click, scroll, and navigation captured as it happened. Use replays to understand how users actually interact with your pages, diagnose confusing UX, reproduce bugs, and validate design changes with real behavioral evidence.
+
+## Enabling Replays[#](https://docs.umami.is/docs/replays#enabling-replays)
+
+Log into Umami and click on **Websites** in the sidebar.
+
+![image](https://docs.umami.is/images/docs/navbar.png)
+
+Click on the **Edit** button for the website you want to edit.
+
+![image](https://docs.umami.is/images/docs/website-edit.png)
+
+Navigate to the **Replays & Heatmaps** section and click on the **Replays**toggle.
+
+![image](https://docs.umami.is/images/docs/replay-edit.png)
+
+| Option | Description | Default |
+| --- | --- | --- |
+| Sample Rate | Fraction of sessions to record, from `0` to `1`. For example, `0.15` records 15% of sessions. | `0.15` |
+| Mask Level | Privacy masking level. `moderate` masks all input fields; `strict` masks all inputs and all text on the page. | `moderate` |
+| Max Duration | Maximum recording length in milliseconds. Recording stops automatically when reached. | `300000` (5 min) |
+| Block Selector | CSS selector for elements to fully exclude from recording (e.g., `.sensitive-widget`). | none |
+
+You will also need to update your tracker script to opt in to replay collection.
+
+```html
+<script
+  defer src="http://localhost:3000/recorder.js"
+  data-website-id="my-website-id"
+></script>
+```
+
+Notes
+
+- Only sessions that start after enabling the feature will be recorded. Existing session history will not be backfilled.
+- Session replays are stored for **30 days**.
+
+## Accessing Replays[#](https://docs.umami.is/docs/replays#accessing-replays)
+
+**Method 1:** Replays are accessible from the **Replays** screen.
+
+![image](https://docs.umami.is/images/docs/replay-details.png)
+
+**Method 2:** Replays can also be accessed via the session profile in the **Replays** tab.
+
+![image](https://docs.umami.is/images/docs/replay-session.png)
+
+Clicking the play button opens the replay player. The player shows a real-time recreation of the visitor's session, including:
+
+![image](https://docs.umami.is/images/docs/replay-player.png)
+
+- Mouse movement and clicks
+- Scroll behavior
+- Page navigations
+- Form interactions (inputs are masked by default)
+
+## Saving Replays[#](https://docs.umami.is/docs/replays#saving-replays)
+
+You can mark individual replays as saved to flag them for quick access and easy rewatching of important sessions.
+
+Open a replay and click the **Save** button in the player toolbar and give it a name.
+
+![image](https://docs.umami.is/images/docs/replay-save.png)
+
+Saved replays are flagged and can be accessed in the **Saved** tab.
+
+![image](https://docs.umami.is/images/docs/replay-save-detail.png)
+
+[PreviousSessions](https://docs.umami.is/docs/sessions) [NextHeatmaps](https://docs.umami.is/docs/heatmaps)
+
+On this page

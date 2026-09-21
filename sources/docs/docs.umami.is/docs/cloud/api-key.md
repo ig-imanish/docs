@@ -1,0 +1,88 @@
+# Source: https://docs.umami.is/docs/cloud/api-key
+
+Menu
+
+API
+
+# API Key
+
+Copy page
+
+In order to access your data using Umami Cloud, you will need to generate an API key.
+
+All API routes in the reference section are available in Umami Cloud using an API key, with the exception of some routes listed in the `Not Allowed` section.
+
+## Create your key[#](https://docs.umami.is/docs/cloud/api-key#create-your-key)
+
+Once logged in, click on the side nav profile button then click **Settings**.
+
+![image](https://docs.umami.is/images/cloud/navbar-settings.png)
+
+Navigate to **API keys** and click on the **Create key** button.
+
+![image](https://docs.umami.is/images/cloud/api-key-create.png)
+
+You can reveal your key by clicking on the `visible` icon in the text input.
+
+![image](https://docs.umami.is/images/cloud/api-key-details.png)
+
+## Using your key[#](https://docs.umami.is/docs/cloud/api-key#using-your-key)
+
+You can access your Umami Cloud data by querying the following address.
+
+`https://api.umami.is/v1`
+
+Pass your API key in the `Authorization` header using the Bearer authentication scheme.
+
+For example, with `curl` it would look like this:
+
+```shell
+curl https://api.umami.is/v1/websites \
+   -H "Accept: application/json" \
+   -H "Authorization: Bearer <api-key>"
+```
+
+## Using your key with API Client[#](https://docs.umami.is/docs/cloud/api-key#using-your-key-with-api-client)
+
+Set the following environment variables to have the API client use your API key.
+
+```dotenv
+UMAMI_API_KEY={Your API key}
+UMAMI_API_CLIENT_ENDPOINT=https://api.umami.is/v1
+```
+
+More details on using the API client can be found in [API client](https://docs.umami.is/docs/api/api-client).
+
+## Region[#](https://docs.umami.is/docs/cloud/api-key#region)
+
+The region will default to the region of the Account that owns the API-KEY. You can specify the region by adding the region to the API call as the first path.
+
+`https://api.umami.is/v1/us`
+
+`https://api.umami.is/v1/eu`
+
+## Limits[#](https://docs.umami.is/docs/cloud/api-key#limits)
+
+Each API key is limited to 50 calls every 15 seconds.
+
+## Not allowed[#](https://docs.umami.is/docs/cloud/api-key#not-allowed)
+
+The following API routes are not made available using your API key.
+
+```text
+/me/password
+/users
+/users/*
+```
+
+## Deleting your key[#](https://docs.umami.is/docs/cloud/api-key#deleting-your-key)
+
+From API keys click the `Delete` button for the specific key to be deleted.
+
+Once an API key is deleted, it cannot be recovered.
+
+![image](https://docs.umami.is/images/cloud/api-key-delete.png)
+
+[PreviousUsage](https://docs.umami.is/docs/cloud/usage) [NextMCP](https://docs.umami.is/docs/cloud/mcp)
+
+On this page

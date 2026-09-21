@@ -1,0 +1,210 @@
+---
+title: "Tracker Functions Reference for Betterumami"
+sidebarTitle: "Tracker Functions"
+description: "Full reference for every umami.track() and umami.identify() function signature, with examples for pageviews, events, session data, and custom payloads."
+---
+
+Once the Betterumami script is on your page, the tracker exposes a global `umami` object with two core functions: `umami.track()` for recording pageviews and events, and `umami.identify()` for attaching a Distinct ID or custom properties to the current session. By default the tracker handles everything automatically, but calling these functions directly gives you precise control over what gets recorded, when, and with what data attached.
+
+## Function Signatures
+
+```js
+// Track the current page as a pageview
+umami.track();
+
+// Track a pageview with a custom payload object
+umami.track(payload: object);
+
+// Track a named custom event
+umami.track(event_name: string);
+
+// Track a named custom event with data
+umami.track(event_name: string, data: object);
+
+// Assign a Distinct ID to the current session
+umami.identify(unique_id: string);
+
+// Assign a Distinct ID and attach session data
+umami.identify(unique_id: string, data: object);
+
+// Attach session data without a Distinct ID
+umami.identify(data: object);
+```
+
+---
+
+## Pageviews
+
+By default, Betterumami automatically records a pageview when your page loads and on every client-side navigation. You only need to call `umami.track()` manually if you've disabled automatic pageview collection with `data-auto-pageview="false"`.
+
+### Track the current page
+
+```js
+umami.track();
+```
+
+When called with no arguments, the tracker collects the following properties automatically:
+
+<ParamField body="hostname" type="string">
+  The hostname of the current page, for example `www.acme.com`.
+</ParamField>
+
+<ParamField body="language" type="string">
+  The visitor's browser language, for example `en-US`.
+</ParamField>
+
+<ParamField body="referrer" type="string">
+  The referring URL that brought the visitor to this page.
+</ParamField>
+
+<ParamField body="screen" type="string">
+  The visitor's screen dimensions, for example `1920x1080`.
+</ParamField>
+
+<ParamField body="title" type="string">
+  The current `document.title` value.
+</ParamField>
+
+<ParamField body="url" type="string">
+  The current page URL path.
+</ParamField>
+
+<ParamField body="website" type="string" required>
+  Your Betterumami website ID. Injected automatically from `data-website-id`.
+</ParamField>
+
+### Track with a custom payload
+
+Pass a plain object to override specific properties on a single pageview:
+
+```js
+umami.track({
+  website: 'e676c9b4-11e4-4ef1-a4d7-87001773e9f2',
+  url: '/home',
+  title: 'Home page',
+});
+```
+
+<Note>
+  When you pass a plain object, **only the properties you provide are sent**. The tracker does not merge in the auto-collected defaults. If you want to keep the defaults and only override a few fields, use the function form below.
+</Note>
+
+### Merge auto-collected properties with overrides
+
+Pass a function that receives the default `props` object and returns a merged payload:
+
+```js
+umami.track(props => ({ ...props, url: '/home', title: 'Home page' }));
+```
+
+This is the safest way to customize a pageview payload because it preserves all the properties Betterumami would have sent automatically.
+
+---
+
+## Events
+
+### Track a named event
+
+```js
+umami.track('signup-button');
+```
+
+### Track a named event with data
+
+Pass any JSON-serialisable value as the second argument. The properties you provide appear in the **Events → Properties** tab of your dashboard.
+
+```js
+umami.track('signup-button', { plan: 'newsletter', seat_count: 5 });
+```
+
+Under the hood, calling `umami.track(name, data)` is equivalent to:
+
+```js
+umami.track(props => ({
+  ...props,
+  name: 'signup-button',
+  data: {
+    plan: 'newsletter',
+    seat_count: 5,
+  },
+}));
+```
+
+All auto-collected pageview properties (URL, referrer, screen size, etc.) are included alongside the event name and data.
+
+### Event data limits
+
+Event data can include any JSON-compatible value, subject to the following limits to maintain dashboard performance:
+
+| Data type | Limit |
+|-----------|-------|
+| Numbers | Maximum precision of 4 decimal places |
+| Strings | Maximum length of 500 characters |
+| Arrays | Converted to a string; maximum length of 500 characters |
+| Objects | Maximum of 50 properties (arrays count as 1 property) |
+
+### Override the event timestamp
+
+You can backfill historical events or correct a timestamp by passing a UNIX timestamp (seconds) in the payload:
+
+```js
+umami.track(props => ({
+  ...props,
+  name: 'signup-button',
+  timestamp: 1771523787, // new Date().getTime() / 1000
+}));
+```
+
+---
+
+## Sessions and Identify
+
+The `umami.identify()` function attaches a [Distinct ID](/docs/distinct-ids) and optional session-level properties to the current visitor's session. Session data lets you segment your analytics by attributes like subscription plan, company, or user role — properties that describe *who* the visitor is rather than *what* they did on a specific page.
+
+### Assign a Distinct ID
+
+```js
+umami.identify('user@example.com');
+```
+
+This links all events in the current session to the identifier `user@example.com`. If the same identifier appears in another session (another device or browser), Betterumami shows the combined activity under one profile.
+
+### Assign a Distinct ID with session data
+
+```js
+umami.identify('user@example.com', {
+  name: 'Alice',
+  plan: 'pro',
+  company: 'Acme Corp',
+  role: 'admin',
+});
+```
+
+### Attach session data without an ID
+
+If you want to enrich the session for filtering and segmentation but don't have a stable unique identifier to assign:
+
+```js
+umami.identify({
+  plan: 'free',
+  signup_source: 'organic',
+});
+```
+
+### Session data properties
+
+Session data properties are key-value pairs you attach to the session for filtering and segmentation in the Betterumami dashboard. Unlike event data — which is scoped to a single event — session data describes the visitor for the entire session and can be used to filter reports across all of that session's pageviews and events.
+
+Common session data properties include:
+
+| Property | Example value | Description |
+|----------|---------------|-------------|
+| `plan` | `"pro"` | The visitor's subscription tier |
+| `company` | `"Acme Corp"` | The visitor's organisation |
+| `role` | `"admin"` | The visitor's role in your product |
+| `email` | `"user@example.com"` | The visitor's email address |
+| `user_id` | `"usr_abc123"` | Your internal user ID |
+
+<Tip>
+  Call `umami.identify()` as early as possible after you know who the visitor is — for example, immediately after a successful login. This ensures all subsequent events in the session are tagged with the correct session data.
+</Tip>

@@ -1,0 +1,192 @@
+---
+title: "Authenticating Betterumami API Requests"
+sidebarTitle: "Authentication"
+description: "Learn how to authenticate every API call — generate an API key on Cloud or exchange username and password for a session token on self-hosted instances."
+---
+
+Every request to the Betterumami API (except the tracking endpoints `POST /api/send` and `POST /api/batch`) must prove who you are before the server will return any data. On **Betterumami Cloud**, the only supported method is an API key passed as a Bearer token in the `Authorization` header — it's long-lived, revocable, and works seamlessly in automated scripts and CI pipelines. On **self-hosted** instances, you can also exchange a username and password for a short-lived session token if you prefer. Both methods use the same `Authorization: Bearer <token>` header shape, so you can switch between them without changing any downstream code.
+
+---
+
+## API keys (recommended)
+
+API keys are the preferred authentication method for any programmatic integration. They don't expire on their own, can be scoped per integration, and can be revoked individually without affecting other keys or your main account credentials.
+
+### Create an API key
+
+1. Log in to your Betterumami dashboard and click your **profile icon** in the side navigation.
+2. Select **Settings**, then navigate to the **API keys** tab.
+3. Click **Create key**, give it a descriptive label, and click **Save**.
+4. Copy the key value immediately — it is shown only once and cannot be retrieved later.
+
+<Warning>
+  If you lose an API key, you must delete it and create a new one. There is no way to view the secret again after the creation dialog is closed.
+</Warning>
+
+### Use an API key
+
+Pass your key in the `Authorization` header on every request:
+
+```http
+Authorization: Bearer <api-key>
+```
+
+<CodeGroup>
+
+```bash cURL
+curl https://api.umami.is/v1/websites \
+  -H "Accept: application/json" \
+  -H "Authorization: Bearer <api-key>"
+```
+
+```python Python
+import httpx
+
+API_KEY = "<api-key>"
+BASE_URL = "https://api.umami.is/v1"
+
+headers = {
+    "Accept": "application/json",
+    "Authorization": f"Bearer {API_KEY}",
+}
+
+response = httpx.get(f"{BASE_URL}/websites", headers=headers)
+response.raise_for_status()
+print(response.json())
+```
+
+```javascript Node.js
+const API_KEY = process.env.BETTERUMAMI_API_KEY;
+const BASE_URL = "https://api.umami.is/v1";
+
+const response = await fetch(`${BASE_URL}/websites`, {
+  headers: {
+    Accept: "application/json",
+    Authorization: `Bearer ${API_KEY}`,
+  },
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+</CodeGroup>
+
+### Manage keys programmatically
+
+You can also create, list, and delete API keys through the API itself:
+
+| Action | Endpoint |
+|--------|----------|
+| List my API keys | `GET /api/me/api-keys` |
+| Create an API key | `POST /api/me/api-keys` |
+| Delete an API key | `DELETE /api/me/api-keys/{keyId}` |
+
+<Note>
+  On **Betterumami Cloud**, API keys are the only supported authentication method. The username/password endpoints below are available on self-hosted instances only.
+</Note>
+
+---
+
+## Username and password (self-hosted only)
+
+If you're running a self-hosted instance, you can authenticate by exchanging your credentials for a temporary JWT session token. This token must be included in the `Authorization` header on every subsequent request, just like an API key.
+
+### POST /api/auth/login
+
+Send a `POST` request with your credentials in the JSON body. The endpoint returns a `token` you use for all further requests.
+
+<ParamField body="username" type="string" required>
+  The username of the account you want to authenticate as.
+</ParamField>
+
+<ParamField body="password" type="string" required>
+  The password for the account.
+</ParamField>
+
+<CodeGroup>
+
+```bash cURL
+curl -X POST https://<your-instance>/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username": "your-username", "password": "your-password"}'
+```
+
+```json Request body
+{
+  "username": "your-username",
+  "password": "your-password"
+}
+```
+
+</CodeGroup>
+
+**Response**
+
+A successful login returns a `200 OK` with the session token and a summary of the authenticated user:
+
+```json
+{
+  "token": "eyTMjU2IiwiY...4Q0JDLUhWxnIjoiUE_A",
+  "user": {
+    "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+    "username": "admin",
+    "role": "admin",
+    "createdAt": "2000-00-00T00:00:00.000Z"
+  }
+}
+```
+
+Extract the `token` value and attach it to every subsequent request:
+
+```bash
+curl https://<your-instance>/api/websites \
+  -H "Accept: application/json" \
+  -H "Authorization: Bearer eyTMjU2IiwiY...4Q0JDLUhWxnIjoiUE_A"
+```
+
+<Warning>
+  Session tokens issued by `/api/auth/login` can expire. If your integration runs for extended periods, either refresh the token by logging in again or switch to an API key, which has no expiry.
+</Warning>
+
+---
+
+### POST /api/auth/verify
+
+Before making a batch of API calls, you can check whether a previously issued token is still valid. Send a `POST` to `/api/auth/verify` with the same `Authorization: Bearer <token>` header — no request body is needed.
+
+```bash
+curl -X POST https://<your-instance>/api/auth/verify \
+  -H "Authorization: Bearer <token>"
+```
+
+A valid token returns `200 OK` with the current user's profile:
+
+```json
+{
+  "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+  "username": "admin",
+  "role": "admin",
+  "createdAt": "2000-00-00T00:00:00.000Z",
+  "isAdmin": true,
+  "teams": []
+}
+```
+
+If the token has expired or is invalid, the API returns `401 Unauthorized`. Re-authenticate via `/api/auth/login` to obtain a fresh token.
+
+---
+
+## Choosing the right method
+
+| | API Key | Username / Password |
+|---|---------|---------------------|
+| **Availability** | Cloud + self-hosted | Self-hosted only |
+| **Expiry** | Never (until revoked) | Session-based (may expire) |
+| **Best for** | Automated scripts, CI/CD, server integrations | Interactive tools, one-off queries |
+| **Revocable individually** | ✅ Yes | ✅ Yes (delete sessions) |
+| **Multiple credentials** | ✅ One per integration | ✗ Shared account credentials |
+
+<Tip>
+  Even on self-hosted instances, API keys are the recommended approach for any long-running automation. Reserve username/password auth for quick manual testing or interactive workflows where short-lived tokens are acceptable.
+</Tip>

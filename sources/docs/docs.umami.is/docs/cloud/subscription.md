@@ -1,0 +1,45 @@
+# Source: https://docs.umami.is/docs/cloud/subscription
+
+Menu
+
+Billing
+
+# Subscription
+
+Copy page
+
+Umami uses **Stripe** as its payment processor. When signing up for a plan you will be sent to the Stripe checkout portal. All subscriptions come with a 14-day free trial. You are free to cancel within that time frame at zero charge.
+
+Details for each Umami Cloud plan can be found on the [pricing](https://umami.is/pricing) page.
+
+## Upgrade to Pro[#](https://docs.umami.is/docs/cloud/subscription#upgrade-to-pro)
+
+Once logged in, click on the side nav profile button then click **Settings**.
+
+![image](https://docs.umami.is/images/cloud/navbar-settings.png)
+
+Navigate to **Billing** and click on the **Upgrade to Pro** button.
+
+![image](https://docs.umami.is/images/cloud/billing-plans.png)
+
+If you are interested in an **Enterprise** plan, please click the **Contact Us** button or email us at [sales@umami.is](mailto:sales@umami.is)
+
+You will be sent to the Stripe checkout portal to finish signing up. Navigate to **Billing** to see your new billing details.
+
+![image](https://docs.umami.is/images/cloud/billing-details.png)
+
+## Manage Plan[#](https://docs.umami.is/docs/cloud/subscription#manage-plan)
+
+Navigate to **Billing** and click on the **Manage plan** button. You will be sent to the Stripe billing portal where you can do the following.
+
+- Cancel your **Pro** plan
+- Update payment method
+- Update billing information
+- Review invoice history
+- Download invoices and receipts
+
+![image](https://docs.umami.is/images/cloud/billing-manage-plan.png)
+
+[PreviousDelete account](https://docs.umami.is/docs/cloud/delete-account) [NextUsage](https://docs.umami.is/docs/cloud/usage)
+
+On this page

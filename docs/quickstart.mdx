@@ -1,0 +1,79 @@
+---
+title: "Quickstart: Set Up Betterumami in Minutes"
+sidebarTitle: "Quickstart"
+description: "Create a Betterumami account, add your website, and install the tracking script to start collecting privacy-first analytics in under five minutes."
+---
+
+This guide walks you through everything you need to go from a blank slate to live analytics data. The entire process takes less than five minutes: create an account, verify your email, add your website, and paste one script tag into your HTML. Once the script is live, data begins flowing into your dashboard immediately — no sampling, no delays, no cookies.
+
+## Step-by-step setup
+
+<Steps>
+  <Step title="Create your account">
+    Go to [betterumami.com/register](https://www.betterumami.com/register). Enter your name, email address, and a password, then click **Create account**. You can also sign up instantly using **Sign in with Google**.
+
+    <Note>
+      By creating an account you agree to the Betterumami [Terms](https://www.betterumami.com/terms) and [Privacy Policy](https://www.betterumami.com/privacy).
+    </Note>
+  </Step>
+
+  <Step title="Verify your email address">
+    After signing up, Betterumami sends a 6-digit verification code to the email address you registered with. Enter that code when prompted to activate your account. Check your spam folder if the email doesn't arrive within a couple of minutes.
+  </Step>
+
+  <Step title="Add your website">
+    Once you are logged in, click **Websites** in the left sidebar, then click the **Add website** button in the top-right corner. Fill in the **Name** and **Domain** fields and click **Save**.
+
+    - **Name** — A human-readable label for the site (e.g. `My Blog`). This is only used inside the dashboard.
+    - **Domain** — The actual domain of your website (e.g. `example.com`). This is used to filter your own domain out of referrer reports.
+
+    See [Add a Website](/docs/add-a-website) for full details.
+  </Step>
+
+  <Step title="Copy the tracking script">
+    After saving your website, click the **Edit** button next to it. Scroll down to the **Tracking code** section and copy the script tag that appears there. It looks like this:
+
+    ```html
+    <script async src="https://cloud.umami.is/script.js" data-website-id="your-website-id"></script>
+    ```
+
+    The `data-website-id` attribute contains the unique ID that links collected events to your specific website in the dashboard.
+  </Step>
+
+  <Step title="Install the script on your website">
+    Paste the copied script tag into the `<head>` section of every page you want to track. For most sites and frameworks, this means adding it to a shared layout or template file so it is included automatically on every page.
+
+    ```html
+    <head>
+      <meta charset="UTF-8" />
+      <title>My Website</title>
+      <!-- Betterumami tracking script -->
+      <script async src="https://cloud.umami.is/script.js" data-website-id="your-website-id"></script>
+    </head>
+    ```
+
+    <Tip>
+      If you are using **Next.js**, use the [`next/script`](https://nextjs.org/docs/app/api-reference/components/script) component rather than a plain `<script>` tag to ensure correct loading behaviour.
+    </Tip>
+  </Step>
+
+  <Step title="Verify data is appearing">
+    Visit your website in a browser. Then return to your Betterumami dashboard — you should see a pageview appear in real time. If you are running a single-page application (SPA), Betterumami automatically detects client-side navigation, so no extra configuration is needed.
+  </Step>
+</Steps>
+
+## Troubleshooting
+
+If data is not showing up after you install the script, check the following:
+
+<AccordionGroup>
+  <Accordion title="Data not appearing in the dashboard">
+    Open your browser developer tools (press `F12`) and go to the **Network** tab. Reload the page and look for a request to `cloud.umami.is`. If no request appears, the script tag may not have been placed correctly, or the file containing the `<head>` section may not have been saved and redeployed.
+  </Accordion>
+  <Accordion title="Script blocked by an ad blocker">
+    Some ad blockers block analytics scripts, including privacy-respecting ones like Betterumami. This means traffic from visitors using ad blockers will not be recorded. To reduce data loss, you can proxy the script through your own domain. See [Install Tracking Script](/docs/install-tracking-script) for guidance on the ad blockers workaround.
+  </Accordion>
+  <Accordion title="Script loads but no events fire">
+    Confirm that the `data-website-id` attribute in your script tag matches the website ID shown in the Betterumami dashboard under **Edit** for that website. A mismatched or missing ID is the most common cause of the script loading but sending no data.
+  </Accordion>
+</AccordionGroup>

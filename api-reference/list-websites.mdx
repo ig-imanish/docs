@@ -1,0 +1,158 @@
+---
+title: "List All Websites You Have Access To"
+sidebarTitle: "List Websites"
+description: "Retrieve a paginated list of websites you own or can access through team membership, with optional search, sorting, and result-limit controls."
+---
+
+Use this endpoint to fetch every website your API key can access. The response is paginated, so you can iterate over large sets with the `page` and `pageSize` parameters. Pass `includeTeams` to also return websites made available to you through team membership.
+
+`GET /api/websites`
+
+## Request
+
+### Headers
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token. Pass your API key: `Authorization: Bearer <api-key>`
+</ParamField>
+
+### Query Parameters
+
+<ParamField query="page" type="integer">
+  Page number to return, starting at `1`. Defaults to `1`.
+</ParamField>
+
+<ParamField query="pageSize" type="integer">
+  Number of website records to return per page. Defaults to server-defined limit.
+</ParamField>
+
+<ParamField query="maxResults" type="integer">
+  Hard cap on the total number of results included across all pages.
+</ParamField>
+
+<ParamField query="search" type="string">
+  Filter websites by name or domain. The search is case-insensitive and matches partial strings.
+</ParamField>
+
+<ParamField query="orderBy" type="string">
+  Field name to sort results by, e.g. `name`, `domain`, or `createdAt`.
+</ParamField>
+
+<ParamField query="sortDescending" type="string">
+  Set to `true` to reverse the sort order. Accepted values: `true`, `false`.
+</ParamField>
+
+<ParamField query="includeTeams" type="string">
+  When present with any non-empty value, websites accessible through teams you own or manage are included in the results.
+</ParamField>
+
+## Response
+
+**200 – Success**
+
+<ResponseField name="count" type="integer" required>
+  Total number of website records matching the query.
+</ResponseField>
+
+<ResponseField name="data" type="Website[]" required>
+  Array of website objects. Each object contains the fields below.
+</ResponseField>
+
+<ResponseField name="data[].id" type="string">
+  Unique UUID of the website.
+</ResponseField>
+
+<ResponseField name="data[].name" type="string">
+  Human-readable display name of the website.
+</ResponseField>
+
+<ResponseField name="data[].domain" type="string">
+  Domain tracked by this website, e.g. `example.com`.
+</ResponseField>
+
+<ResponseField name="data[].shareId" type="string | null">
+  Token used to access the website's public share page. `null` if sharing is disabled.
+</ResponseField>
+
+<ResponseField name="data[].teamId" type="string | null">
+  UUID of the team this website belongs to. `null` for personal websites.
+</ResponseField>
+
+<ResponseField name="data[].userId" type="string | null">
+  UUID of the user who owns the website.
+</ResponseField>
+
+<ResponseField name="data[].recorderEnabled" type="boolean">
+  Whether session recording is enabled for this website.
+</ResponseField>
+
+<ResponseField name="data[].resetAt" type="string | null">
+  ISO 8601 timestamp of the last analytics data reset, or `null` if never reset.
+</ResponseField>
+
+<ResponseField name="data[].createdAt" type="string | null">
+  ISO 8601 timestamp when the website was created.
+</ResponseField>
+
+<ResponseField name="data[].updatedAt" type="string | null">
+  ISO 8601 timestamp when the website was last updated.
+</ResponseField>
+
+<ResponseField name="page" type="integer" required>
+  The current page number returned.
+</ResponseField>
+
+<ResponseField name="pageSize" type="integer" required>
+  Number of results per page for this response.
+</ResponseField>
+
+<ResponseField name="orderBy" type="string">
+  Field used to sort the results.
+</ResponseField>
+
+<ResponseField name="search" type="string">
+  The search string applied to this result set, if any.
+</ResponseField>
+
+```json 200 Response
+{
+  "count": 2,
+  "data": [
+    {
+      "id": "b8d3a1f0-1c2d-4e5f-8a9b-0c1d2e3f4a5b",
+      "name": "My Marketing Site",
+      "domain": "example.com",
+      "shareId": null,
+      "teamId": null,
+      "userId": "123e4567-e89b-12d3-a456-426614174000",
+      "recorderEnabled": false,
+      "resetAt": null,
+      "createdAt": "2024-03-01T10:00:00Z",
+      "updatedAt": "2024-06-15T08:22:00Z"
+    },
+    {
+      "id": "c9e4b2f1-2d3e-5f6a-9b0c-1d2e3f4a5b6c",
+      "name": "Docs Portal",
+      "domain": "docs.example.com",
+      "shareId": "shr_abc123",
+      "teamId": "f1e2d3c4-b5a6-7890-abcd-ef1234567890",
+      "userId": "123e4567-e89b-12d3-a456-426614174000",
+      "recorderEnabled": true,
+      "resetAt": null,
+      "createdAt": "2024-05-10T14:30:00Z",
+      "updatedAt": "2024-07-01T09:00:00Z"
+    }
+  ],
+  "page": 1,
+  "pageSize": 20,
+  "orderBy": "name",
+  "search": ""
+}
+```
+
+## Code Sample
+
+```bash
+curl -X GET 'https://api.umami.is/v1/websites?page=1&pageSize=20&includeTeams=true' \
+  -H 'Authorization: Bearer <api-key>'
+```

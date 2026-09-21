@@ -1,0 +1,11 @@
+# Source: https://umami.is/product
+
+# Built for every team
+
+See how Umami fits your role. Whether you're a developer, marketer, or running an agency — Umami adapts to your workflow.
+
+[**Developers**\\ \\ Open source, self-hostable, and API-first. Add analytics to any project with a single script tag.\\ \\ Learn more →](https://umami.is/product/developers) [**Marketers**\\ \\ Track campaigns, measure conversions, and prove ROI from a single real-time dashboard.\\ \\ Learn more →](https://umami.is/product/marketers) [**Agencies**\\ \\ Manage every client from one dashboard. Onboard sites in minutes and share insights easily.\\ \\ Learn more →](https://umami.is/product/agencies) [**E-commerce**\\ \\ Track revenue, optimize conversion funnels, and understand buyer behavior.\\ \\ Learn more →](https://umami.is/product/ecommerce) [**SaaS**\\ \\ Track signups, measure onboarding funnels, and monitor feature adoption.\\ \\ Learn more →](https://umami.is/product/saas) [**Startups**\\ \\ Set up in minutes, track growth from day one, and scale without scaling costs.\\ \\ Learn more →](https://umami.is/product/startups) [**Publishers**\\ \\ See which stories perform, where readers come from, and what turns them into subscribers.\\ \\ Learn more →](https://umami.is/product/publishers) [**Bloggers**\\ \\ Understand which content performs, where readers come from, and how to grow your audience.\\ \\ Learn more →](https://umami.is/product/bloggers) [**Freelancers**\\ \\ Track all your projects and client sites from one dashboard. Free to self-host.\\ \\ Learn more →](https://umami.is/product/freelancers) [**Creators**\\ \\ Discover how your followers engage with your content from a single, intuitive dashboard.\\ \\ Learn more →](https://umami.is/product/creators) [**Non-profits**\\ \\ Measure your impact without compromising your audience's privacy. Free to self-host.\\ \\ Learn more →](https://umami.is/product/nonprofits) [**Enterprise**\\ \\ Self-hosted analytics with full data sovereignty, team permissions, and unlimited scale.\\ \\ Learn more →](https://umami.is/product/enterprise)
+
+Try Umami now.
+
+[Get started for free](https://cloud.umami.is/signup?ref=umami-get-started-banner)

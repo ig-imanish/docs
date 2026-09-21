@@ -1,0 +1,118 @@
+# Source: https://umami.is/blog/umami-v2.12.0
+
+# Umami v2.12.0
+
+June 24th, 2024Posted by Nick Andrews
+
+![Umami v2.12.0](https://umami.is/images/blog/image-v2.12.webp)
+
+We're excited to announce the latest release of our product, v2.12.0, designed to provide product and marketing teams with additional reporting and tools. These new features, such as the User Journey report, will allow you to double-click deeper into your website analytics, uncovering additional insights. This will allow you to optimize your website performance, user engagement, and conversion journeys on a whole new level.
+
+Let’s jump in and explore all the new features and updates to existing ones.
+
+## User Journey report
+
+The highly anticipated **User Journey** report is finally here! This new reporting capability visually maps out how users navigate your website, giving you a detailed understanding of their behavior. Whether you want to see all user paths or focus on specific pages or events, this report is designed to help you identify areas for improvement and optimize your website's performance.
+
+The User Journey report works wherever you have Umami installed. Whether you have Umami installed on your marketing website or web-based application (or both), here is just a small sample of possible use cases:
+
+- Identify users' most common paths to reach a conversion event or page.
+- Discover where users drop off in the conversion funnel and make targeted improvements to reduce abandonment rates.
+- Analyze user behavior across different marketing channels to understand which channels drive the most engaged users and optimize your marketing efforts accordingly.
+- Examine users' paths and the pages and events they visit most frequently to identify potential navigation issues or confusing user flows.
+
+![image](https://umami.is/images/blog/user-journey.webp)
+
+## Goals report
+
+Next up is the Goals report. We’ve enhanced this existing report so you can now set pageviews, events, and event data as goals. This feature lets you align your website's performance with your business objectives, making tracking progress and celebrating achievements easier.
+
+Goal report possible use cases:
+
+- Set a goal to increase newsletter signups by 20% and track progress using the Goals report to measure the effectiveness of your signup form and call-to-action placement.
+- Monitor the success of a new product launch by setting goals for product page views and add-to-cart events, ensuring that your marketing efforts are driving the desired actions.
+- Establish goals for specific user actions, such as watching a product demo video or downloading a whitepaper, to gauge the effectiveness of your content marketing strategy.
+- Create goals for different stages of the customer journey, such as awareness, consideration, and conversion, to identify areas for improvement and optimize your marketing funnel.
+- Use the Goals report to track the performance of A/B tests and determine which variations drive the best results for your desired goals.
+
+![image](https://umami.is/images/blog/goals-report.webp)
+
+## Breakdown report
+
+We've added three new columns to the Breakdown report: Visits, Bounce rate, and Visit duration. Visits provide an overview of how many times your website has been visited, bounce rate indicates the percentage of visitors who leave your site after viewing only one page, and visit duration shows how long visitors stay on your site on average. These metrics provide an overview of your website's performance, helping you gauge audience engagement and identify opportunities for optimization.
+
+Breakdown report possible use cases:
+
+- Analyze the bounce rate of key landing pages and make content or design improvements to reduce bounces and increase engagement.
+- Monitor visit duration to understand how long users spend on your site and identify pages needing content optimization to hold users' attention longer.
+- Compare visit metrics across different traffic sources to determine which channels bring the most engaged users and allocate your marketing budget accordingly.
+- Identify pages with high bounce rates and low visit duration, and consider adding internal links, related content, or calls to action to encourage users to explore your site further.
+- Track visits and engagement metrics over time to identify trends and seasonality in your website traffic, allowing you to plan your marketing campaigns and content strategy more effectively.
+
+![image](https://umami.is/images/blog/insights-report.webp)
+
+## Comparison mode
+
+Our new comparison mode makes identifying trends and changes in your website's performance more straightforward. Available on the details screen, this feature lets you compare metrics across two date periods, with data overlaid for visualization.
+
+You can also view the changes across all your metrics, providing a more detailed understanding of your website's performance over time. Tack the impact of changes or campaigns on your website and product’s performance.
+
+Comparison mode possible use cases:
+
+Compare website performance during a marketing campaign to the same period in the previous month to measure the campaign's impact and identify successful strategies. Compare data before and after a website redesign or new feature implementation to analyze how the change affected user behavior and key metrics. Compare metrics across relevant periods to monitor the impact of external factors, such as market trends, competitor actions, or global events, on your website's performance. Compare data from different days, months, or quarters to identify seasonal patterns in your website traffic and user behavior. This will help you plan your marketing strategies accordingly. Measure the long-term success of your SEO efforts by comparing organic traffic and keyword rankings over extended periods, such as six months or a year.
+
+![image](https://umami.is/images/blog/comparison-mode.webp)
+
+Additionally, you can view the changes across all your different metrics.
+
+![image](https://umami.is/images/blog/comparison-table.webp)
+
+## UI improvements
+
+### Collapsible report menu
+
+We've made several user interface improvements to hopefully improve your experience with Umami! All reports feature a menu collapse, providing more screen space to focus on your reports.
+
+### New metrics header
+
+We've updated the metrics header; now, all the change stats are listed as percentages with an arrow to indicate the change direction. This new format makes it easier to understand the direction and magnitude of the change in your metrics. You can still hover over the percent value to get the change value, allowing for a more detailed analysis.
+
+![image](https://umami.is/images/blog/metrics-header.webp)
+
+## Entry/exit pages
+
+We've introduced two new features to help you gain deeper insights into user behavior. You can now view the entry and exit URLs of the pages users start and end their visits on. This provides information about the effectiveness of your landing pages and potential exit points.
+
+Entry/Exit URLs possible use cases:
+
+- Identify and optimize the most popular entry pages for better user experience and conversion rates.
+- Analyze exit pages to understand why users leave your site and implement strategies to keep them engaged or encourage them to take desired actions before leaving.
+- Monitor the exit rates of key pages in your conversion funnel, such as product or checkout pages, and make improvements to reduce abandonment and increase conversions.
+
+![image](https://umami.is/images/blog/entry-exit-pages.webp)
+
+## Hosts filtering
+
+For users who track stats across multiple domains or subdomains, we've added the ability to filter by hostname, making analyzing data specific to each domain easier. As just one example, you can use the hostname filtering feature to analyze the performance of specific subdomains or compare metrics across different domains to identify best practices and optimize your overall online presence.
+
+![](https://umami.is/images/blog/hosts-filtering.webp)
+
+In addition to the new features, we've addressed several issues and made updates to improve our product's performance and reliability. These include:
+
+- Fixed issue with metrics not filtering [#2737](https://github.com/umami-software/umami/issues/2737)
+- Fixed issue with `offset` query parameter [#2752](https://github.com/umami-software/umami/issues/2752)
+- Fixed issue with payload size in real-time page [#2747](https://github.com/umami-software/umami/issues/2747)
+- Refactored real-time page for improved accuracy [#2754](https://github.com/umami-software/umami/issues/2754)
+- Ensured websiteId is always sent from the tracker [#2614](https://github.com/umami-software/umami/issues/2614)
+
+Finally, we have added additional language support for Ukrainian, Bulgarian, Brazilian Portuguese and Polish.
+
+We're thrilled to deliver these new features and enhancements to existing features for product and marketing teams. If you have any questions or need support with the new features, please contact us at [hello@umami.is](mailto:hello@umami.is).
+
+Thank you for using Umami!
+
+[Back](https://umami.is/blog)
+
+## Keep reading
+
+[Product updates · Sep 16, 2026Umami v3.4Annotations, MCP support, account API keys, a typed API client, and session property filters for saved segments.](https://umami.is/blog/umami-v3.4) [Product updates · Sep 10, 2026Introducing Umami MCP: Your Analytics, in ConversationConnect your AI assistant to Umami and ask questions about your traffic, events, and conversions. MCP is live on Cloud, with support committed for self-hosting.](https://umami.is/blog/introducing-umami-mcp) [Product updates · Aug 11, 2026Umami v3.3Two-factor authentication, session identity stitching, property filtering, sparklines, board cloning, and a long list of performance and quality improvements.](https://umami.is/blog/umami-v3.3)

@@ -1,0 +1,65 @@
+---
+title: "Overview Dashboard: Your Analytics at a Glance"
+sidebarTitle: "Overview Dashboard"
+description: "Understand your website's key metrics — pageviews, visitors, bounce rate, and visit duration — all in one real-time privacy-first dashboard."
+---
+
+The Overview Dashboard is the first thing you see when you open a website in Betterumami. It pulls together every core metric — pageviews, unique visitors, bounce rate, average visit duration, and live visitor count — into a single screen so you can assess your site's performance without clicking through multiple reports. The dashboard updates in real time, supports any date range, and responds instantly to filters, letting you slice your data by country, device, referrer, or any other dimension in seconds. Every filter and date range you apply on this screen carries through automatically to all sub-reports and insights.
+
+## Metric cards
+
+The top of the dashboard displays five summary cards, each covering a distinct measure of traffic and engagement.
+
+| Card | What it shows |
+| --- | --- |
+| **Views** | Total number of page views in the selected period. |
+| **Visitors** | Count of unique visitors, identified without cookies or personal data. |
+| **Visits** | Number of sessions (a visit ends after 30 minutes of inactivity). |
+| **Bounce Rate** | Percentage of visits where the visitor left after viewing only one page. |
+| **Visit Duration** | Average time spent per visit across all sessions in the period. |
+| **Live** | Number of visitors active on your site right now, updated continuously. |
+
+<Tip>
+A high bounce rate is not always negative — it depends on your page's intent. A blog post or landing page designed to answer a single question may legitimately have a high bounce rate, while a product page should have a low one.
+</Tip>
+
+## Traffic chart
+
+Below the metric cards, the traffic chart plots **Views** and **Visitors** over the selected date range. You can switch the chart between hourly, daily, weekly, and monthly granularity depending on how wide your date range is. Hover over any point to see the exact numbers for that interval.
+
+### Annotations
+
+Pinned notes appear directly on the chart as markers at the date they apply to. Click **Notes** (below the chart, on the right) to add an annotation — useful for recording a deploy, a campaign launch, a press mention, or anything else that might explain a spike or dip in your data. Hover over a marker to preview the note; click it to jump the entire dashboard to that date. If you have edit access to the website, you can add, edit, or delete annotations. On shared or public dashboards they are visible but read-only.
+
+## Breakdown cards
+
+Below the chart, a series of cards segment your traffic by different dimensions. Each card ranks values by visit count and shows the top entries.
+
+| Card | Dimension |
+| --- | --- |
+| **Pages** | Most-visited page paths on your site. |
+| **Referrers** | External sites and channels that sent you traffic. |
+| **Countries** | Visitor locations by country. |
+| **Regions** | State, province, or region within a country. |
+| **Cities** | City-level location data. |
+| **Devices** | Device type — desktop, tablet, or mobile. |
+| **Browsers** | Web browsers used by your visitors. |
+| **OS** | Operating systems of your visitors' devices. |
+
+Clicking any row in a breakdown card instantly applies that value as a filter. The metric cards, chart, and all other cards update immediately to show data scoped to that filter.
+
+## Date range picker
+
+The date range picker sits at the top of the dashboard. You can choose from preset ranges (today, last 7 days, last 30 days, this month, last year, and more) or set a custom start and end date. The selected range persists as you navigate to other reports — Goals, Funnels, Attribution, and Retention all use the same date window until you change it.
+
+### Compare mode
+
+The date range picker also lets you activate [Compare mode](/docs/compare). Select **Previous period** or **Previous year** to overlay a second time range on the traffic chart. In compare mode, the chart shows two lines — Views in purple and Visitors in pink — one for each period, and the metric cards display a percentage-change indicator (green for improvement, red for decline).
+
+## Filters
+
+Click the **Filter** button at the top of the dashboard to open the filter panel and add one or more conditions. Alternatively, click any row in a breakdown card to apply that value directly as a filter. Active filters appear as chips at the top of the page so you always know what is in scope. Because filtering is universal, any filter you apply on the Overview carries through to every report and insight. See [Filters](/docs/filters) for the full list of available filter categories and operators.
+
+<Note>
+Filters and date ranges are shared across all Betterumami screens. If you set a filter on the Overview and then open the Funnel or Goals report, that filter is still active. Clear your filters when you are done to avoid accidentally scoping sub-reports to a subset of data.
+</Note>

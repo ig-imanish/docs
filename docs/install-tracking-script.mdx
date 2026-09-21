@@ -1,0 +1,103 @@
+---
+title: "Install the Betterumami Tracking Script"
+sidebarTitle: "Install Script"
+description: "Copy the Betterumami tracking script from your dashboard and paste it into your site's head tag to start collecting analytics data instantly."
+---
+
+The Betterumami tracking script is a small, asynchronous JavaScript snippet that records pageviews and events on your website and sends them to your dashboard in real time. It uses no cookies and collects no personal data, so it works alongside your existing privacy setup without requiring any changes to your consent flow. Installing it takes less than a minute — you copy one `<script>` tag and paste it into your HTML.
+
+## Get your tracking code
+
+<Steps>
+  <Step title="Go to your website settings">
+    Log in to Betterumami and click **Websites** in the left sidebar. Find the website you want to instrument and click the **Edit** button next to it.
+  </Step>
+
+  <Step title="Copy the tracking code">
+    Scroll down to the **Tracking code** section. You will see a script tag that is pre-populated with your unique `data-website-id`. Click to copy the entire snippet.
+
+    Your tracking code will look like this:
+
+    ```html
+    <script async src="https://cloud.umami.is/script.js" data-website-id="your-website-id"></script>
+    ```
+
+    The `data-website-id` value is unique to your website. Do not share it publicly, and make sure you copy the full tag including that attribute.
+  </Step>
+
+  <Step title="Paste the script into your site's head tag">
+    Add the copied snippet to the `<head>` section of every page you want to track. Place it in a shared layout or template file so it is included automatically across your entire site.
+
+    ```html
+    <head>
+      <meta charset="UTF-8" />
+      <title>My Website</title>
+      <script async src="https://cloud.umami.is/script.js" data-website-id="your-website-id"></script>
+    </head>
+    ```
+  </Step>
+</Steps>
+
+## Framework-specific instructions
+
+<AccordionGroup>
+  <Accordion title="Next.js">
+    In Next.js, use the built-in [`next/script`](https://nextjs.org/docs/app/api-reference/components/script) component instead of a plain `<script>` tag. This ensures the script is loaded correctly within Next.js's rendering pipeline.
+
+    ```jsx
+    import Script from 'next/script'
+
+    export default function RootLayout({ children }) {
+      return (
+        <html>
+          <head />
+          <body>
+            {children}
+            <Script
+              async
+              src="https://cloud.umami.is/script.js"
+              data-website-id="your-website-id"
+            />
+          </body>
+        </html>
+      )
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="Single-page applications (React, Vue, Svelte, etc.)">
+    Betterumami automatically detects client-side route changes in single-page applications. You do not need any additional configuration or calls to track navigation between pages. Simply install the script tag once in your root HTML template and all page transitions will be recorded automatically.
+  </Accordion>
+
+  <Accordion title="WordPress">
+    Paste the script tag into your theme's `header.php` file, just before the closing `</head>` tag. Alternatively, use a plugin such as **Insert Headers and Footers** to add the snippet without editing theme files directly.
+  </Accordion>
+</AccordionGroup>
+
+## Verify the script is working
+
+After deploying the script, visit your website in a browser. Return to the Betterumami dashboard — a pageview should appear in your real-time view within a few seconds. If you want to double-check at the network level, open browser developer tools (`F12`), go to the **Network** tab, reload the page, and look for a request to `cloud.umami.is`.
+
+## Troubleshooting
+
+<Warning>
+  If you see the script loading in the Network tab but no data appears in your dashboard, confirm that the `data-website-id` in your script tag exactly matches the ID shown in the **Edit** view for that website. A copy-paste error or a mismatched ID is the most common cause of this issue.
+</Warning>
+
+### Ad blockers
+
+Some ad blockers block analytics scripts regardless of whether they respect privacy. Traffic from visitors using those blockers will not appear in your dashboard. There are two ways to mitigate this:
+
+1. **Proxy the script** — Serve the script from your own domain so ad blockers that target the `cloud.umami.is` hostname do not block it. For example, in Nginx you can proxy `https://your-website.com/script.js` to `https://cloud.umami.is/script.js`. With Next.js, you can use [rewrites](https://nextjs.org/docs/pages/api-reference/next-config-js/rewrites) to achieve the same result without a server-level change.
+
+2. **Self-host the script** — Download the script from `https://cloud.umami.is/script.js`, host it on your own domain, and set the `data-host-url` attribute to point back to the Betterumami cloud endpoint for data collection.
+
+<Tip>
+  Proxying is the more robust of the two approaches. Because the script is served from your own domain, most ad blockers will not flag it. If you self-host the script file instead, remember to re-download and redeploy it whenever the script is updated.
+</Tip>
+
+### Data not appearing after installation
+
+- Confirm the script tag is inside `<head>`, not `<body>` or after `</html>`.
+- Check that the page you visited has been deployed — changes to a local development environment will not affect your live site.
+- Make sure there are no JavaScript errors on the page that could be preventing the script from executing. Check the **Console** tab in browser developer tools for errors.

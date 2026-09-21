@@ -1,0 +1,149 @@
+---
+title: "Create a New Website in Betterumami"
+sidebarTitle: "Create Website"
+description: "Register a new website for tracking by providing a name and domain. Optionally assign it to a team and enable public sharing with a shareId."
+---
+
+Use this endpoint to register a new website and start collecting analytics data. At minimum you must supply a `name` and a `domain`. You can optionally assign the website to a `team`, pre-set a public `shareId`, or provide your own UUID with `id`. The endpoint returns the full website object, including the tracking snippet configuration you can embed on your site.
+
+`POST /api/websites`
+
+## Request
+
+### Headers
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token. Pass your API key: `Authorization: Bearer <api-key>`
+</ParamField>
+
+<ParamField header="Content-Type" type="string" required>
+  Must be `application/json`.
+</ParamField>
+
+### Body Parameters
+
+<ParamField body="name" type="string" required>
+  Human-readable display name for the website, e.g. `"My Marketing Site"`. Shown throughout the Betterumami UI.
+</ParamField>
+
+<ParamField body="domain" type="string" required>
+  The domain this website tracks, e.g. `"example.com"`. Do not include the `https://` scheme or a trailing slash.
+</ParamField>
+
+<ParamField body="shareId" type="string | null">
+  Custom token for the public share page, e.g. `"my-public-dashboard"`. When omitted or `null`, public sharing is disabled. Must be unique across all websites.
+</ParamField>
+
+<ParamField body="teamId" type="string | null">
+  UUID of the team to assign this website to. When omitted or `null`, the website is created as a personal website under your account.
+</ParamField>
+
+<ParamField body="id" type="string | null">
+  Supply your own UUID to use as the website ID. When omitted, the server generates a UUID automatically.
+</ParamField>
+
+## Response
+
+**200 – Success**
+
+Returns the full website object for the newly created website.
+
+<ResponseField name="id" type="string" required>
+  UUID of the newly created website.
+</ResponseField>
+
+<ResponseField name="name" type="string" required>
+  Display name of the website.
+</ResponseField>
+
+<ResponseField name="domain" type="string | null" required>
+  Domain associated with the website.
+</ResponseField>
+
+<ResponseField name="shareId" type="string | null" required>
+  Public share token, or `null` if sharing is disabled.
+</ResponseField>
+
+<ResponseField name="teamId" type="string | null" required>
+  UUID of the assigned team, or `null` for personal websites.
+</ResponseField>
+
+<ResponseField name="userId" type="string | null" required>
+  UUID of the user who owns the website.
+</ResponseField>
+
+<ResponseField name="recorderEnabled" type="boolean" required>
+  Whether session recording is active. Defaults to `false` for new websites.
+</ResponseField>
+
+<ResponseField name="replayConfig" type="object" required>
+  Session replay and heatmap recording configuration for this website.
+</ResponseField>
+
+<ResponseField name="resetAt" type="string | null" required>
+  ISO 8601 timestamp of the last analytics reset. `null` for new websites.
+</ResponseField>
+
+<ResponseField name="createdAt" type="string | null" required>
+  ISO 8601 timestamp when the website was created.
+</ResponseField>
+
+<ResponseField name="updatedAt" type="string | null" required>
+  ISO 8601 timestamp when the website was last updated.
+</ResponseField>
+
+<ResponseField name="user" type="object">
+  Embedded owner information.
+</ResponseField>
+
+<ResponseField name="user.id" type="string">
+  UUID of the owning user.
+</ResponseField>
+
+<ResponseField name="user.username" type="string">
+  Username of the owning user.
+</ResponseField>
+
+```json 200 Response
+{
+  "id": "b8d3a1f0-1c2d-4e5f-8a9b-0c1d2e3f4a5b",
+  "name": "My Marketing Site",
+  "domain": "example.com",
+  "shareId": null,
+  "teamId": null,
+  "userId": "123e4567-e89b-12d3-a456-426614174000",
+  "createdBy": "123e4567-e89b-12d3-a456-426614174000",
+  "recorderEnabled": false,
+  "replayConfig": {
+    "replayEnabled": false,
+    "heatmapEnabled": false,
+    "sampleRate": 0,
+    "heatmapSampleRate": 0,
+    "maskLevel": "strict",
+    "blockSelector": "",
+    "maxDuration": 0
+  },
+  "resetAt": null,
+  "createdAt": "2024-08-01T12:00:00Z",
+  "updatedAt": "2024-08-01T12:00:00Z",
+  "deletedAt": null,
+  "user": {
+    "id": "123e4567-e89b-12d3-a456-426614174000",
+    "username": "alice"
+  }
+}
+```
+
+## Code Sample
+
+```bash
+curl -X POST 'https://api.umami.is/v1/websites' \
+  -H 'Authorization: Bearer <api-key>' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "name": "My Marketing Site",
+    "domain": "example.com",
+    "shareId": null,
+    "teamId": null
+  }'
+```

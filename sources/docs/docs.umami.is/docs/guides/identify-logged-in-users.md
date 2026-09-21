@@ -1,0 +1,97 @@
+# Source: https://docs.umami.is/docs/guides/identify-logged-in-users
+
+Menu
+
+Tracking
+
+# Identify logged-in users
+
+Copy page
+
+Use Umami's Distinct ID and session data features to associate analytics with specific users across sessions and devices, while maintaining privacy.
+
+## When to use this[#](https://docs.umami.is/docs/guides/identify-logged-in-users#when-to-use-this)
+
+- Track individual user journeys across multiple visits.
+- Understand how specific users interact with your product.
+- Connect events from different devices to the same person.
+- Build user profiles based on behavior history.
+
+## Step 1: Assign a Distinct ID[#](https://docs.umami.is/docs/guides/identify-logged-in-users#step-1-assign-a-distinct-id)
+
+When a user logs in, call `umami.identify()` with a unique identifier:
+
+```js
+// After user logs in
+umami.identify({ id: user.id });
+```
+
+The ID can be any string up to 50 characters: a user ID, email, or hash. All subsequent page views and events in that session will be linked to this ID.
+
+## Step 2: Add session data (optional)[#](https://docs.umami.is/docs/guides/identify-logged-in-users#step-2-add-session-data-optional)
+
+You can attach additional properties to help identify and segment users:
+
+```js
+umami.identify({
+  id: user.id,
+  name: user.name,
+  plan: user.plan,
+  company: user.company,
+});
+```
+
+Session properties appear in the visitor profile and can be used for filtering.
+
+## Step 3: View user activity[#](https://docs.umami.is/docs/guides/identify-logged-in-users#step-3-view-user-activity)
+
+Navigate to **Sessions** in your Umami dashboard. Use the search bar to find a specific Distinct ID:
+
+1. Enter the user's ID in the search field.
+2. Umami shows all sessions associated with that ID across the selected time range.
+3. Click on any session to see the full activity history: pages visited, events triggered, and timestamps. Since sessions linked to the same ID (e.g. from different devices) are combined automatically, this view shows the visitor's complete cross-device activity, not just the one session you clicked.
+
+## Framework examples[#](https://docs.umami.is/docs/guides/identify-logged-in-users#framework-examples)
+
+### React (after login)[#](https://docs.umami.is/docs/guides/identify-logged-in-users#react-after-login)
+
+```tsx
+function useIdentifyUser(user) {
+  useEffect(() => {
+    if (user) {
+      umami.identify({ id: user.id, plan: user.plan });
+    }
+  }, [user]);
+}
+```
+
+### Next.js (App Router)[#](https://docs.umami.is/docs/guides/identify-logged-in-users#nextjs-app-router)
+
+```tsx
+'use client';
+import { useSession } from 'next-auth/react';
+import { useEffect } from 'react';
+
+export function Analytics() {
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    if (session?.user) {
+      umami.identify({ id: session.user.id });
+    }
+  }, [session]);
+
+  return null;
+}
+```
+
+## Privacy considerations[#](https://docs.umami.is/docs/guides/identify-logged-in-users#privacy-considerations)
+
+- Use internal user IDs rather than email addresses when possible.
+- Umami stores session data server-side. No cookies are used.
+- Users who are not logged in remain fully anonymous.
+- You can use hashed identifiers (e.g., SHA-256 of the email) if you want to correlate data without storing PII.
+
+[PreviousTrack form submissions](https://docs.umami.is/docs/guides/track-form-submissions) [NextSet up A/B testing with tags](https://docs.umami.is/docs/guides/setup-ab-testing)
+
+On this page

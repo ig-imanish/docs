@@ -1,0 +1,57 @@
+# Source: https://docs.umami.is/docs/enable-cloudflare-headers
+
+Menu
+
+Configuration
+
+# Enable Cloudflare headers
+
+Copy page
+
+If you are using Cloudflare for your website, Umami will use the headers Cloudflare sends to determine the visitor's location information. However, by default Cloudflare only sends data for the country. If you also want region and city information, then you will need to configure Cloudflare to send additional headers.
+
+## Steps[#](https://docs.umami.is/docs/enable-cloudflare-headers#steps)
+
+1. Log in to the Cloudflare dashboard and select your account and website.
+
+2. Go to Rules > Settings.
+
+3. Go to the Managed Transforms tab.
+
+4. Enable the **Add visitor location headers** setting.
+
+Then, you'll have to proxy [the following headers](https://github.com/umami-software/umami/blob/aaa1f9dc58feafe6af54248c5f0611112786fddf/src/lib/detect.ts#L14C2-L18C5) to Umami:
+
+- `CF-IPCountry`
+- `CF-Region-Code`
+- `CF-IPCity`
+
+For example, if you're using Nginx as a reverse proxy, you can add the following configuration:
+
+```nginx
+location / {
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Host $host;
+    proxy_set_header CF-Connecting-IP $remote_addr;
+    proxy_set_header CF-IPCountry $http_cf_ipcountry;
+    proxy_set_header CF-Region-Code $http_cf_regioncode;
+    proxy_set_header CF-IPCity $http_cf_ipcity;
+    proxy_pass http://127.0.0.1:3000;
+}
+```
+
+## Force local geo database[#](https://docs.umami.is/docs/enable-cloudflare-headers#force-local-geo-database)
+
+Alternatively, when Cloudflare sends only the country but adding the visitor location headers is not possible, you can set the `SKIP_LOCATION_HEADERS` runtime variable to `1`. This disables header detection and forces the usage of the internal geo database for region and city resolution.
+
+```dotenv
+SKIP_LOCATION_HEADERS=1
+```
+
+The local geo database is slower than using CDN headers but provides full location data without additional proxy configuration.
+
+[PreviousEnvironment variables](https://docs.umami.is/docs/environment-variables) [NextUse Google Tag Manager](https://docs.umami.is/docs/google-tag-manager)
+
+On this page

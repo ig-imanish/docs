@@ -1,0 +1,174 @@
+# Source: https://docs.umami.is/docs/tracker-configuration
+
+Menu
+
+Tracking
+
+# Tracker configuration
+
+Copy page
+
+The Umami tracker provides several properties that allow you to configure its behavior.
+
+### data-host-url[#](https://docs.umami.is/docs/tracker-configuration#data-host-url)
+
+v2.0.0
+
+By default, Umami will send data to wherever the script is located. You can override this to send data to another location.
+
+```html
+<script
+  defer
+  src="http://mywebsite.com/umami.js"
+  data-website-id="94db1cb1-74f4-4a40-ad6c-962362670409"
+  data-host-url="http://stats.mywebsite.com"
+></script>
+```
+
+### data-auto-track[#](https://docs.umami.is/docs/tracker-configuration#data-auto-track)
+
+v2.0.0
+
+By default, Umami initializes pageview tracking, click tracking, path change detection, and optional features like performance tracking. Set this to `false` only if you want to disable tracker initialization entirely and send data yourself using the [tracker functions](https://docs.umami.is/docs/tracker-functions).
+
+```html
+<script
+  defer
+  src="http://mywebsite.com/umami.js"
+  data-website-id="94db1cb1-74f4-4a40-ad6c-962362670409"
+  data-auto-track="false"
+></script>
+```
+
+### data-auto-pageview[#](https://docs.umami.is/docs/tracker-configuration#data-auto-pageview)
+
+v3.2.0
+
+Disable automatic pageview tracking while keeping the rest of the tracker initialized. Use this when you want to call `umami.track()` manually but still keep features like performance tracking enabled.
+
+```html
+<script
+  defer
+  src="http://mywebsite.com/umami.js"
+  data-website-id="94db1cb1-74f4-4a40-ad6c-962362670409"
+  data-auto-pageview="false"
+></script>
+```
+
+### data-domains[#](https://docs.umami.is/docs/tracker-configuration#data-domains)
+
+v2.0.0
+
+If you want the tracker to only run on specific domains, you can add them to your tracker script. This is a comma delimited list of domain names. Each value matches against `window.location.hostname`, so you should double check if your website uses `www` or not. Helps if you are working in a staging/development environment.
+
+```html
+<script
+  defer
+  src="http://mywebsite.com/umami.js"
+  data-website-id="94db1cb1-74f4-4a40-ad6c-962362670409"
+  data-domains="mywebsite.com,www.mywebsite.com"
+></script>
+```
+
+### data-tag[#](https://docs.umami.is/docs/tracker-configuration#data-tag)
+
+v2.11.0
+
+Group events under a named tag for filtering and A/B testing. See [Tags](https://docs.umami.is/docs/tags) for more details.
+
+```html
+<script
+  defer
+  src="http://mywebsite.com/umami.js"
+  data-website-id="94db1cb1-74f4-4a40-ad6c-962362670409"
+  data-tag="homepage-layout-a"
+></script>
+```
+
+### data-performance[#](https://docs.umami.is/docs/tracker-configuration#data-performance)
+
+v3.1.0
+
+Enable automatic collection of [Core Web Vitals](https://web.dev/articles/vitals) from your visitors' browsers. If you are sending pageviews manually, use `data-auto-pageview="false"` instead of `data-auto-track="false"` so performance tracking still initializes. See [Performance](https://docs.umami.is/docs/performance) for more details.
+
+```html
+<script
+  defer
+  src="http://mywebsite.com/umami.js"
+  data-website-id="94db1cb1-74f4-4a40-ad6c-962362670409"
+  data-performance="true"
+></script>
+```
+
+### data-exclude-search[#](https://docs.umami.is/docs/tracker-configuration#data-exclude-search)
+
+v2.11.0
+
+If you don't want to collect search parameters from the URL.
+
+```html
+<script
+  defer
+  src="http://mywebsite.com/umami.js"
+  data-website-id="94db1cb1-74f4-4a40-ad6c-962362670409"
+  data-exclude-search="true"
+></script>
+```
+
+### data-exclude-hash[#](https://docs.umami.is/docs/tracker-configuration#data-exclude-hash)
+
+v2.16.0
+
+If you don't want to collect the hash value from the URL.
+
+```html
+<script
+  defer
+  src="http://mywebsite.com/umami.js"
+  data-website-id="94db1cb1-74f4-4a40-ad6c-962362670409"
+  data-exclude-hash="true"
+></script>
+```
+
+### data-do-not-track[#](https://docs.umami.is/docs/tracker-configuration#data-do-not-track)
+
+v2.17.0
+
+Respect user's [Do Not Track](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/doNotTrack) browser setting.
+
+```html
+<script
+  defer
+  src="http://mywebsite.com/umami.js"
+  data-website-id="94db1cb1-74f4-4a40-ad6c-962362670409"
+  data-do-not-track="true"
+></script>
+```
+
+### data-before-send[#](https://docs.umami.is/docs/tracker-configuration#data-before-send)
+
+v2.18.0
+
+Allows you to specify a function that will be called before data is sent. You can then inspect and modify the payload or cancel the send entirely. The function will take two parameters, type and payload. To continue with sending, you return a payload object. To cancel the send, return a false-y value.
+
+```javascript
+function beforeSendHandler(type, payload) {
+  if (checkPayload(payload)) {
+    return payload;
+  }
+  return false;
+}
+```
+
+```html
+<script
+  defer
+  src="http://mywebsite.com/umami.js"
+  data-website-id="94db1cb1-74f4-4a40-ad6c-962362670409"
+  data-before-send="beforeSendHandler"
+></script>
+```
+
+[PreviousTracker functions](https://docs.umami.is/docs/tracker-functions) [NextTrack events](https://docs.umami.is/docs/track-events)
+
+On this page

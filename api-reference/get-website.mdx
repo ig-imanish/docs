@@ -1,0 +1,158 @@
+---
+title: "Get a Single Website by ID"
+sidebarTitle: "Get Website"
+description: "Fetch the full configuration and metadata for one website using its unique ID, including domain, sharing settings, team, and recording config."
+---
+
+Use this endpoint to retrieve the complete details and configuration for a single website. You need the `websiteId` — a UUID you can obtain from the [List Websites](/api-reference/list-websites) endpoint or from the Betterumami dashboard. The response includes sharing settings, team assignment, recording configuration, and timestamps.
+
+`GET /api/websites/{websiteId}`
+
+## Request
+
+### Headers
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token. Pass your API key: `Authorization: Bearer <api-key>`
+</ParamField>
+
+### Path Parameters
+
+<ParamField path="websiteId" type="string" required>
+  The unique UUID of the website to retrieve.
+</ParamField>
+
+## Response
+
+**200 – Success**
+
+Returns the website object, or `null` if no website with that ID exists within your scope.
+
+<ResponseField name="id" type="string" required>
+  Unique UUID of the website.
+</ResponseField>
+
+<ResponseField name="name" type="string" required>
+  Human-readable display name of the website.
+</ResponseField>
+
+<ResponseField name="domain" type="string | null" required>
+  Domain tracked by this website, e.g. `example.com`.
+</ResponseField>
+
+<ResponseField name="shareId" type="string | null" required>
+  Token used to access the public share page. `null` if sharing is disabled.
+</ResponseField>
+
+<ResponseField name="teamId" type="string | null" required>
+  UUID of the team this website belongs to. `null` for personal websites.
+</ResponseField>
+
+<ResponseField name="userId" type="string | null" required>
+  UUID of the user who created the website.
+</ResponseField>
+
+<ResponseField name="createdBy" type="string | null" required>
+  UUID of the user who created the resource (same as `userId` in most cases).
+</ResponseField>
+
+<ResponseField name="recorderEnabled" type="boolean" required>
+  Whether session recording and heatmap capture is active for this website.
+</ResponseField>
+
+<ResponseField name="replayConfig" type="object" required>
+  Session replay and heatmap recording configuration.
+</ResponseField>
+
+<ResponseField name="replayConfig.replayEnabled" type="boolean">
+  Whether session replay recording is turned on.
+</ResponseField>
+
+<ResponseField name="replayConfig.heatmapEnabled" type="boolean">
+  Whether heatmap data capture is turned on.
+</ResponseField>
+
+<ResponseField name="replayConfig.sampleRate" type="number">
+  Fraction of sessions to record, from `0` (none) to `1` (all).
+</ResponseField>
+
+<ResponseField name="replayConfig.heatmapSampleRate" type="number">
+  Fraction of sessions from which heatmap data is captured.
+</ResponseField>
+
+<ResponseField name="replayConfig.maskLevel" type="string">
+  Privacy masking level applied during recording. One of `strict`, `moderate`, or `none`.
+</ResponseField>
+
+<ResponseField name="replayConfig.blockSelector" type="string">
+  CSS selector for DOM elements to block from recording.
+</ResponseField>
+
+<ResponseField name="replayConfig.maxDuration" type="number">
+  Maximum session recording length in seconds.
+</ResponseField>
+
+<ResponseField name="resetAt" type="string | null" required>
+  ISO 8601 timestamp of the last analytics data reset, or `null` if never reset.
+</ResponseField>
+
+<ResponseField name="createdAt" type="string | null" required>
+  ISO 8601 timestamp when the website record was created.
+</ResponseField>
+
+<ResponseField name="updatedAt" type="string | null" required>
+  ISO 8601 timestamp when the website record was last updated.
+</ResponseField>
+
+<ResponseField name="deletedAt" type="string | null" required>
+  ISO 8601 timestamp when the website was deleted, or `null` if it is active.
+</ResponseField>
+
+<ResponseField name="user" type="object">
+  Embedded owner information.
+</ResponseField>
+
+<ResponseField name="user.id" type="string">
+  UUID of the owning user.
+</ResponseField>
+
+<ResponseField name="user.username" type="string">
+  Username of the owning user.
+</ResponseField>
+
+```json 200 Response
+{
+  "id": "b8d3a1f0-1c2d-4e5f-8a9b-0c1d2e3f4a5b",
+  "name": "My Marketing Site",
+  "domain": "example.com",
+  "shareId": null,
+  "teamId": null,
+  "userId": "123e4567-e89b-12d3-a456-426614174000",
+  "createdBy": "123e4567-e89b-12d3-a456-426614174000",
+  "recorderEnabled": true,
+  "replayConfig": {
+    "replayEnabled": true,
+    "heatmapEnabled": false,
+    "sampleRate": 0.1,
+    "heatmapSampleRate": 0,
+    "maskLevel": "strict",
+    "blockSelector": ".sensitive-data",
+    "maxDuration": 3600
+  },
+  "resetAt": null,
+  "createdAt": "2024-03-01T10:00:00Z",
+  "updatedAt": "2024-06-15T08:22:00Z",
+  "deletedAt": null,
+  "user": {
+    "id": "123e4567-e89b-12d3-a456-426614174000",
+    "username": "alice"
+  }
+}
+```
+
+## Code Sample
+
+```bash
+curl -X GET 'https://api.umami.is/v1/websites/b8d3a1f0-1c2d-4e5f-8a9b-0c1d2e3f4a5b' \
+  -H 'Authorization: Bearer <api-key>'
+```

@@ -1,0 +1,63 @@
+# Source: https://docs.umami.is/docs/guides/running-on-vercel
+
+Menu
+
+Hosting
+
+# Running on Vercel
+
+Copy page
+
+[Vercel](https://vercel.com/) is the company behind the framework [Next.js](https://nextjs.org/) which is used by Umami. They also provide a free hosting service which is ideal for Next.js applications.
+
+If you don't already have a database, you can create a Vercel Postgres database integration. You can also follow the [Running on DigitalOcean](https://docs.umami.is/docs/guides/running-on-digitalocean) guide or the [Running on PlanetScale](https://docs.umami.is/docs/guides/running-on-planetscale) guide to get a database up and running. You can also check out the **Managed databases** section under [Hosting](https://docs.umami.is/docs/guides/hosting).
+
+## Setup[#](https://docs.umami.is/docs/guides/running-on-vercel#setup)
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fumami-software%2Fumami&env=DATABASE_URL)
+
+_Automate steps 1-5 using the button above_
+
+1. Fork the [https://github.com/umami-software/umami](https://github.com/umami-software/umami) project to your GitHub account.
+2. Create an account on [Vercel](https://vercel.com/).
+3. From the dashboard page click **Import Project** then specify the URL to your fork of the project on GitHub.
+4. Add the required environment variables `DATABASE_URL` to your Vercel project. These values are defined in the **Configure Umami** step from [Install](https://docs.umami.is/docs/install). You can also create a Vercel Postgres database at this point.
+
+- You should use `POSTGRES_PRISMA_URL` for umami, which is in the form of `postgres://user:passwd@endpoint-pooler.postgres.vercel-storage.com/verceldb?pgbouncer=true&connect_timeout=10`.
+- The environment variable used for the database URL can be changed in the `db/postgresql/schema.prisma` file.
+
+5. Deploy and visit your application at `<deploy-id>.vercel.app`.
+6. Follow the **Getting started** guide starting from the [Login](https://docs.umami.is/docs/login) step and be sure to change the default password.
+
+### Proxy Umami Analytics via Vercel[#](https://docs.umami.is/docs/guides/running-on-vercel#proxy-umami-analytics-via-vercel)
+
+Optionally, you can proxy Umami Analytics to serve Umami Analytics from your main domain. This is also useful for bypassing ad-blocker when using [Umami Cloud](https://umami.is/pricing).
+
+See Vercel's [rewrites docs](https://vercel.com/docs/project-configuration).
+
+In the root of your project, add the `vercel.json` file with the following contents:
+
+```json
+{
+  "rewrites": [
+    {
+      "source": "/stats/:match*",
+      "destination": "https://cloud.umami.is/:match*"
+    }
+  ]
+}
+```
+
+The tracking code script tag should use `/stats/script.js` as `src` value:
+
+```html
+<script
+  defer
+  src="/stats/script.js"
+  data-website-id="94db1cb1-74f4-4a40-ad6c-962362670409"
+></script>
+```
+
+[PreviousRunning on Supabase](https://docs.umami.is/docs/guides/running-on-supabase) [NextMigrate v1 to v2](https://docs.umami.is/docs/guides/migrate-v1-v2)
+
+On this page

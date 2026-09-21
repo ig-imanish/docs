@@ -1,0 +1,64 @@
+---
+title: "Retention: Understand How Often Visitors Return"
+sidebarTitle: "Retention"
+description: "Measure how many visitors return after their first visit using cohort analysis, and learn whether your site keeps people coming back over time."
+---
+
+Retention measures your website's stickiness — whether the people who visit once come back for more. Betterumami's Retention insight uses cohort analysis to answer that question precisely. It groups visitors by the day they first arrived on your site, then tracks what percentage of each group returned on subsequent days. The result is a grid that lets you see, at a glance, how engagement decays over time and whether certain cohorts retain better than others. If your product, content, or service is genuinely valuable, retention rates stay relatively high across subsequent days; if visitors arrive and never return, low retention signals that something about the experience needs work.
+
+Understanding retention is especially important for SaaS products, media sites, communities, and any website where returning visitors are more valuable than one-time visitors. A site with strong acquisition but weak retention is continuously replacing its audience rather than building one.
+
+## How the chart works
+
+The retention chart is a grid organized as follows:
+
+- **Rows** represent daily cohorts — each row is a group of visitors who made their first-ever visit to your site on that calendar day.
+- **Columns** represent subsequent days after the initial visit — Day 1 means the day after first visit, Day 2 means two days after, and so on.
+- **Cell values** show the percentage of visitors in that row's cohort who returned on the corresponding day.
+
+For example, if the cohort for a given day shows **40%** in the Day 1 column, it means 40% of the visitors who first arrived that day came back the following day. A cohort showing **15%** on Day 7 means 15% of those first-time visitors returned a week later.
+
+Higher percentages across later days indicate stronger long-term engagement. Comparing rows lets you spot whether a particular week's cohort retained unusually well — which may correlate with a campaign, a feature launch, or a piece of content that brought in higher-quality visitors.
+
+## Parameters
+
+| Parameter | Description |
+| --- | --- |
+| **Date** | (required) The month and year for which you want to view retention cohorts. Each row in the chart represents one calendar day within that month. |
+
+## How to run the Retention insight
+
+<Steps>
+  <Step title="Open the Retention insight">
+    Navigate to your website and select **Retention** from the insights navigation.
+  </Step>
+  <Step title="Choose a month and year">
+    Use the date picker to select the month and year you want to analyze. Betterumami will calculate a cohort for each day in that month on which at least one new visitor arrived.
+  </Step>
+  <Step title="Run the insight">
+    Click **Run**. The retention grid renders with one row per day and columns for each subsequent day in the retention window. Cells with higher percentages are shaded more darkly to make strong retention periods easy to spot at a glance.
+  </Step>
+</Steps>
+
+## How to interpret retention
+
+When reading a retention chart, look for these patterns:
+
+- **High Day 1 retention** — a large percentage of visitors return the very next day. Strong for news sites, daily tools, or products with a daily use case.
+- **Gradual decay** — retention drops steadily across columns. This is normal; the question is the rate of decay. A slow decay signals a loyal audience. A steep drop-off after Day 1 suggests visitors find value once but not enough to return.
+- **Flat retention beyond Day 3–5** — a cohort that stabilizes at, say, 10% from Day 5 onward has a loyal core that keeps coming back. That 10% is your engaged base.
+- **Cohort-to-cohort differences** — if one week's cohorts retain significantly better than the surrounding ones, investigate what was different during acquisition that week. A content piece, campaign, or product update that brought in a higher-quality audience will show up here.
+
+<Tip>
+Combine the Retention insight with [Filters](/docs/filters) to compare retention across audience segments. For example, filter to a specific UTM campaign to see whether visitors from that campaign retained better than your average. Or filter by country to understand geographic differences in long-term engagement.
+</Tip>
+
+<Note>
+Retention is calculated per calendar day, not per session. A visitor who triggered multiple sessions on the same day counts once for that day. The analysis is cookieless and privacy-preserving — Betterumami identifies returning visitors using an anonymized, non-persistent method that does not store personal data or write cookies.
+</Note>
+
+## Related features
+
+- [Filters](/docs/filters) — apply audience conditions before running retention to compare segments.
+- [Goals](/docs/goals) — measure the conversion rate of returning visitors vs. first-time visitors.
+- [Breakdown](/docs/breakdown) — segment your returning-visitor data by browser, country, device, or any other dimension.

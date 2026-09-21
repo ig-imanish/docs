@@ -1,0 +1,56 @@
+# Source: https://docs.umami.is/docs/funnel
+
+Menu
+
+Analysis
+
+# Funnel
+
+Copy page
+
+_Available since v2.3.0_
+
+Umami Funnel helps you understand the conversion and drop-off rate of users. By analyzing the funnel, users can make informed decisions to optimize the website's user experience and achieve better conversion rates.
+
+The insight works by displaying the counts of users that reach each URL or event and the drop off rate from the previous step. The funnel uses specific order criteria, which requires step completion in a required order. The user may navigate to other URLs or events in between the funnel steps, but must complete the funnel steps in order to be counted as a conversion.
+
+## Parameters[#](https://docs.umami.is/docs/funnel#parameters)
+
+- `Window`: (required) Maximum number of minutes allowed between consecutive funnel steps. If a user takes longer than this between any two steps, they are not counted as a conversion. For example, a 60-minute window means users must complete each step within 60 minutes of the previous one.
+- `Steps`: (required) Sequential step conditions used in the funnel. Minimum of two is required to run the insight.
+
+## Create an insight[#](https://docs.umami.is/docs/funnel#create-an-insight)
+
+### Step 1: Click on the add Funnel button[#](https://docs.umami.is/docs/funnel#step-1-click-on-the-add-funnel-button)
+
+![image](https://docs.umami.is/images/docs/funnel-add.png)
+
+### Step 2: Fill out the form details and click the **Save** button.[#](https://docs.umami.is/docs/funnel#step-2-fill-out-the-form-details-and-click-the-save-button)
+
+![image](https://docs.umami.is/images/docs/funnel-add-form.png)
+
+### Choose your steps[#](https://docs.umami.is/docs/funnel#choose-your-steps)
+
+Click the **Add** button, choose the step type (Viewed page or Triggered event) and type in the step condition on the funnel.
+
+![image](https://docs.umami.is/images/docs/funnel-steps.png)
+
+Continue to add steps until your desired funnel conditions are completed. Umami supports specific URLs, events, and URL wildcards as steps.
+
+| Step Type | Description | Example |
+| --- | --- | --- |
+| Specific URL | The user must reach this specific URL. | `/` |
+| Event | The user must generate this specific event. | `live-demo-button` |
+| URL wildcards | The user must reach any URL that meets the wildcard criteria. Only `Ends with` search is available. | `/docs*` |
+
+### Step 3: Run insight[#](https://docs.umami.is/docs/funnel#step-3-run-insight)
+
+![image](https://docs.umami.is/images/docs/funnel-details.png)
+
+To Edit or Delete a funnel click on the ellipsis for that specific funnel.
+
+![image](https://docs.umami.is/images/docs/funnel-edit.png)
+
+[PreviousGoals](https://docs.umami.is/docs/goals) [NextJourney](https://docs.umami.is/docs/journey)
+
+On this page

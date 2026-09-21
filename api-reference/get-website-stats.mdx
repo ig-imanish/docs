@@ -1,0 +1,225 @@
+---
+title: "Get Website Summary Statistics for a Date Range"
+sidebarTitle: "Get Stats"
+description: "Retrieve pageviews, unique visitors, visits, bounces, and total time on site for any date range, with an optional comparison period for trend analysis."
+---
+
+Use this endpoint to pull the headline numbers shown on the Betterumami Overview screen: pageviews, unique visitors, visits, bounces, and total time on site. Supply a date range using Unix millisecond timestamps (`startAt`/`endAt`) or ISO 8601 strings (`startDate`/`endDate`). Add the `compare` parameter to get a parallel set of numbers for the previous period or the same period last year, making it easy to calculate percentage changes in your own dashboards.
+
+`GET /api/websites/{websiteId}/stats`
+
+## Request
+
+### Headers
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token. Pass your API key: `Authorization: Bearer <api-key>`
+</ParamField>
+
+### Path Parameters
+
+<ParamField path="websiteId" type="string" required>
+  The unique UUID of the website to query.
+</ParamField>
+
+### Query Parameters
+
+#### Date Range
+
+<ParamField query="startAt" type="number">
+  Start of the date range as a Unix timestamp in **milliseconds**. Use this or `startDate`.
+</ParamField>
+
+<ParamField query="endAt" type="number">
+  End of the date range as a Unix timestamp in **milliseconds**. Use this or `endDate`.
+</ParamField>
+
+<ParamField query="startDate" type="string">
+  Start of the date range as an ISO 8601 date or datetime, e.g. `2024-01-01` or `2024-01-01T00:00:00Z`. Use this or `startAt`.
+</ParamField>
+
+<ParamField query="endDate" type="string">
+  End of the date range as an ISO 8601 date or datetime. Use this or `endAt`.
+</ParamField>
+
+<ParamField query="timezone" type="string">
+  IANA time zone used to interpret dates, e.g. `America/New_York`. Defaults to UTC.
+</ParamField>
+
+<ParamField query="compare" type="string">
+  Include a comparison period in the response. `prev` compares against the immediately preceding period of the same length; `yoy` compares against the same period one year ago.
+</ParamField>
+
+#### Filters
+
+<ParamField query="path" type="string">
+  Filter results to a specific URL path, e.g. `/blog/my-post`.
+</ParamField>
+
+<ParamField query="referrer" type="string">
+  Filter by referring URL.
+</ParamField>
+
+<ParamField query="title" type="string">
+  Filter by page title.
+</ParamField>
+
+<ParamField query="query" type="string">
+  Filter by URL query string.
+</ParamField>
+
+<ParamField query="os" type="string">
+  Filter by visitor operating system, e.g. `Windows`, `macOS`.
+</ParamField>
+
+<ParamField query="browser" type="string">
+  Filter by visitor browser, e.g. `Chrome`, `Firefox`.
+</ParamField>
+
+<ParamField query="device" type="string">
+  Filter by device category: `desktop`, `mobile`, or `tablet`.
+</ParamField>
+
+<ParamField query="country" type="string">
+  Filter by ISO 3166-1 alpha-2 country code, e.g. `US`, `DE`.
+</ParamField>
+
+<ParamField query="region" type="string">
+  Filter by region or subdivision of the visitor.
+</ParamField>
+
+<ParamField query="city" type="string">
+  Filter by visitor city.
+</ParamField>
+
+<ParamField query="language" type="string">
+  Filter by the browser's preferred language, e.g. `en-US`.
+</ParamField>
+
+<ParamField query="event" type="string">
+  Filter by custom event name.
+</ParamField>
+
+<ParamField query="utmSource" type="string">
+  Filter by UTM campaign source.
+</ParamField>
+
+<ParamField query="utmMedium" type="string">
+  Filter by UTM campaign medium.
+</ParamField>
+
+<ParamField query="utmCampaign" type="string">
+  Filter by UTM campaign name.
+</ParamField>
+
+<ParamField query="utmContent" type="string">
+  Filter by UTM campaign content.
+</ParamField>
+
+<ParamField query="utmTerm" type="string">
+  Filter by UTM campaign search term.
+</ParamField>
+
+<ParamField query="tag" type="string">
+  Filter by a tag attached to tracked activity.
+</ParamField>
+
+<ParamField query="hostname" type="string">
+  Filter by the hostname on which the activity occurred.
+</ParamField>
+
+<ParamField query="distinctId" type="string">
+  Filter by a custom identifier assigned to the visitor.
+</ParamField>
+
+<ParamField query="eventType" type="integer">
+  Filter by event type: `1` for pageviews, `2` for custom events.
+</ParamField>
+
+<ParamField query="excludeBounce" type="string">
+  Set to any non-empty value to exclude single-pageview visits from the results.
+</ParamField>
+
+<ParamField query="segment" type="string">
+  UUID of a saved segment to apply as a filter.
+</ParamField>
+
+<ParamField query="cohort" type="string">
+  UUID of a saved cohort to filter visitors by.
+</ParamField>
+
+<ParamField query="match" type="string">
+  Controls how multiple filters combine. `all` requires every filter to match (AND logic); `any` requires at least one to match (OR logic). Defaults to `all`.
+</ParamField>
+
+## Response
+
+**200 – Success**
+
+<ResponseField name="pageviews" type="number" required>
+  Total number of pageviews in the selected period.
+</ResponseField>
+
+<ResponseField name="visitors" type="number" required>
+  Number of unique visitors in the selected period.
+</ResponseField>
+
+<ResponseField name="visits" type="number" required>
+  Total number of visits (sessions) in the selected period.
+</ResponseField>
+
+<ResponseField name="bounces" type="number" required>
+  Number of visits where the visitor viewed only one page.
+</ResponseField>
+
+<ResponseField name="totaltime" type="number" required>
+  Aggregate time visitors spent on the site, in seconds.
+</ResponseField>
+
+<ResponseField name="comparison" type="object" required>
+  Present when `compare` is supplied. Contains the same five metrics for the comparison period.
+</ResponseField>
+
+<ResponseField name="comparison.pageviews" type="number">
+  Pageviews during the comparison period.
+</ResponseField>
+
+<ResponseField name="comparison.visitors" type="number">
+  Unique visitors during the comparison period.
+</ResponseField>
+
+<ResponseField name="comparison.visits" type="number">
+  Visits during the comparison period.
+</ResponseField>
+
+<ResponseField name="comparison.bounces" type="number">
+  Bounces during the comparison period.
+</ResponseField>
+
+<ResponseField name="comparison.totaltime" type="number">
+  Total time on site during the comparison period, in seconds.
+</ResponseField>
+
+```json 200 Response
+{
+  "pageviews": 15171,
+  "visitors": 4415,
+  "visits": 5680,
+  "bounces": 3567,
+  "totaltime": 809968,
+  "comparison": {
+    "pageviews": 38675,
+    "visitors": 10568,
+    "visits": 14595,
+    "bounces": 9364,
+    "totaltime": 2182387
+  }
+}
+```
+
+## Code Sample
+
+```bash
+curl -X GET 'https://api.umami.is/v1/websites/b8d3a1f0-1c2d-4e5f-8a9b-0c1d2e3f4a5b/stats?startAt=1757376000000&endAt=1757462400000&compare=prev' \
+  -H 'Authorization: Bearer <api-key>'
+```

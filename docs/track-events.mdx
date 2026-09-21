@@ -1,0 +1,128 @@
+---
+title: "Track Custom Events in Betterumami"
+sidebarTitle: "Track Events"
+description: "Record button clicks, form submissions, and any user interaction as named events — with optional custom data — using HTML attributes or JavaScript."
+---
+
+Beyond automatic pageview collection, Betterumami lets you track any interaction that matters to your business: a button click, a form submission, a video play, a plan upgrade. Each event gets a name you choose, appears in the **Events** dashboard, and can carry a payload of custom properties that you define at call time. There are two ways to record events — a no-JavaScript approach using HTML data attributes, and a fully programmatic approach using the `umami` JavaScript object — and you can mix both freely within the same site.
+
+## Limits
+
+Before you start, keep these constraints in mind:
+
+- Event names are limited to **50 characters**. Names longer than 50 characters will be truncated.
+- **Event data cannot be sent without an event name.** You must supply a name if you want to attach properties.
+
+## Using Data Attributes
+
+The data-attribute method requires no JavaScript. Add `data-umami-event` directly to any HTML element and Betterumami records an event whenever a user clicks it. This works on buttons, links, form elements, or any other interactive element.
+
+<Steps>
+  <Step title="Add the event name attribute">
+    Take any element you want to track — for example, a signup button:
+
+    ```html
+    <button id="signup-button">Sign up</button>
+    ```
+
+    Add the `data-umami-event` attribute with the name you want to appear in your dashboard:
+
+    ```html
+    <button id="signup-button" data-umami-event="Signup button">Sign up</button>
+    ```
+
+    When a visitor clicks this button, Betterumami records an event named `Signup button`.
+  </Step>
+
+  <Step title="Optionally attach event properties">
+    You can pass additional data alongside the event name using the `data-umami-event-{property}` pattern. Each extra attribute becomes a key-value pair in the event payload:
+
+    ```html
+    <button
+      id="signup-button"
+      data-umami-event="Signup button"
+      data-umami-event-plan="pro"
+      data-umami-event-source="homepage"
+    >
+      Sign up
+    </button>
+    ```
+
+    This records the event `Signup button` with the properties `{ plan: 'pro', source: 'homepage' }`.
+  </Step>
+</Steps>
+
+<Note>
+  All values recorded via data attributes are saved as **strings**, regardless of what you write in the HTML. If you need to record numbers, booleans, or other data types, use the JavaScript method instead.
+</Note>
+
+<Warning>
+  Other JavaScript event listeners attached to the same element will **not** be triggered when Betterumami intercepts the click. If you need both Betterumami tracking and a custom click handler on the same element, use the JavaScript method and call `umami.track()` inside your own handler.
+</Warning>
+
+## Using JavaScript
+
+The JavaScript method gives you full control: you can call it from any event handler, trigger it conditionally, and pass rich data including numbers, booleans, and nested structures.
+
+### Track a basic event
+
+```js
+const button = document.getElementById('signup-button');
+
+button.onclick = () => umami.track('Signup button');
+```
+
+### Track an event with properties
+
+Pass an object as the second argument to attach custom data to the event:
+
+```js
+button.onclick = () => umami.track('Signup button', {
+  plan: 'pro',
+  source: 'homepage',
+  trial: true,
+  seat_count: 5,
+});
+```
+
+Unlike data attributes, JavaScript values preserve their types — numbers stay numbers, booleans stay booleans.
+
+### Real-world examples
+
+<CodeGroup>
+```js title="Form submission"
+document.getElementById('contact-form').addEventListener('submit', () => {
+  umami.track('Contact form submitted', { subject: 'pricing' });
+});
+```
+
+```js title="Video play"
+document.getElementById('demo-video').addEventListener('play', () => {
+  umami.track('Demo video started', { duration_seconds: 120 });
+});
+```
+
+```js title="Outbound link click"
+document.querySelectorAll('a[target="_blank"]').forEach(link => {
+  link.addEventListener('click', () => {
+    umami.track('Outbound link clicked', { url: link.href });
+  });
+});
+```
+</CodeGroup>
+
+<Tip>
+  For a full reference of all `umami.track()` signatures — including how to send custom pageview payloads and override event timestamps — see [Tracker Functions](/docs/tracker-functions).
+</Tip>
+
+## View Your Events
+
+Once events are being recorded, navigate to the **Events** tab on your website dashboard. You'll see a chart of event volume over time and a breakdown by event name.
+
+### Event properties
+
+Open the **Properties** tab on the Events page to explore the custom data you attached. Betterumami shows every distinct property name you've used and a value distribution for each one, so you can immediately see, for example, how many signups came from the `pro` plan versus the `starter` plan.
+
+### Filtering
+
+Use the filter panel to narrow your analysis to specific property values. Select a property name from the list, choose a value, and the entire Events view updates to show only matching events. This same filter appears as an **Event properties** tab when you're exploring the main dashboard.
