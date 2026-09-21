@@ -1,5 +1,5 @@
 ---
-title: "Install Betterumami via Google Tag Manager"
+title: "Install Betterumami Tracking via Google Tag Manager"
 sidebarTitle: "Google Tag Manager"
 description: "Add the Betterumami tracking script to any website through Google Tag Manager using a Custom HTML tag — no direct HTML editing required."
 ---
@@ -13,7 +13,7 @@ Normally, the Betterumami tracker is added to a page with a standard script tag:
 ```html
 <script
   defer
-  src="https://cloud.betterumami.com/script.js"
+  src="https://cloud.umami.is/script.js"
   data-website-id="your-website-id"
 ></script>
 ```
@@ -38,7 +38,7 @@ Unfortunately, Google Tag Manager **strips custom `data-*` attributes** from scr
     <script>
       (function () {
         var el = document.createElement('script');
-        el.setAttribute('src', 'https://cloud.betterumami.com/script.js');
+        el.setAttribute('src', 'https://cloud.umami.is/script.js');
         el.setAttribute('data-website-id', 'your-website-id');
         document.body.appendChild(el);
       })();

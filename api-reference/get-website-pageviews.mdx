@@ -1,7 +1,7 @@
 ---
-title: "Get Pageviews and Sessions as a Time Series"
+title: "Get Pageviews Over Time — GET /api/websites/{id}/pageviews"
 sidebarTitle: "Get Pageviews"
-description: "Fetch pageview and session counts grouped by a time interval for charting trends. Supports comparison periods, timezone-aware bucketing, and all standard filters."
+description: "Fetch pageview and session counts grouped by a time interval for charting trends. Supports comparison periods, timezone-aware bucketing, and all filters."
 ---
 
 Use this endpoint to retrieve the data that powers the time-series chart on the Betterumami Overview screen. The response provides two parallel arrays — `pageviews` and `sessions` — where each element is a `{x, y}` point with a date string and a count. Choose your bucket size with the `unit` parameter (`minute`, `hour`, `day`, `month`, or `year`) and optionally request a comparison series for trend overlays.

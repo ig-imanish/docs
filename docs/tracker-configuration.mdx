@@ -1,5 +1,5 @@
 ---
-title: "Configure the Betterumami Tracker Script"
+title: "Configure the Betterumami Tracker Script Attributes"
 sidebarTitle: "Tracker Configuration"
 description: "Customise tracking behavior using data attributes on the script tag — restrict domains, disable auto-tracking, collect Core Web Vitals, and more."
 ---
@@ -11,7 +11,7 @@ A fully-featured script tag might look like this:
 ```html
 <script
   defer
-  src="https://cloud.betterumami.com/script.js"
+  src="https://cloud.umami.is/script.js"
   data-website-id="94db1cb1-74f4-4a40-ad6c-962362670409"
   data-domains="mywebsite.com,www.mywebsite.com"
   data-performance="true"
@@ -30,7 +30,7 @@ The sections below document every available attribute.
   ```html
   <script
     defer
-    src="https://cloud.betterumami.com/script.js"
+    src="https://cloud.umami.is/script.js"
     data-website-id="94db1cb1-74f4-4a40-ad6c-962362670409"
   ></script>
   ```
@@ -48,7 +48,7 @@ The sections below document every available attribute.
   ```html
   <script
     defer
-    src="https://cloud.betterumami.com/script.js"
+    src="https://cloud.umami.is/script.js"
     data-website-id="94db1cb1-74f4-4a40-ad6c-962362670409"
     data-auto-track="false"
   ></script>
@@ -67,7 +67,7 @@ The sections below document every available attribute.
   ```html
   <script
     defer
-    src="https://cloud.betterumami.com/script.js"
+    src="https://cloud.umami.is/script.js"
     data-website-id="94db1cb1-74f4-4a40-ad6c-962362670409"
     data-auto-pageview="false"
   ></script>
@@ -82,7 +82,7 @@ The sections below document every available attribute.
   ```html
   <script
     defer
-    src="https://cloud.betterumami.com/script.js"
+    src="https://cloud.umami.is/script.js"
     data-website-id="94db1cb1-74f4-4a40-ad6c-962362670409"
     data-domains="mywebsite.com,www.mywebsite.com"
   ></script>
@@ -105,7 +105,7 @@ The sections below document every available attribute.
   ```html
   <script
     defer
-    src="https://cloud.betterumami.com/script.js"
+    src="https://cloud.umami.is/script.js"
     data-website-id="94db1cb1-74f4-4a40-ad6c-962362670409"
     data-host-url="https://stats.mywebsite.com"
   ></script>
@@ -124,7 +124,7 @@ The sections below document every available attribute.
   ```html
   <script
     defer
-    src="https://cloud.betterumami.com/script.js"
+    src="https://cloud.umami.is/script.js"
     data-website-id="94db1cb1-74f4-4a40-ad6c-962362670409"
     data-exclude-search="true"
   ></script>
@@ -139,7 +139,7 @@ The sections below document every available attribute.
   ```html
   <script
     defer
-    src="https://cloud.betterumami.com/script.js"
+    src="https://cloud.umami.is/script.js"
     data-website-id="94db1cb1-74f4-4a40-ad6c-962362670409"
     data-exclude-hash="true"
   ></script>
@@ -158,7 +158,7 @@ The sections below document every available attribute.
   ```html
   <script
     defer
-    src="https://cloud.betterumami.com/script.js"
+    src="https://cloud.umami.is/script.js"
     data-website-id="94db1cb1-74f4-4a40-ad6c-962362670409"
     data-do-not-track="true"
   ></script>
@@ -183,7 +183,7 @@ The sections below document every available attribute.
   ```html
   <script
     defer
-    src="https://cloud.betterumami.com/script.js"
+    src="https://cloud.umami.is/script.js"
     data-website-id="94db1cb1-74f4-4a40-ad6c-962362670409"
     data-before-send="beforeSendHandler"
   ></script>
@@ -201,12 +201,12 @@ The sections below document every available attribute.
 <ParamField body="data-performance" type="boolean" default="false">
   *Available since v3.1.0*
 
-  Set to `true` to automatically collect [Core Web Vitals](https://web.dev/articles/vitals) — LCP, INP, CLS, FCP, and TTFB — from your visitors' browsers. Results appear in the **Performance** section of your dashboard. See [Performance](/docs/performance) for details.
+  Set to `true` to automatically collect [Core Web Vitals](https://web.dev/articles/vitals) — LCP, INP, CLS, FCP, and TTFB — from your visitors' browsers. Results appear in the **Performance** section of your dashboard.
 
   ```html
   <script
     defer
-    src="https://cloud.betterumami.com/script.js"
+    src="https://cloud.umami.is/script.js"
     data-website-id="94db1cb1-74f4-4a40-ad6c-962362670409"
     data-performance="true"
   ></script>
@@ -220,12 +220,12 @@ The sections below document every available attribute.
 <ParamField body="data-tag" type="string">
   *Available since v2.11.0*
 
-  Tags every event sent by this script instance with a named label. Use tags to separate traffic from different experiments, page variants, or deployment cohorts and then filter your dashboard by tag. See [Tags](/docs/tags) for details.
+  Tags every event sent by this script instance with a named label. Use tags to separate traffic from different experiments, page variants, or deployment cohorts and then filter your dashboard by tag.
 
   ```html
   <script
     defer
-    src="https://cloud.betterumami.com/script.js"
+    src="https://cloud.umami.is/script.js"
     data-website-id="94db1cb1-74f4-4a40-ad6c-962362670409"
     data-tag="homepage-layout-a"
   ></script>

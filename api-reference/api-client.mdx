@@ -1,7 +1,7 @@
 ---
-title: "Node.js API Client — @umami/api-client"
+title: "Betterumami API Client Reference (@umami/api-client)"
 sidebarTitle: "API Client"
-description: "Install and use the @umami/api-client TypeScript package to call every Betterumami API endpoint from Node.js with full type safety."
+description: "Install and use the @umami/api-client TypeScript package to call every Betterumami REST endpoint from Node.js with complete type safety."
 ---
 
 The `@umami/api-client` package is a fully-typed TypeScript client that wraps every Betterumami REST endpoint in a simple function call. Rather than constructing raw HTTP requests, you import a pre-configured client, call the method you need, and get back a typed response object — no boilerplate required. The client works with both Betterumami Cloud and self-hosted instances.
@@ -50,14 +50,14 @@ The `@umami/api-client` package is a fully-typed TypeScript client that wraps ev
 
     ```dotenv
     UMAMI_API_CLIENT_USER_ID=<user UUID>
-    UMAMI_API_CLIENT_SECRET=<random string matching APP_SECRET>
+    UMAMI_API_CLIENT_SECRET=<random string>
     UMAMI_API_CLIENT_ENDPOINT=https://your-instance.example.com/api/
     ```
 
     | Variable | Description |
     |---|---|
     | `UMAMI_API_CLIENT_USER_ID` | The UUID of the user performing API calls. Permission restrictions apply based on that user's role. |
-    | `UMAMI_API_CLIENT_SECRET` | A random string used to generate unique tokens. Must match the `APP_SECRET` set in your Betterumami application. |
+    | `UMAMI_API_CLIENT_SECRET` | A random string used to generate unique tokens. Must match the secret configured in your Betterumami instance. |
     | `UMAMI_API_CLIENT_ENDPOINT` | The full URL to your self-hosted API, including the trailing `/api/` path. |
   </Step>
 
@@ -96,6 +96,10 @@ These functions operate on the currently authenticated user.
 | `getMe()` | `GET` | `/me` |
 | `updateMyPassword(data)` | `POST` | `/me/password` |
 | `getMyWebsites()` | `GET` | `/me/websites` |
+| `getMyApiKeys()` | `GET` | `/me/api-keys` |
+| `createMyApiKey(data)` | `POST` | `/me/api-keys` |
+| `deleteMyApiKey(id)` | `DELETE` | `/me/api-keys/{id}` |
+| `getMyTeams()` | `GET` | `/me/teams` |
 
 ### Websites
 
@@ -128,7 +132,10 @@ These functions manage teams and their associated users and websites.
 | `updateTeam(id, data)` | `POST` | `/teams/{id}` |
 | `deleteTeam(id)` | `DELETE` | `/teams/{id}` |
 | `getTeamUsers(id)` | `GET` | `/teams/{id}/users` |
+| `deleteTeamUser(teamId, userId)` | `DELETE` | `/teams/{teamId}/users/{userId}` |
 | `getTeamWebsites(id)` | `GET` | `/teams/{id}/websites` |
+| `createTeamWebsites(id, data)` | `POST` | `/teams/{id}/websites` |
+| `deleteTeamWebsite(teamId, websiteId)` | `DELETE` | `/teams/{teamId}/websites/{websiteId}` |
 
 ### Event data
 

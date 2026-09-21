@@ -1,5 +1,5 @@
 ---
-title: "Get Website Summary Statistics for a Date Range"
+title: "Get Website Stats — GET /api/websites/{websiteId}/stats"
 sidebarTitle: "Get Stats"
 description: "Retrieve pageviews, unique visitors, visits, bounces, and total time on site for any date range, with an optional comparison period for trend analysis."
 ---
@@ -44,6 +44,10 @@ Use this endpoint to pull the headline numbers shown on the Betterumami Overview
 
 <ParamField query="timezone" type="string">
   IANA time zone used to interpret dates, e.g. `America/New_York`. Defaults to UTC.
+</ParamField>
+
+<ParamField query="unit" type="string">
+  Time interval used to group results when computing statistics: `minute`, `hour`, `day`, `month`, or `year`.
 </ParamField>
 
 <ParamField query="compare" type="string">

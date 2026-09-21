@@ -1,5 +1,5 @@
 ---
-title: "Create a New Website in Betterumami"
+title: "Create a New Website — Betterumami POST /api/websites"
 sidebarTitle: "Create Website"
 description: "Register a new website for tracking by providing a name and domain. Optionally assign it to a team and enable public sharing with a shareId."
 ---
@@ -72,6 +72,10 @@ Returns the full website object for the newly created website.
   UUID of the user who owns the website.
 </ResponseField>
 
+<ResponseField name="createdBy" type="string | null" required>
+  UUID of the user who created the website. Same as `userId` in most cases.
+</ResponseField>
+
 <ResponseField name="recorderEnabled" type="boolean" required>
   Whether session recording is active. Defaults to `false` for new websites.
 </ResponseField>
@@ -90,6 +94,10 @@ Returns the full website object for the newly created website.
 
 <ResponseField name="updatedAt" type="string | null" required>
   ISO 8601 timestamp when the website was last updated.
+</ResponseField>
+
+<ResponseField name="deletedAt" type="string | null" required>
+  ISO 8601 timestamp when the website was deleted, or `null` for active websites.
 </ResponseField>
 
 <ResponseField name="user" type="object">

@@ -1,5 +1,5 @@
 ---
-title: "List All Websites You Have Access To"
+title: "List All Websites — Betterumami GET /api/websites"
 sidebarTitle: "List Websites"
 description: "Retrieve a paginated list of websites you own or can access through team membership, with optional search, sorting, and result-limit controls."
 ---
@@ -82,8 +82,16 @@ Use this endpoint to fetch every website your API key can access. The response i
   UUID of the user who owns the website.
 </ResponseField>
 
+<ResponseField name="data[].createdBy" type="string | null">
+  UUID of the user who created the website.
+</ResponseField>
+
 <ResponseField name="data[].recorderEnabled" type="boolean">
   Whether session recording is enabled for this website.
+</ResponseField>
+
+<ResponseField name="data[].replayConfig" type="object">
+  Session replay and heatmap recording configuration for this website.
 </ResponseField>
 
 <ResponseField name="data[].resetAt" type="string | null">
@@ -96,6 +104,14 @@ Use this endpoint to fetch every website your API key can access. The response i
 
 <ResponseField name="data[].updatedAt" type="string | null">
   ISO 8601 timestamp when the website was last updated.
+</ResponseField>
+
+<ResponseField name="data[].deletedAt" type="string | null">
+  ISO 8601 timestamp when the website was deleted, or `null` if it is active.
+</ResponseField>
+
+<ResponseField name="data[].user" type="object">
+  Embedded owner information.
 </ResponseField>
 
 <ResponseField name="page" type="integer" required>
@@ -125,10 +141,25 @@ Use this endpoint to fetch every website your API key can access. The response i
       "shareId": null,
       "teamId": null,
       "userId": "123e4567-e89b-12d3-a456-426614174000",
+      "createdBy": "123e4567-e89b-12d3-a456-426614174000",
       "recorderEnabled": false,
+      "replayConfig": {
+        "replayEnabled": false,
+        "heatmapEnabled": false,
+        "sampleRate": 0,
+        "heatmapSampleRate": 0,
+        "maskLevel": "strict",
+        "blockSelector": "",
+        "maxDuration": 0
+      },
       "resetAt": null,
       "createdAt": "2024-03-01T10:00:00Z",
-      "updatedAt": "2024-06-15T08:22:00Z"
+      "updatedAt": "2024-06-15T08:22:00Z",
+      "deletedAt": null,
+      "user": {
+        "id": "123e4567-e89b-12d3-a456-426614174000",
+        "username": "alice"
+      }
     },
     {
       "id": "c9e4b2f1-2d3e-5f6a-9b0c-1d2e3f4a5b6c",
@@ -137,10 +168,25 @@ Use this endpoint to fetch every website your API key can access. The response i
       "shareId": "shr_abc123",
       "teamId": "f1e2d3c4-b5a6-7890-abcd-ef1234567890",
       "userId": "123e4567-e89b-12d3-a456-426614174000",
+      "createdBy": "123e4567-e89b-12d3-a456-426614174000",
       "recorderEnabled": true,
+      "replayConfig": {
+        "replayEnabled": true,
+        "heatmapEnabled": false,
+        "sampleRate": 0.1,
+        "heatmapSampleRate": 0,
+        "maskLevel": "strict",
+        "blockSelector": "",
+        "maxDuration": 3600
+      },
       "resetAt": null,
       "createdAt": "2024-05-10T14:30:00Z",
-      "updatedAt": "2024-07-01T09:00:00Z"
+      "updatedAt": "2024-07-01T09:00:00Z",
+      "deletedAt": null,
+      "user": {
+        "id": "123e4567-e89b-12d3-a456-426614174000",
+        "username": "alice"
+      }
     }
   ],
   "page": 1,

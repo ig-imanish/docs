@@ -1,7 +1,7 @@
 ---
-title: "Get Ranked Metrics for One Dimension"
+title: "Get Website Metrics — GET /api/websites/{id}/metrics"
 sidebarTitle: "Get Metrics"
-description: "Retrieve a ranked list of values for a single dimension — top pages, referrers, countries, browsers, events, UTM sources, and more — sorted by count descending."
+description: "Retrieve a ranked list of values for a single dimension — top pages, referrers, countries, browsers, events, and UTM sources — sorted by count."
 ---
 
 Use this endpoint to get a ranked breakdown of any single dimension tracked by Betterumami. Pass the `type` parameter to select the dimension you want — for example `path` for top pages, `country` for visitor geography, or `utmSource` for campaign sources. The response is an array of `{x, y}` objects sorted from highest to lowest count, making it straightforward to render leaderboard tables or bar charts.

@@ -1,5 +1,5 @@
 ---
-title: "Update an Existing Website's Settings"
+title: "Update a Website — POST /api/websites/{websiteId}"
 sidebarTitle: "Update Website"
 description: "Modify a website's name, domain, public share token, or session replay and heatmap recording configuration. Only fields you include are updated."
 ---
@@ -102,6 +102,10 @@ Returns the full updated website object.
   UUID of the owning user.
 </ResponseField>
 
+<ResponseField name="createdBy" type="string | null" required>
+  UUID of the user who created the website.
+</ResponseField>
+
 <ResponseField name="recorderEnabled" type="boolean" required>
   Whether recording is currently active.
 </ResponseField>
@@ -120,6 +124,22 @@ Returns the full updated website object.
 
 <ResponseField name="updatedAt" type="string | null" required>
   ISO 8601 timestamp of this update.
+</ResponseField>
+
+<ResponseField name="deletedAt" type="string | null" required>
+  ISO 8601 timestamp when the website was deleted, or `null` if it is active.
+</ResponseField>
+
+<ResponseField name="user" type="object">
+  Embedded owner information.
+</ResponseField>
+
+<ResponseField name="user.id" type="string">
+  UUID of the owning user.
+</ResponseField>
+
+<ResponseField name="user.username" type="string">
+  Username of the owning user.
 </ResponseField>
 
 ```json 200 Response

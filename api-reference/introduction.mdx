@@ -57,14 +57,27 @@ The table below lists the endpoints most integrations rely on. Every path is rel
 |--------|----------|---------|
 | `GET` | `/websites` | List all websites you have access to |
 | `GET` | `/websites/{id}/stats` | Get summary stats (pageviews, visitors, bounces, total time) |
+| `GET` | `/websites/{id}/active` | Get visitors active in the last 5 minutes |
 | `GET` | `/websites/{id}/pageviews` | Get pageview and session time series |
 | `GET` | `/websites/{id}/metrics` | Get ranked breakdowns (top pages, referrers, browsers, etc.) |
 | `GET` | `/websites/{id}/events` | List tracked custom events |
-| `POST` | `/send` | Send a tracking event (no auth required) |
+| `POST` | `/send` | Send a tracking event — no auth required (Cloud: `https://cloud.umami.is/api/send`) |
 
 <Note>
   Most stat endpoints require a `websiteId`. Use `GET /websites` to list your sites and find the ID for the one you want to query.
 </Note>
+
+## Restricted routes
+
+The following API routes are **not available** when using an API key on Betterumami Cloud:
+
+```text
+/me/password
+/users
+/users/*
+```
+
+These routes are only accessible through direct session authentication on self-hosted instances.
 
 ## Quick start
 
@@ -90,7 +103,7 @@ curl "https://api.umami.is/v1/websites/<website-id>/stats?startAt=1757376000000&
   <Card title="Sending Stats" icon="paper-plane" href="/api-reference/sending-stats">
     Send pageview and custom events directly via the API — no tracker script required.
   </Card>
-  <Card title="Website Endpoints" icon="chart-line" href="/api-reference/websites">
+  <Card title="Website Endpoints" icon="chart-line" href="/api-reference/list-websites">
     Query stats, pageviews, metrics, and active visitors for any website in your account.
   </Card>
   <Card title="API Keys" icon="lock" href="/docs/api-keys">

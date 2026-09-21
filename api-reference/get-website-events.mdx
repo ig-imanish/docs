@@ -1,7 +1,7 @@
 ---
-title: "List Tracked Pageviews and Custom Events"
+title: "List Website Events — GET /api/websites/{websiteId}/events"
 sidebarTitle: "Get Events"
-description: "Retrieve a paginated log of individual pageviews and custom events recorded for a website, with full session context, newest first. Supports filtering and search."
+description: "Retrieve a paginated log of individual pageviews and custom events for a website, with full session context, newest first. Supports filtering and search."
 ---
 
 Use this endpoint to page through the raw event log for a website. Each record represents either a pageview (`eventType: 1`) or a custom event (`eventType: 2`) and includes the full session context: URL path, query string, referrer domain, page title, event name, and the optional `distinctId` you set for logged-in visitors. Results are returned newest first and are paginated.
@@ -62,6 +62,14 @@ Use this endpoint to page through the raw event log for a website. Each record r
 
 <ParamField query="timezone" type="string">
   IANA time zone for date interpretation, e.g. `America/Los_Angeles`.
+</ParamField>
+
+<ParamField query="unit" type="string">
+  Time interval used to group results: `minute`, `hour`, `day`, `month`, or `year`.
+</ParamField>
+
+<ParamField query="compare" type="string">
+  Comparison period: `prev` for the immediately preceding period or `yoy` for the same period one year ago.
 </ParamField>
 
 #### Filters
