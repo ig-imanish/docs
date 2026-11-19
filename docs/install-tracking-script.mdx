@@ -10,7 +10,7 @@ Install the Datasite tracking script once in your site's shared document head or
 ## HTML
 
 ```html
-<script defer src="https://analytics.example.com/script.js"
+<script defer src="https://app.datasite.sh/script.js"
   data-website-id="YOUR_WEBSITE_ID"></script>
 ```
 
@@ -25,7 +25,7 @@ export default function RootLayout({ children }) {
       <body>
         {children}
         <Script
-          src="https://analytics.example.com/script.js"
+          src="https://app.datasite.sh/script.js"
           strategy="afterInteractive"
           data-website-id="YOUR_WEBSITE_ID"
         />
@@ -45,7 +45,7 @@ import { useEffect } from 'react';
 export function DatasiteAnalytics() {
   useEffect(() => {
     const script = document.createElement('script');
-    script.src = 'https://analytics.example.com/script.js';
+    script.src = 'https://app.datasite.sh/script.js';
     script.defer = true;
     script.setAttribute('data-website-id', 'YOUR_WEBSITE_ID');
     document.head.appendChild(script);
@@ -67,7 +67,7 @@ let script;
 
 onMounted(() => {
   script = document.createElement('script');
-  script.src = 'https://analytics.example.com/script.js';
+  script.src = 'https://app.datasite.sh/script.js';
   script.defer = true;
   script.setAttribute('data-website-id', 'YOUR_WEBSITE_ID');
   document.head.appendChild(script);
@@ -95,7 +95,7 @@ onUnmounted(() => script.remove());
 When either feature is enabled, add the recorder script after the main tracker:
 
 ```html
-<script defer src="https://analytics.example.com/recorder.js"
+<script defer src="https://app.datasite.sh/recorder.js"
   data-website-id="YOUR_WEBSITE_ID"></script>
 ```
 
