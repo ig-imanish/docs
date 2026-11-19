@@ -1,0 +1,50 @@
+---
+title: "Import and export analytics data"
+sidebarTitle: "Data transfer"
+description: "Import supported Datasite, legacy, aggregate, or Vercel Analytics data, monitor background jobs, and download generated export archives."
+keywords: ["import analytics", "export analytics", "Vercel Analytics", "data jobs"]
+---
+
+Datasite runs import and export jobs in the background. Keep original import files until you verify totals and date ranges, and download completed exports before they expire.
+
+## Import files
+
+<Steps>
+  <Step title="Open Data settings">
+    Open the website's **Settings → Data** page and choose **Import**.
+  </Step>
+  <Step title="Select files">
+    Select supported Datasite export ZIP files or legacy and aggregate CSV layouts.
+  </Step>
+  <Step title="Start the import">
+    Start the import and monitor the job until it completes or reports an error.
+  </Step>
+</Steps>
+
+Aggregate source data can restore totals but cannot create event order, session detail, replay, or properties absent from the source.
+
+## Import Vercel Analytics
+
+The **Data** page includes a Vercel Analytics import flow where enabled. Supply the credentials and project information requested by the form, then monitor its job. Datasite checkpoints progress so a background import can continue from its current state.
+
+Treat Vercel credentials as secrets and revoke temporary credentials after the import when appropriate.
+
+## Export data
+
+<Steps>
+  <Step title="Start an export">
+    Open **Settings → Data** for a website and start an export.
+  </Step>
+  <Step title="Wait for processing">
+    Wait for the asynchronous export job to finish.
+  </Step>
+  <Step title="Download the archive">
+    Download the resulting ZIP before it expires.
+  </Step>
+</Steps>
+
+The ZIP contains Datasite-compatible gzip-compressed CSV data plus archive metadata. Export files can be large.
+
+## Troubleshoot jobs
+
+If a job remains queued or processing for an unusual length of time, contact the Datasite operator or support team with the website ID and job ID. Do not repeatedly submit the same large import while an existing job is active.

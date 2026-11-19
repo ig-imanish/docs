@@ -1,0 +1,73 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "name": "Datasite",
+  "theme": "luma",
+  "logo": {
+    "light": "/logo/datasite-wordmark.svg",
+    "dark": "/logo/datasite-wordmark.svg"
+  },
+  "favicon": "/logo/favicon.svg",
+  "colors": {
+    "primary": "#CF5A32",
+    "light": "#CF5A32",
+    "dark": "#CF5A32"
+  },
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "docs/introduction",
+              "docs/quickstart",
+              "docs/install-tracking-script",
+              "docs/feature-guide",
+              "docs/google-tag-manager"
+            ]
+          },
+          {
+            "group": "Analytics",
+            "pages": [
+              "docs/dashboard-and-filters",
+              "docs/sessions-realtime-and-replay",
+              "docs/goals-funnels-and-reports",
+              "docs/revenue-attribution-and-experiments",
+              "docs/heatmaps-errors-and-performance",
+              "docs/custom-events-and-identify",
+              "docs/privacy-controls"
+            ]
+          },
+          {
+            "group": "Workspace",
+            "pages": [
+              "docs/account-and-workspaces",
+              "docs/billing-and-plans",
+              "docs/sharing-boards-links-and-pixels",
+              "docs/import-and-export"
+            ]
+          },
+          {
+            "group": "Help",
+            "pages": [
+              "docs/faq-and-troubleshooting"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "groups": [
+          {
+            "group": "API",
+            "pages": [
+              "api-reference/analytics-api",
+              "api-reference/api-client"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

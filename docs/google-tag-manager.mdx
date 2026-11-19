@@ -1,0 +1,30 @@
+---
+title: "Install Datasite with Google Tag Manager"
+sidebarTitle: "Google Tag Manager"
+description: "Add your Datasite tracking snippet through a Google Tag Manager Custom HTML tag and publish the container to begin collection."
+keywords: ["Google Tag Manager", "GTM", "tracker installation"]
+---
+
+Use Google Tag Manager (GTM) to add the Datasite tracking snippet without editing your site's source files. Copy the exact snippet from the website's **Settings → Setup** page.
+
+## Create a Custom HTML tag
+
+<Steps>
+  <Step title="Open your GTM container">
+    Select the container for the website you are configuring.
+  </Step>
+  <Step title="Create a tag">
+    Open **Tags**, select **New**, and choose **Custom HTML** as the tag type.
+  </Step>
+  <Step title="Add the Datasite snippet">
+    Paste the tracking snippet copied from Datasite's **Settings → Setup** page.
+  </Step>
+  <Step title="Choose a trigger">
+    Select the trigger that should load the tracker on your website pages.
+  </Step>
+  <Step title="Preview and publish">
+    Use GTM's **Preview** mode to confirm that the tag fires, then submit and publish the container.
+  </Step>
+</Steps>
+
+If you track multiple websites, create a separate tag for each website and use the matching website ID. Use GTM triggers to control where each tag fires.

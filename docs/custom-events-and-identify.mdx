@@ -1,0 +1,80 @@
+---
+title: "Track custom events and identify visitors"
+sidebarTitle: "Events and identity"
+description: "Send Datasite custom events and manual page views, associate sessions with stable user IDs, and control persistent visitor identity."
+keywords: ["custom events", "identify", "manual page view", "visitor ID"]
+---
+
+Datasite's browser API records meaningful product actions, manual page views, and stable application identities. Do not send secrets or unnecessary personal data.
+
+## Track an event
+
+```js
+await datasite.track('signup-button');
+```
+
+Add properties when they explain the action:
+
+```js
+await datasite.track('checkout-completed', {
+  plan: 'pro',
+  seats: 4,
+  couponApplied: true,
+});
+```
+
+Event names longer than 50 characters are truncated. Numbers keep up to four decimal places, strings have a maximum stored length of 500 characters, arrays become strings, and an object can contain up to 50 properties.
+
+<Warning>
+  Do not send passwords, authentication tokens, payment card data, private messages, or other sensitive values in event properties.
+</Warning>
+
+## Track a manual page view
+
+Disable automatic tracking before sending manual page views:
+
+```html
+<script defer src="https://analytics.example.com/script.js"
+  data-website-id="YOUR_WEBSITE_ID"
+  data-auto-track="false"></script>
+```
+
+```js
+await datasite.track();
+```
+
+You can override page properties:
+
+```js
+await datasite.track({
+  website: 'YOUR_WEBSITE_ID',
+  url: '/account/billing',
+  title: 'Billing',
+});
+```
+
+## Identify a signed-in user
+
+```js
+await datasite.identify('user-123', {
+  plan: 'pro',
+  accountType: 'company',
+});
+```
+
+Use a stable ID that does not expose an email address or another unnecessary personal value. Supplied properties become available as session or user properties for filtering and analysis.
+
+## Opt out or opt in
+
+```js
+datasite.optOut();
+datasite.optIn();
+```
+
+Opting out deletes the persistent visitor identifier and stops sending `visitor_id`. The current session can still send page views and events. Opting back in creates a new identifier.
+
+```js
+const visitorId = datasite.getVisitorId();
+```
+
+`getVisitorId()` returns `null` when persistent identity is disabled.

@@ -1,0 +1,40 @@
+---
+title: "Manage accounts, security, and workspaces"
+sidebarTitle: "Accounts"
+description: "Sign in to Datasite, configure profile preferences, review active sessions, manage workspace members, transfer websites, and create API keys."
+keywords: ["account", "workspace", "members", "security", "API keys"]
+---
+
+Datasite organizes websites, members, boards, links, pixels, API keys, billing, and usage inside organization workspaces. Your membership controls which websites and settings you can access.
+
+## Sign in
+
+Datasite supports email and password. A deployment may also offer Google or GitHub sign-in. When email delivery is enabled, new accounts must verify their email and can request password-reset links. Passwords must contain at least eight characters.
+
+## Profile and preferences
+
+Account settings let you update profile details and, where enabled, upload an image. Preferences cover locale, timezone, currency, theme, and dashboard or date behavior.
+
+## Security
+
+The **Security** page lists active sessions. You can revoke one session or every other session while keeping the current one. Email and password changes may require confirmation.
+
+## Workspaces
+
+Use the workspace switcher to move between organizations. A user can create or own up to five organizations. Plan limits control the number of members and websites inside each organization.
+
+## Members
+
+Workspace owners or authorized members can invite or add people, change supported roles, and remove members. A user can access only the websites and settings permitted by their membership.
+
+## Transfer a website
+
+Website settings can start a transfer to another eligible user or organization. The recipient can accept or decline, and the sender can cancel while the transfer is pending. Unresolved requests expire.
+
+<Warning>
+  Review the target carefully. Accepting a transfer changes who controls the website and its analytics.
+</Warning>
+
+## API keys
+
+Create organization API keys under **API & MCP**. A key can access every website in the workspace or only selected websites. Copy it when created, store it as a secret, and revoke it when it is no longer used. Keys use the `ds_` prefix.

@@ -1,0 +1,102 @@
+---
+title: "Install the Datasite tracking script"
+sidebarTitle: "Installation"
+description: "Install the Datasite tracker in HTML, Next.js, React, or Vue, configure collection options, and add recording for replay and heatmaps."
+keywords: ["Datasite tracker", "Next.js analytics", "React analytics", "Vue analytics"]
+---
+
+Install the Datasite tracking script once in your site's shared document head or root layout. Use the exact script URL and website ID shown on **Settings → Setup**.
+
+## HTML
+
+```html
+<script defer src="https://analytics.example.com/script.js"
+  data-website-id="YOUR_WEBSITE_ID"></script>
+```
+
+## Next.js
+
+```tsx
+import Script from 'next/script';
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <body>
+        {children}
+        <Script
+          src="https://analytics.example.com/script.js"
+          strategy="afterInteractive"
+          data-website-id="YOUR_WEBSITE_ID"
+        />
+      </body>
+    </html>
+  );
+}
+```
+
+## React
+
+Load the script once in the root application component:
+
+```tsx
+import { useEffect } from 'react';
+
+export function DatasiteAnalytics() {
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://analytics.example.com/script.js';
+    script.defer = true;
+    script.setAttribute('data-website-id', 'YOUR_WEBSITE_ID');
+    document.head.appendChild(script);
+
+    return () => script.remove();
+  }, []);
+
+  return null;
+}
+```
+
+## Vue
+
+```vue
+<script setup>
+import { onMounted, onUnmounted } from 'vue';
+
+let script;
+
+onMounted(() => {
+  script = document.createElement('script');
+  script.src = 'https://analytics.example.com/script.js';
+  script.defer = true;
+  script.setAttribute('data-website-id', 'YOUR_WEBSITE_ID');
+  document.head.appendChild(script);
+});
+
+onUnmounted(() => script.remove());
+</script>
+```
+
+## Options
+
+| Attribute | Use | Default |
+| --- | --- | --- |
+| `data-website-id` | Identifies the website | Required |
+| `data-host-url` | Sends collection requests to another Datasite host | Script origin |
+| `data-auto-track="false"` | Disables automatic page views | Automatic tracking on |
+| `data-performance="true"` | Collects Web Vitals | Off |
+| `data-do-not-track="true"` | Honors the browser Do Not Track signal | Off |
+| `data-exclude-search="true"` | Removes query strings from tracked URLs | Off |
+| `data-exclude-hash="true"` | Removes URL fragments | Off |
+| `data-no-visitor-id="true"` | Disables persistent visitor identity | Off |
+
+## Replay and heatmaps
+
+When either feature is enabled, add the recorder script after the main tracker:
+
+```html
+<script defer src="https://analytics.example.com/recorder.js"
+  data-website-id="YOUR_WEBSITE_ID"></script>
+```
+
+Custom domains or proxy installations may use different asset paths. Always use the URLs shown on **Settings → Setup**.

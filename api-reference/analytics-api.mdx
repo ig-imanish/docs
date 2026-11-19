@@ -1,0 +1,90 @@
+---
+title: "Datasite analytics API"
+sidebarTitle: "Analytics API"
+description: "Authenticate with scoped Datasite API keys, query analytics endpoints, use common report parameters, handle errors, and connect MCP clients."
+keywords: ["Datasite API", "analytics endpoints", "API key", "MCP"]
+---
+
+The Datasite analytics API provides organization-scoped access to websites and reports. Keep API keys on the server and use the machine-readable OpenAPI contract for exact parameters and schemas.
+
+## Authentication
+
+Create a key under the organization's **API & MCP** settings and send it as a bearer token:
+
+```http
+Authorization: Bearer ds_your_api_key
+```
+
+A key can cover every website in its organization or selected websites. Requests for an unassigned website return an authorization or not-found response. The current contract is available from `GET /openapi.json`.
+
+## Stats endpoints
+
+| Method | Path | Result |
+| --- | --- | --- |
+| `GET` | `/api/v1/stats/me/websites` | Websites available to the API key |
+| `GET` | `/api/v1/stats/{websiteId}/summary` | Views, visitors, visits, bounce, time, and comparison |
+| `GET` | `/api/v1/stats/{websiteId}/timeseries` | Page-view and session time series |
+| `GET` | `/api/v1/stats/{websiteId}/breakdown` | Traffic breakdown by a supported dimension |
+| `GET` | `/api/v1/stats/{websiteId}/events` | Paginated event log |
+| `GET` | `/api/v1/stats/{websiteId}/sessions` | Paginated sessions |
+| `GET` | `/api/v1/stats/{websiteId}/realtime` | Active visitor count |
+| `GET` | `/api/v1/stats/{websiteId}/attribution` | First- or last-click attribution |
+| `GET` | `/api/v1/stats/{websiteId}/funnels` | Saved funnels |
+| `GET` | `/api/v1/stats/{websiteId}/goals` | Saved goals |
+| `GET` | `/api/v1/stats/{websiteId}/journeys` | Entry and exit paths |
+| `GET` | `/api/v1/stats/{websiteId}/performance` | LCP, INP, CLS, FCP, and TTFB |
+| `GET` | `/api/v1/stats/{websiteId}/retention` | Retention cohorts |
+| `GET` | `/api/v1/stats/{websiteId}/revenue` | Revenue totals, series, and breakdowns |
+
+## Common parameters
+
+| Name | Type | Use |
+| --- | --- | --- |
+| `websiteId` | UUID string | Required path identifier |
+| `startAt` | Date/time string | Report start |
+| `endAt` | Date/time string | Report end |
+| `timezone` | IANA timezone | Date grouping |
+| `unit` | Endpoint-defined enum | Time-series interval |
+| `offset` | Integer | Pagination offset |
+| `limit` | Integer | Page size |
+| `search` | String | Text search where supported |
+| `type` | Endpoint-defined enum | Breakdown dimension |
+
+The OpenAPI document defines exact query names, enums, defaults, and response schemas.
+
+## Examples
+
+```sh
+curl -H "Authorization: Bearer ds_your_api_key" \
+  "https://analytics.example.com/api/v1/stats/me/websites"
+```
+
+```sh
+curl -H "Authorization: Bearer ds_your_api_key" \
+  "https://analytics.example.com/api/v1/stats/YOUR_WEBSITE_ID/summary?startAt=2026-11-01T00%3A00%3A00.000Z&endAt=2026-11-19T23%3A59%3A59.999Z"
+```
+
+## Errors
+
+```json
+{
+  "error": {
+    "code": "not-found",
+    "message": "Resource not found"
+  }
+}
+```
+
+| Status | Meaning |
+| --- | --- |
+| `400` | Invalid parameter or request body |
+| `401` | Missing, invalid, expired, or revoked credential |
+| `403` | Permission or plan does not allow the operation |
+| `404` | Resource is absent or unavailable to this credential |
+| `409` | Conflicting state or plan allowance reached |
+| `429` | Rate or usage limit reached |
+| `500` | Server failed to complete the request |
+
+## MCP
+
+Organizations on Pro or Ultra can connect supported MCP clients when MCP is enabled. MCP access is read-only and organization-scoped. Use OAuth or a scoped `ds_` key, then revoke access from **API & MCP** when it is no longer needed.

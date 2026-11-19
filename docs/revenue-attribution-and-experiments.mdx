@@ -1,0 +1,54 @@
+---
+title: "Track revenue, attribution, and experiments"
+sidebarTitle: "Revenue and tests"
+description: "Analyze Datasite revenue and campaign attribution, then configure weighted experiments with controlled exposure and conversion results."
+keywords: ["revenue analytics", "attribution", "UTM", "experiments"]
+---
+
+Datasite connects revenue with sessions and events, attributes tracked campaign touchpoints, and measures weighted experiment variants against a conversion goal.
+
+## Revenue
+
+Revenue views include totals, time series, event breakdowns, revenue sessions, comparisons, and cohorts. Currency display uses the configured default while stored revenue retains its submitted currency.
+
+Use the event assistant or revenue setup shown in the product to generate the current revenue event payload. Do not infer a revenue schema from a normal custom event example.
+
+## Campaign and attribution reports
+
+Datasite records UTM source, medium, campaign, content, and term where present. It also recognizes supported advertising click IDs and referrer information. The attribution report compares first-click and last-click touchpoints, while the UTM report groups campaign values.
+
+```text
+https://example.com/pricing?utm_source=newsletter&utm_medium=email&utm_campaign=november-launch
+```
+
+Missing consent, blocked scripts, cross-device use, cleared storage, redirects, and untagged links can break a journey.
+
+## Experiments
+
+Experiments contain weighted variants, one optional control, a goal event, dates, status, and an optional winner.
+
+```js
+const variant = await datasite.experiment('checkout-copy', {
+  fallback: 'control',
+});
+```
+
+Resolving the experiment sends an exposure by default. To control exposure yourself:
+
+```js
+const variant = await datasite.experiment('checkout-copy', {
+  fallback: 'control',
+  expose: false,
+});
+
+datasite.exposure('checkout-copy', { variant });
+```
+
+Keep assignment and variant keys stable during a test. Results need exposure and conversion events. Low sample sizes or missing events do not establish a winner.
+
+| Plan | Experiments |
+| --- | ---: |
+| Free | 1 |
+| Starter | 3 |
+| Pro | 10 |
+| Ultra | Unlimited |

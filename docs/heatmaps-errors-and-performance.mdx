@@ -1,0 +1,52 @@
+---
+title: "Use heatmaps, error monitoring, and performance"
+sidebarTitle: "Quality reports"
+description: "Configure Datasite heatmaps, inspect grouped browser errors, capture exceptions, and monitor Web Vitals from real website visits."
+keywords: ["heatmaps", "browser errors", "Web Vitals", "performance"]
+---
+
+Datasite quality reports show how visitors interact with a page, which browser exceptions occur, and how real visits perform across core Web Vitals.
+
+## Heatmaps
+
+Heatmaps aggregate clicks or scroll depth for a URL and require the recorder script.
+
+<Steps>
+  <Step title="Enable heatmaps">
+    Enable heatmaps in website setup and install the recorder snippet.
+  </Step>
+  <Step title="Collect interaction data">
+    Wait for visits to collect clicks or scroll activity.
+  </Step>
+  <Step title="Open the report">
+    Open **Reports → Heatmaps**, then select a page and heatmap type.
+  </Step>
+</Steps>
+
+Responsive layouts and different viewport dimensions can place points differently from the screenshot background. Cross-origin iframe interactions are not part of the parent page's DOM heatmap.
+
+## Browser errors
+
+**Errors** groups similar browser exceptions into issues. Open an issue to inspect occurrences, message, stack, frames, tags, page, release, environment, browser, operating system, and device. Mark an issue resolved after deploying a fix. Later occurrences remain in its event history.
+
+```js
+try {
+  await submitOrder();
+} catch (error) {
+  await datasite.captureException(error, {
+    tags: { area: 'checkout' },
+  });
+}
+```
+
+Error ingestion is rate-limited per website. Do not put tokens, passwords, or private form values in errors or tags.
+
+## Web performance
+
+```html
+<script defer src="https://analytics.example.com/script.js"
+  data-website-id="YOUR_WEBSITE_ID"
+  data-performance="true"></script>
+```
+
+Datasite reports LCP, INP, CLS, FCP, and TTFB. Results reflect real visits that supplied the metric. Unsupported browsers or pages closed too quickly may not report every value.

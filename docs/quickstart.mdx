@@ -1,0 +1,64 @@
+---
+title: "Get started with Datasite"
+sidebarTitle: "Quickstart"
+description: "Add a website, install its Datasite tracking script, and verify that page views and active visitors appear in your analytics dashboard."
+keywords: ["Datasite quickstart", "add website", "tracking script", "realtime analytics"]
+---
+
+Datasite measures traffic and product usage on websites. Add a website and install its tracking script to start viewing visitors, sessions, events, acquisition, devices, performance, errors, recordings, and reports.
+
+## Add a website
+
+<Steps>
+  <Step title="Open Websites">
+    Sign in to Datasite and open **Websites**.
+  </Step>
+  <Step title="Add the website">
+    Select **Add website**, enter a name and domain, then save the website.
+  </Step>
+  <Step title="Open setup">
+    Open the website's **Settings → Setup** page. The setup page provides a tracking snippet containing the website's unique ID.
+  </Step>
+</Steps>
+
+<Warning>
+  Do not reuse one website ID across unrelated domains. Create a separate website for each reporting property.
+</Warning>
+
+## Install the tracker
+
+Paste the generated script into the shared `<head>` or root layout of your site:
+
+```html
+<script
+  defer
+  src="https://analytics.example.com/script.js"
+  data-website-id="b59e9c65-ae32-47f1-8400-119fcf4861c4"
+></script>
+```
+
+Replace the example origin and UUID with the values shown in Datasite. Install the script once so it loads on every page. See [Installation](/docs/install-tracking-script) for framework examples and configuration options.
+
+## Verify collection
+
+<Steps>
+  <Step title="Visit your site">
+    Open the tracked site in a new tab and visit two or more pages.
+  </Step>
+  <Step title="Open Realtime">
+    Return to Datasite and open **Realtime**.
+  </Step>
+  <Step title="Confirm activity">
+    Confirm that an active visitor and recent activity appear.
+  </Step>
+</Steps>
+
+New data may not appear if a content blocker stops the script, the website ID is wrong, the domain does not match, traffic rules exclude the visit, or the browser has opted out.
+
+## Next steps
+
+- Enable performance collection if you need Web Vitals.
+- Load the recorder script to use session replay or heatmaps.
+- Add custom events for actions that page views cannot describe.
+- Use `identify` only when you have a stable application user ID and a lawful reason to associate it.
+- Create goals and funnels after the relevant events have started arriving.

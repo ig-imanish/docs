@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="260 300 770 670">
+  <title>DataSite</title>
+  <g fill="#CF5A32">
+    <path d="M276 317H623L537 494H276Z"/>
+    <path d="M276 552H569L483 731H276Z"/>
+    <path d="M276 788H516L430 964H408C333 964 276 905 276 820Z"/>
+    <path d="M684 317A323.5 323.5 0 0 1 684 964H488L573 788H682A147 147 0 0 0 682 494H595Z"/>
+  </g>
+</svg>

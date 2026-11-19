@@ -1,0 +1,56 @@
+---
+title: "Configure tracking privacy controls"
+sidebarTitle: "Privacy controls"
+description: "Limit the data Datasite collects, disable persistent visitor identity, honor Do Not Track, remove URL details, and erase visitor data."
+keywords: ["privacy", "Do Not Track", "visitor erasure", "data retention"]
+---
+
+Datasite privacy controls let you reduce collection at the tracker and website levels. Enable only the data you need and keep sensitive values out of events, identification, errors, and replay.
+
+## Data the tracker can collect
+
+Depending on enabled features, Datasite can receive page URL and title, referrer, language, screen size, UTM parameters, advertising click IDs, browser and device information, approximate location, custom events, identified properties, Web Vitals, browser errors, replay data, and heatmap interactions.
+
+Never send passwords, access tokens, payment card details, health data, private messages, or sensitive form fields.
+
+## Disable persistent visitor identity
+
+```html
+data-no-visitor-id="true"
+```
+
+The tracker continues to record the current session without a persistent `visitor_id`. At runtime, use:
+
+```js
+datasite.optOut();
+datasite.optIn();
+```
+
+Opting back in creates a fresh identifier.
+
+## Honor Do Not Track
+
+```html
+data-do-not-track="true"
+```
+
+## Remove URL details
+
+```html
+data-exclude-search="true"
+data-exclude-hash="true"
+```
+
+These options remove query strings and fragments when URLs may contain IDs, search terms, or other values you do not want in analytics.
+
+## Traffic rules and visitor erasure
+
+Website settings include traffic rules for excluding unwanted collection. Datasite also provides a website-scoped visitor-erasure action for authorized users. Confirm the target identity before erasing because deleted analytics cannot be reconstructed.
+
+## Retention
+
+Default retention depends on plan: Free 6 months, Starter 12 months, Pro 24 months, and Ultra 60 months. Contact the service operator for the exact policy applied to your workspace.
+
+<Note>
+  These controls do not provide legal advice or automatically satisfy a privacy law. The tracked site's owner remains responsible for notices, consent, lawful basis, access controls, and appropriate data handling.
+</Note>

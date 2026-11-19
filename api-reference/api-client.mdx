@@ -1,0 +1,83 @@
+---
+title: "TypeScript API client"
+sidebarTitle: "TypeScript client"
+description: "Create a typed Datasite API client, call generated analytics operations, configure requests, use operation types, and handle API errors."
+keywords: ["TypeScript client", "Datasite SDK", "API errors", "typed operations"]
+---
+
+The generated Datasite TypeScript client maps each supported OpenAPI operation to a typed method. Use the client package or integration artifact supplied with your Datasite service.
+
+## Create a client
+
+```ts
+import { DatasiteClient } from 'YOUR_DATASITE_API_CLIENT_PACKAGE';
+
+const client = new DatasiteClient({
+  baseUrl: 'https://analytics.example.com',
+  apiKey: process.env.DATASITE_API_KEY,
+  timeout: 30_000,
+});
+```
+
+`YOUR_DATASITE_API_CLIENT_PACKAGE` is a placeholder. Use the package name provided with your account or private package registry. This repository does not declare a public package name.
+
+## Call operations
+
+```ts
+const websites = await client.statsListMyWebsites({});
+
+const summary = await client.statsSummary({
+  websiteId: 'YOUR_WEBSITE_ID',
+  startAt: '2026-11-01T00:00:00.000Z',
+  endAt: '2026-11-19T23:59:59.999Z',
+});
+```
+
+Generated input types determine the accepted fields. The client replaces and URL-encodes path parameters, adds non-null query parameters, sends bearer authorization when configured, serializes a `body` as JSON, parses successful JSON responses, and applies the configured timeout.
+
+## Options
+
+| Option | Type | Default |
+| --- | --- | --- |
+| `baseUrl` | `string` | Required |
+| `apiKey` | `string` | None |
+| `headers` | `HeadersInit` | None |
+| `fetch` | `typeof fetch` | Global `fetch` |
+| `credentials` | `RequestCredentials` | Fetch default |
+| `timeout` | Positive number | `30000` milliseconds |
+
+## Types
+
+```ts
+import type {
+  OperationInput,
+  OperationOutput,
+  Operations,
+} from 'YOUR_DATASITE_API_CLIENT_PACKAGE';
+
+type SummaryInput = OperationInput<'statsSummary'>;
+type SummaryOutput = OperationOutput<'statsSummary'>;
+```
+
+## Errors
+
+```ts
+import {
+  DatasiteApiError,
+  isDatasiteApiError,
+} from 'YOUR_DATASITE_API_CLIENT_PACKAGE';
+
+try {
+  await client.statsSummary({
+    websiteId: 'YOUR_WEBSITE_ID',
+    startAt: '2026-11-01T00:00:00.000Z',
+    endAt: '2026-11-19T23:59:59.999Z',
+  });
+} catch (error) {
+  if (isDatasiteApiError(error)) {
+    console.error(error.status, error.code, error.body);
+  }
+}
+```
+
+`DatasiteApiError` exposes `status`, `code`, `body`, `isNotFound`, and `isUnauthorized`.

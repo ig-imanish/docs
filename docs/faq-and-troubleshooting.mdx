@@ -1,0 +1,64 @@
+---
+title: "Troubleshoot Datasite collection and reports"
+sidebarTitle: "Troubleshooting"
+description: "Resolve common Datasite problems with realtime collection, URLs, locations, replay, heatmaps, events, performance, API keys, and imports."
+keywords: ["Datasite troubleshooting", "realtime", "replay", "API errors"]
+---
+
+Use these checks when Datasite collection or reporting does not match what you expect. Start with tracker delivery, website identity, access scope, filters, and privacy controls.
+
+## Why is Realtime empty after installation?
+
+Check that the script returns HTTP 200, the website ID matches, and the browser sends a collection request. Content blockers, privacy settings, domain restrictions, traffic rules, ignored IPs, and browser Do Not Track can prevent collection.
+
+## Why are page URLs missing query strings or fragments?
+
+The tracker may use `data-exclude-search="true"` or `data-exclude-hash="true"`. Remove the applicable attribute only if those URL parts are safe and useful to collect.
+
+## Why do visitor totals differ from page views?
+
+A visitor can view several pages. Visitor identity settings, cleared browser storage, opt-out, cross-device use, date boundaries, and imported aggregate data also affect the relationship.
+
+## Why is a location missing or incorrect?
+
+Location is approximate. VPNs, mobile networks, proxies, privacy services, and missing headers can change or remove it.
+
+## Why is a session replay blank or incomplete?
+
+Confirm that `recorder.js` loads with the same website ID as the main tracker. CSP, blocked resources, cross-origin frames, browser extensions, page closure, and retention can leave gaps.
+
+## Why does a heatmap not align with the page?
+
+The screenshot and collected visit may use different viewport sizes or page versions. Responsive layouts, banners, personalized content, and design changes can move elements.
+
+## Why is a custom event missing?
+
+Open the browser console and network panel, verify `window.datasite` exists, and confirm the call runs after the tracker loads. Check spelling, plan allowance, traffic rules, and date filters.
+
+## Why are performance metrics incomplete?
+
+The tracker needs `data-performance="true"`. Some browsers do not expose every metric, and a page closed quickly may not send final values.
+
+## Why did an API request return 404 for an existing website?
+
+API responses can hide resources outside the key's scope. Confirm that the key belongs to the correct organization and includes that website.
+
+## Why did an API key stop working?
+
+It may have expired, been revoked, lost website access, or been copied incorrectly. Create a new key and rotate the calling service if the original secret cannot be recovered.
+
+## Why can I not create another resource?
+
+The workspace may have reached its plan allowance. Open **Usage** and **Plans** to compare current use with plan limits.
+
+## Why does imported data lack session or funnel detail?
+
+Aggregate imports contain totals rather than raw ordered events. Datasite cannot reconstruct details absent from the source export.
+
+## Why are pixel open counts unexpected?
+
+Email clients may block images, cache them, fetch them through privacy proxies, or prefetch them. Pixel counts are estimates, not proof that a person read a message.
+
+## How do I delete a visitor's data?
+
+Use the visitor-erasure action in the website's data or privacy settings. Confirm the website and visitor identity carefully because deletion cannot be undone.

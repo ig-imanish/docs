@@ -1,0 +1,37 @@
+---
+title: "Analyze sessions, realtime activity, and replay"
+sidebarTitle: "Sessions and replay"
+description: "Inspect Datasite session timelines, monitor current visitors in Realtime, and configure session replay with the recorder tracking script."
+keywords: ["sessions", "realtime", "session replay", "recorder"]
+---
+
+Datasite connects visit timelines, current activity, and recorded browser interactions. Use these views to understand what happened during a session and what visitors are doing now.
+
+## Sessions
+
+The **Sessions** page lists visits with time, location, device, acquisition, activity, and custom session properties. Open a row to see its page and event timeline. Identified properties can connect a session to an application account when the tracked site calls `datasite.identify`.
+
+Filters and date ranges apply to session results. A visitor may have more than one session, and one session may include more than one visit period.
+
+## Realtime
+
+**Realtime** shows active visitors and recent activity. The globe plots visitors when location data can be resolved. Missing or approximate locations are normal when IP information is unavailable, privacy controls suppress it, or an older record has no coordinates.
+
+## Session replay
+
+<Steps>
+  <Step title="Enable replay">
+    Enable replay in the website setup options.
+  </Step>
+  <Step title="Install recording">
+    Install both `script.js` and `recorder.js` with the same website ID.
+  </Step>
+  <Step title="Collect a visit">
+    Visit the site and interact with it after the recorder loads.
+  </Step>
+  <Step title="Open a recording">
+    Open **Replays** and select a recording. You can save it with a name for later reference.
+  </Step>
+</Steps>
+
+Content inside cross-origin frames, blocked resources, browser extensions, content-security rules, and retention can affect playback. Treat recordings as sensitive data and configure the tracked application so secrets and private input are not captured.
